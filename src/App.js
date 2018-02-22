@@ -1,21 +1,48 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { push } from 'react-router-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
+
+// Pages
+import Home from './pages/Home';
+
+// Components
+import TopBar from './components/TopBar';
+import SideMenu from './components/SideMenu';
+
+// Reducers
+import { decrement, decrementAsync, increment, incrementAsync } from './reducers/counter';
+
+
+function mapStateToProps (state) {
+  return state;
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    actions : bindActionCreators({
+      increment,
+      incrementAsync,
+      decrement,
+      decrementAsync,
+      changePage: (page) => push(page)
+    }, dispatch),
+  };
+}
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <TopBar />
+        <SideMenu />
+        <main className="Main">
+          <Route exact path="/" component={Home}/>
+        </main>
       </div>
     );
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App)
