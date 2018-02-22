@@ -10,6 +10,7 @@ import Home from './pages/Home';
 // Components
 import TopBar from './components/TopBar';
 import SideMenu from './components/SideMenu';
+import CartMenu from './components/CartMenu';
 
 // Reducers
 import { decrement, decrementAsync, increment, incrementAsync } from './reducers/counter';
@@ -37,6 +38,7 @@ class App extends Component {
       <div className="App">
         <TopBar />
         <SideMenu />
+        <CartMenu />
         <main className="Main">
           <Route exact path="/" component={Home}/>
         </main>

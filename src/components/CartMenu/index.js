@@ -6,6 +6,7 @@ import { withStyles } from 'material-ui/styles';
 import InboxIcon from 'material-ui-icons/MoveToInbox';
 import { AppBar, Drawer, IconButton, List, ListItem, Toolbar, Typography } from 'material-ui';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
+import _ from 'lodash';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
@@ -25,11 +26,11 @@ function mapDispatchToProps (dispatch) {
   };
 }
 
-class SideMenu extends Component {
+class CartMenu extends Component {
   render() {
     const { classes, reducers : { drawers } } = this.props;
     return (
-      <Drawer open={drawers.menuDrawer} onClose={this.toggleDrawer}>
+      <Drawer anchor="right" open={drawers.cartDrawer} onClose={this.toggleDrawer}>
         <div
           tabIndex={0}
           role="button"
@@ -38,12 +39,16 @@ class SideMenu extends Component {
         >
           <div className={classes.list}>
             <List>
-              <ListItem button>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText primary="Inbox" />
-              </ListItem>
+              {
+                _.times(200, () => {
+                  return <ListItem button>
+                    <ListItemIcon>
+                      <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Inbox" />
+                  </ListItem>
+                })
+              }
             </List>
           </div>
         </div>
@@ -52,8 +57,8 @@ class SideMenu extends Component {
   }
 
   toggleDrawer = () => {
-    this.props.actions.handleDrawer('menuDrawer');
+    this.props.actions.handleDrawer('cartDrawer');
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SideMenu))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CartMenu))

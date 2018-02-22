@@ -5,6 +5,7 @@ export const HANDLE_DRAWER = createAction('HANDLE_DRAWER');
 
 export const initialState = I.from({
   menuDrawer : false,
+  cartDrawer : false,
 });
 
 export function handleDrawer (drawer) {
