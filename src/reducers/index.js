@@ -7,6 +7,7 @@ import menus from './menus';
 import bocas from './bocas';
 import modals from './modals';
 import drawers from './drawers';
+import cart from './cart';
 
 export default combineReducers({
   routing : routerReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   bocas,
   modals,
   drawers,
+  cart,
 })

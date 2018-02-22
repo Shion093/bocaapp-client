@@ -3,10 +3,16 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
-import InboxIcon from 'material-ui-icons/MoveToInbox';
-import { AppBar, Drawer, IconButton, List, ListItem, Toolbar, Typography } from 'material-ui';
-import { ListItemIcon, ListItemText } from 'material-ui/List';
+import {
+  Avatar, Button, Card, CardActions, CardContent, CardHeader, Drawer, GridList, GridListTile, GridListTileBar,
+  IconButton,
+  Typography
+} from 'material-ui';
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import _ from 'lodash';
+
+// Icons
+import DeleteIcon from 'material-ui-icons/Delete';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
@@ -28,28 +34,64 @@ function mapDispatchToProps (dispatch) {
 
 class CartMenu extends Component {
   render() {
-    const { classes, reducers : { drawers } } = this.props;
+    const { classes, reducers : { drawers, cart : { cart } } } = this.props;
     return (
-      <Drawer anchor="right" open={drawers.cartDrawer} onClose={this.toggleDrawer}>
+      <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer}>
         <div
           tabIndex={0}
-          role="button"
+          role='button'
           onClick={this.toggleDrawer}
           onKeyDown={this.toggleDrawer}
         >
           <div className={classes.list}>
             <List>
               {
-                _.times(200, () => {
-                  return <ListItem button>
-                    <ListItemIcon>
-                      <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Inbox" />
-                  </ListItem>
+                _.map(cart.products, (item) => {
+                  const { name, price, picture, qty } = item;
+                  return <Card className={classes.card}>
+                    <CardHeader
+                      classes={{
+                        title : classes.title,
+                      }}
+                      avatar={<Avatar alt={name} src={picture}/>}
+                      title={name}
+                      subheader={`₡${price}`}
+                    />
+                    <CardActions className={classes.actions}>
+                      <Button size="small">-</Button>
+                      <Typography component="p">
+                        {qty}
+                      </Typography>
+                      <Button size="small">+</Button>
+                      <IconButton className={classes.remove}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </CardActions>
+                  </Card>
                 })
               }
             </List>
+            <GridList cellHeight={100} cols={1}>
+              {_.map(cart.products, tile => (
+                <GridListTile key={tile.picture} cols={1}>
+                  <img src={tile.picture} alt={tile.name} />
+                  <GridListTileBar
+                    title={tile.name}
+                    subtitle={<span>by: {tile.description}</span>}
+                    actionIcon={
+                      <div>
+                        <IconButton className={classes.icon}>
+                          <DeleteIcon />
+                        </IconButton>
+                        <IconButton className={classes.icon}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </div>
+                    }
+                  />
+                </GridListTile>
+              ))}
+            </GridList>
           </div>
         </div>
       </Drawer>
