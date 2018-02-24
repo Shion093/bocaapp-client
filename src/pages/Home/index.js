@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 
 // Reducers
 import { decrement, decrementAsync, increment, incrementAsync } from '../../reducers/counter';
-import { getCart } from '../../reducers/cart';
+import { ButtonBase, Typography, withStyles } from 'material-ui';
+
+import image from './breakfast.jpg';
+
+import styles from './styles';
 
 function mapStateToProps (state) {
   return state;
@@ -18,23 +22,47 @@ function mapDispatchToProps (dispatch) {
       incrementAsync,
       decrement,
       decrementAsync,
-      getCart,
-      changePage: () => push('/menus')
+      changePage: () => push('/menu')
     }, dispatch),
   };
 }
 
 class Home extends Component {
-  componentWillMount () {
-    this.props.actions.getCart();
-  }
   render () {
+    const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.root}>
+          <ButtonBase
+            onClick={this.props.actions.changePage}
+            focusRipple
+            className={classes.image}
+            style={{
+              width: '100%',
+            }}
+          >
+          <span
+            className={classes.imageSrc}
+            style={{
+              backgroundImage: `url(${image})`,
+            }}
+          />
+            <span className={classes.imageBackdrop} />
+            <span className={classes.imageButton}>
+            <Typography
+              component="span"
+              variant="subheading"
+              color="inherit"
+              className={classes.imageTitle}
+            >
+              Empezar Orden
+              <span className={classes.imageMarked} />
+            </Typography>
+          </span>
+          </ButtonBase>
 
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home))

@@ -7,6 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 import store, { history } from './store';
 import App from './App';
 
+import 'typeface-roboto';
 import './index.css';
 
 ReactDOM.render(

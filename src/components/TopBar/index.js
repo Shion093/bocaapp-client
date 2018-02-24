@@ -34,7 +34,7 @@ class TopBar extends Component {
             <MenuIcon />
           </IconButton>
           <Typography variant="title" color="inherit" className={classes.flex}>
-            Title
+            BocaApp
           </Typography>
           <IconButton color="inherit" aria-label="Cart" onClick={this.openDrawer('cartDrawer')}>
             <CartIcon />
