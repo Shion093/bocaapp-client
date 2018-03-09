@@ -26,29 +26,6 @@ export const initialState = I.from({
   selectedMenu : {},
 });
 
-export function createBoca (blob) {
-  return async (dispatch, getState) => {
-    try {
-      const { reducers : { bocas : { create, bocas } } } = getState();
-      const form = new FormData();
-      const { description, name, price } = create;
-      form.append('description', description);
-      form.append('name', name);
-      form.append('price', price);
-      form.append('picture', blob);
-      const { data } = await axios.post('bocas/create', form);
-      const addNewBOCA = I.asMutable(bocas);
-      addNewBOCA.unshift(data);
-      dispatch(HANDLE_MODAL('createBocaModal'));
-      dispatch(HANDLE_BOCA_LOADER());
-      dispatch(BOCA_CREATED(addNewBOCA));
-    } catch (e) {
-      console.log(e);
-    }
-
-  }
-}
-
 export function getAllBocas () {
   return async (dispatch) => {
     try {
@@ -66,59 +43,6 @@ export function handleMenuChange (_id) {
     if (_id !== selectedMenu._id) {
       const menu = _.find(menus, { _id });
       dispatch(MENU_SELECTED(menu));
-    }
-  }
-}
-
-export function assignBoca (bocaId) {
-  return async (dispatch, getState) => {
-    try {
-      const { reducers : { bocas : { bocas, selectedMenu } } } = getState();
-      const { data } = await axios.post('bocas/assign', { bocaId, menuId : selectedMenu._id });
-      const newBocas = I.flatMap(bocas, (value) => {
-        if (value._id === bocaId) {
-          return [];
-        } else {
-          return value;
-        }
-      });
-      const menuWithNewBoca = I.asMutable(selectedMenu.bocas);
-      menuWithNewBoca.unshift(data);
-      const menu = I.set(selectedMenu, 'bocas', menuWithNewBoca);
-      dispatch(BOCA_ASSIGNED({ bocas : newBocas, selectedMenu : menu }));
-    } catch (e) {
-      console.log(e);
-    }
-  }
-}
-
-export function removeBoca (bocaId) {
-  return async (dispatch, getState) => {
-    try {
-      const { reducers : { menus : { menus }, bocas : { bocas, selectedMenu } } } = getState();
-      const { data } = await axios.post('bocas/remove', { bocaId, menuId : selectedMenu._id });
-      const menuWithOutBoca = I.flatMap(selectedMenu.bocas, (value) => value._id === bocaId ? [] : value);
-
-      const menuToModify = _.find(menus, { _id : selectedMenu._id });
-      const mutableMenu = I.asMutable(menuToModify);
-      const newMenuBocas = I.flatMap(menuToModify.bocas, (value) => value._id === bocaId ? [] : value);
-      const newMenus = I.flatMap(menus, (value) => {
-        if (value._id === selectedMenu._id) {
-          mutableMenu.bocas = newMenuBocas;
-          return mutableMenu;
-        } else {
-          return value;
-        }
-      });
-
-      const newBocas = I.asMutable(bocas);
-      newBocas.unshift(data);
-      const menu = I.set(selectedMenu, 'bocas', menuWithOutBoca);
-
-      dispatch(BOCA_ASSIGNED({ bocas : newBocas, selectedMenu : menu }));
-      dispatch(MENU_GET_ALL(newMenus));
-    } catch (e) {
-      console.log(e);
     }
   }
 }

@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Reboot from 'material-ui/Reboot';
 
 // Pages
 import Home from './pages/Home';
 import Menu from './pages/Menu';
+import Bocas from './pages/Bocas';
 
 // Components
 import TopBar from './components/TopBar';
 import SideMenu from './components/SideMenu';
 import CartMenu from './components/CartMenu';
+import ConnectedRoute from './components/ConnectedRoute';
 
 // Reducers
-import { decrement, decrementAsync, increment, incrementAsync } from './reducers/counter';
 import { getCart } from './reducers/cart';
 
 
@@ -26,12 +27,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      increment,
-      incrementAsync,
-      decrement,
-      decrementAsync,
       getCart,
-      changePage: (page) => push(page)
     }, dispatch),
   };
 }
@@ -41,6 +37,7 @@ class App extends Component {
     this.props.actions.getCart();
   }
   render() {
+    console.log(this.props);
     return (
       <div className="App">
         <Reboot />
@@ -48,8 +45,9 @@ class App extends Component {
         <SideMenu />
         <CartMenu />
         <main className="Main">
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/menu" component={Menu}/>
+          <ConnectedRoute exact path="/" component={Home}/>
+          <ConnectedRoute exact path="/menu" component={Menu}/>
+          <ConnectedRoute path="/menu/:id" component={Bocas}/>
         </main>
       </div>
     );

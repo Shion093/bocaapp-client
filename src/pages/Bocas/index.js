@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash'
 
 // Reducers
-import { getAllMenus, selectMenu } from '../../reducers/menus';
+import { getAllMenus } from '../../reducers/menus';
 import { getCart } from '../../reducers/cart';
 import {
   IconButton,
@@ -18,7 +18,6 @@ import {
 import Grow from 'material-ui/es/transitions/Grow';
 
 import styles from './styles';
-import { withRouter } from 'react-router-dom';
 
 function mapStateToProps (state) {
   return state;
@@ -27,52 +26,39 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      selectMenu,
       getAllMenus,
       getCart,
     }, dispatch),
   };
 }
 
-class Menu extends Component {
+class Bocas extends Component {
   componentWillMount () {
     this.props.actions.getAllMenus();
   }
 
-  shouldComponentUpdate (nextPros) {
-    console.log(this.props.location);
-    console.log(nextPros);
-    const routeChange = nextPros.reducers.menus.menus !== this.props.reducers.menus.menus;
-    const newMenus = nextPros.reducers.routing.pathname !== this.props.reducers.routing.pathname;
-    return routeChange || newMenus;
-  }
-
-  goToMenuDetail = (id) => () => {
-    this.props.actions.selectMenu(id)
-  };
 
   render () {
-    const { classes, reducers : { menus : { menus }} } = this.props;
-    console.log('ijefijfiejfie')
+    const { classes, reducers : { menus : { selectedMenu }} } = this.props;
     return (
       <div className={classes.root}>
         <Grid container className={classes.gridList}>
           {
-            _.map(menus, (menu, i) => {
+            _.map(selectedMenu.bocas, (boca, i) => {
               const timeout = i === 0 ? 1000 : 1500;
               return (
-                <Grow in={!_.isEmpty(menus)} key={menu._id} timeout={timeout}>
+                <Grow in={!_.isEmpty(selectedMenu.bocas)} key={boca._id} timeout={timeout}>
                   <Grid item xs={12} sm={6} md={3}>
-                    <ButtonBase onClick={this.goToMenuDetail(menu._id)}>
+                    <ButtonBase>
                       <Paper style={{ position : 'relative'}}>
-                        <img src={menu.picture} alt={menu.name} className={classes.image} />
+                        <img src={boca.picture} alt={boca.name} className={classes.image} />
                         <div className={classes.overlay}/>
                         <div className={classes.textContainer}>
                           <Typography variant='title' className={classes.text}>
-                            {menu.name}
+                            {boca.name}
                           </Typography>
                           <Typography variant='subheading' className={classes.text}>
-                            {menu.description}
+                            {boca.description}
                           </Typography>
                         </div>
                       </Paper>
@@ -88,4 +74,4 @@ class Menu extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Menu))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Bocas))
