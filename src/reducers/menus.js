@@ -28,6 +28,17 @@ export function getAllMenus () {
   }
 }
 
+export function getMenuById (id) {
+  return async (dispatch) => {
+    try {
+      const { data } = await axios.get(`menus/${id}`);
+      dispatch(SELECTED_MENU(data));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
 export function selectMenu (_id) {
   return (dispatch, getState) => {
     const { reducers : { menus : { menus }} } = getState();

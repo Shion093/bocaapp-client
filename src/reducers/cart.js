@@ -21,6 +21,31 @@ export function getCart () {
   }
 }
 
+export function addToCart (item) {
+  return async (dispatch, getState) => {
+    try {
+      const { reducers : { cart : { cart } }} = getState();
+      const { data } = await axios.post('cart/add', { item, cartId : cart._id});
+      dispatch(GET_CART(data));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
+export function removeFromCart (id) {
+  return async (dispatch, getState) => {
+    try {
+      const { reducers : { cart : { cart } }} = getState();
+      const { data } = await axios.post('cart/remove', { itemId : id, cartId : cart._id});
+      dispatch(GET_CART(data));
+    } catch (err) {
+
+    }
+  }
+
+}
+
 export default handleActions({
   GET_CART : (state, action) => {
     return I.merge(state, { cart : action.payload });

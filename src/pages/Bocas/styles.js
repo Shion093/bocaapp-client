@@ -10,28 +10,39 @@ const styles = (theme) => ({
   gridList : {
     height: window.innerHeight - 52,
   },
-  icon     : {
-    color : 'rgba(255, 255, 255, 0.54)',
+  media: {
+    height: 200,
   },
-  image : {
+  buttonContainer : {
+    display: 'flex',
+    justifyContent: 'space-around',
     width : '100%',
-  },
-  overlay : {
-    width: '100%',
-    height: '60%',
-    backgroundColor: 'rgba(0, 0, 0, 0.54)',
-    position : 'absolute',
-    bottom : 0,
-    left : 0,
-  },
-  textContainer : {
-    position : 'absolute',
-    bottom : 10,
-    left : 10,
-  },
-  text : {
-    color : 'white',
+    '& button' : {
+      width: '48%'
+    }
   }
+  // icon     : {
+  //   color : 'rgba(255, 255, 255, 0.54)',
+  // },
+  // image : {
+  //   width : '100%',
+  // },
+  // overlay : {
+  //   width: '100%',
+  //   height: '60%',
+  //   backgroundColor: 'rgba(0, 0, 0, 0.54)',
+  //   position : 'absolute',
+  //   bottom : 0,
+  //   left : 0,
+  // },
+  // textContainer : {
+  //   position : 'absolute',
+  //   bottom : 10,
+  //   left : 10,
+  // },
+  // text : {
+  //   color : 'white',
+  // }
 });
 
 export default styles

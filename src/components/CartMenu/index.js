@@ -23,6 +23,7 @@ import RemoveIcon from 'material-ui-icons/RemoveCircleOutline';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
+import { removeFromCart } from '../../reducers/cart';
 
 import styles from './styles';
 
@@ -34,12 +35,18 @@ function mapDispatchToProps(dispatch) {
   return {
     actions : bindActionCreators({
       handleDrawer,
+      removeFromCart,
       changePage : (page) => push(page)
     }, dispatch),
   };
 }
 
 class CartMenu extends Component {
+
+  handleRemoveItem = (id) => () => {
+    this.props.actions.removeFromCart(id);
+  };
+
   render() {
     const { classes, reducers : { drawers, cart : { cart } } } = this.props;
     return (
@@ -78,7 +85,7 @@ class CartMenu extends Component {
                           <AddIcon/>
                         </IconButton>
 
-                        <IconButton className={ classes.remove }>
+                        <IconButton className={ classes.remove } onClick={this.handleRemoveItem(_id)}>
                           <DeleteIcon />
                         </IconButton>
                       </CardActions>
