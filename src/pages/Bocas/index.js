@@ -17,6 +17,9 @@ import {
 } from 'material-ui';
 import Grow from 'material-ui/es/transitions/Grow';
 
+// Icons
+import AddShoppingCartIcon from 'material-ui-icons/AddShoppingCart';
+
 import styles from './styles';
 
 function mapStateToProps (state) {
@@ -76,7 +79,8 @@ class Bocas extends Component {
                             Detalles
                           </Button>
                           <Button variant='raised' color="primary" onClick={this.handleAddToCart(boca)}>
-                            Añadir al Carrito
+                            <AddShoppingCartIcon />
+                            Agregar
                           </Button>
                         </div>
                       </CardActions>

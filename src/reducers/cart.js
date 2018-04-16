@@ -13,7 +13,8 @@ export const initialState = I.from({
 export function getCart () {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get('cart/5a8e7366715a2b714cd808b3');
+      const { data } = await axios.get('cart/5a8e6d8491d11a0956875739');
+      console.log(data);
       dispatch(GET_CART(data));
     } catch (e) {
       console.log(e);

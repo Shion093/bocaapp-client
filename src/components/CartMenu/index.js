@@ -10,7 +10,7 @@ import {
   CardActions,
   CardHeader,
   Drawer,
-  IconButton,
+  IconButton, ListSubheader, Paper,
   Typography
 } from 'material-ui';
 import List from 'material-ui/List';
@@ -20,6 +20,7 @@ import _ from 'lodash';
 import DeleteIcon from 'material-ui-icons/Delete';
 import AddIcon from 'material-ui-icons/AddCircleOutline';
 import RemoveIcon from 'material-ui-icons/RemoveCircleOutline';
+import DoneIcon from 'material-ui-icons/Done';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
@@ -27,11 +28,11 @@ import { removeFromCart } from '../../reducers/cart';
 
 import styles from './styles';
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return state;
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       handleDrawer,
@@ -47,13 +48,15 @@ class CartMenu extends Component {
     this.props.actions.removeFromCart(id);
   };
 
-  render() {
+  render () {
     const { classes, reducers : { drawers, cart : { cart } } } = this.props;
     return (
-      <Drawer anchor='right' open={ drawers.cartDrawer } onClose={ this.toggleDrawer }>
-        <div tabIndex={ 0 }>
-          <div className={ classes.list }>
-            <List>
+      <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer}>
+        <div tabIndex={0}>
+          <div className={classes.list}>
+            <List classes={{
+              root : classes.cartList,
+            }}>
               {
                 _.map(cart.products, (item) => {
                   const { _id, name, price, picture, qty } = item;
@@ -64,29 +67,29 @@ class CartMenu extends Component {
                     maximumFractionDigits : 1,
                   });
                   return (
-                    <Card className={ classes.card } key={ _id }>
-                      <CardHeader { ...{
+                    <Card className={classes.card} key={_id}>
+                      <CardHeader {...{
                         classes   : { title : classes.title },
-                        avatar    : <Avatar alt={ name } src={ picture }/>,
+                        avatar    : <Avatar alt={name} src={picture}/>,
                         title     : name,
                         subheader : priceFormatted,
-                      } } />
-                      <CardActions className={ classes.actions }>
+                      }} />
+                      <CardActions className={classes.actions}>
 
                         <IconButton>
                           <RemoveIcon/>
                         </IconButton>
 
-                        <Typography component="p" variant="headline">
-                          { qty }
+                        <Typography component='p' variant='headline'>
+                          {qty}
                         </Typography>
 
                         <IconButton>
                           <AddIcon/>
                         </IconButton>
 
-                        <IconButton className={ classes.remove } onClick={this.handleRemoveItem(_id)}>
-                          <DeleteIcon />
+                        <IconButton className={classes.remove} onClick={this.handleRemoveItem(_id)}>
+                          <DeleteIcon/>
                         </IconButton>
                       </CardActions>
                     </Card>
@@ -94,6 +97,40 @@ class CartMenu extends Component {
                 })
               }
             </List>
+          </div>
+          <div className={classes.totals}>
+            <Paper className={classes.totalDetails} elevation={4}>
+              <div className={classes.pricesCont}>
+                <div className={classes.textPrices}>
+                  <Typography variant='body2' component='p'>
+                    Subtotal
+                  </Typography>
+                  <Typography variant='body2' component='p'>
+                    Impuestos (13%)
+                  </Typography>
+                  <Typography variant='title' component='p'>
+                    Total
+                  </Typography>
+                </div>
+                <div className={classes.prices}>
+                  <Typography variant='body2' component='p'>
+                    $100
+                  </Typography>
+                  <Typography variant='body2' component='p'>
+                    $100
+                  </Typography>
+                  <Typography variant='title' component='p'>
+                    $100
+                  </Typography>
+                </div>
+              </div>
+              <div className={classes.buttonCont}>
+                <Button className={classes.button} variant='raised' size='small' fullWidth={true}>
+                  <DoneIcon />
+                  Ordenar
+                </Button>
+              </div>
+            </Paper>
           </div>
         </div>
       </Drawer>

@@ -1,18 +1,56 @@
+import dimensions from '../../helpers/dimensions';
+
+const { height } = dimensions();
+
+const totalsHeight = 170;
+
 export default {
-  list     : {
+  list      : {
     width : 310,
   },
-  card     : {
+  card      : {
     marginTop    : 5,
     marginBottom : 5,
   },
-  actions: {
-    display: 'flex',
+  actions   : {
+    display : 'flex',
   },
-  remove: {
-    marginLeft: 'auto',
+  remove    : {
+    marginLeft : 'auto',
   },
-  title : {
+  title     : {
     fontSize : '20px',
+  },
+  cartList  : {
+    overflowY  : 'auto',
+    height     : height - totalsHeight,
+  },
+  totals    : {
+    position : 'absolute',
+    height : totalsHeight,
+    bottom: 0,
+    right:0,
+  },
+  totalDetails : {
+    height : totalsHeight,
+    width  : 310,
+  },
+  pricesCont : {
+    display: 'flex',
+    justifyContent : 'space-between',
+    padding : '10px 20px',
+    '& p' : {
+      marginBottom:5,
+      marginTop: 5,
+    },
+  },
+  textPrices : {
+
+  },
+  prices : {
+
+  },
+  buttonCont : {
+    padding : '0px 10px',
   }
 };
