@@ -27,6 +27,7 @@ import { handleDrawer } from '../../reducers/drawers';
 import { removeFromCart } from '../../reducers/cart';
 
 import styles from './styles';
+import { formatPrice } from '../../helpers/formats';
 
 function mapStateToProps (state) {
   return state;
@@ -50,6 +51,10 @@ class CartMenu extends Component {
 
   render () {
     const { classes, reducers : { drawers, cart : { cart } } } = this.props;
+    console.log(cart);
+    const subTotal = formatPrice(cart.subTotal || 0);
+    const tax = formatPrice(cart.tax || 0);
+    const total = formatPrice(cart.total || 0);
     return (
       <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer}>
         <div tabIndex={0}>
@@ -60,12 +65,7 @@ class CartMenu extends Component {
               {
                 _.map(cart.products, (item) => {
                   const { _id, name, price, picture, qty } = item;
-                  const priceFormatted = price.toLocaleString('es-CR', {
-                    style                 : 'currency',
-                    currency              : 'crc',
-                    minimumFractionDigits : 0,
-                    maximumFractionDigits : 1,
-                  });
+                  const priceFormatted = formatPrice(price);
                   return (
                     <Card className={classes.card} key={_id}>
                       <CardHeader {...{
@@ -101,7 +101,7 @@ class CartMenu extends Component {
           <div className={classes.totals}>
             <Paper className={classes.totalDetails} elevation={4}>
               <div className={classes.pricesCont}>
-                <div className={classes.textPrices}>
+                <div>
                   <Typography variant='body2' component='p'>
                     Subtotal
                   </Typography>
@@ -114,19 +114,19 @@ class CartMenu extends Component {
                 </div>
                 <div className={classes.prices}>
                   <Typography variant='body2' component='p'>
-                    $100
+                    {subTotal}
                   </Typography>
                   <Typography variant='body2' component='p'>
-                    $100
+                    {tax}
                   </Typography>
                   <Typography variant='title' component='p'>
-                    $100
+                    {total}
                   </Typography>
                 </div>
               </div>
               <div className={classes.buttonCont}>
                 <Button className={classes.button} variant='raised' size='small' fullWidth={true}>
-                  <DoneIcon />
+                  <DoneIcon/>
                   Ordenar
                 </Button>
               </div>

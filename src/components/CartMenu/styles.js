@@ -44,12 +44,6 @@ export default {
       marginTop: 5,
     },
   },
-  textPrices : {
-
-  },
-  prices : {
-
-  },
   buttonCont : {
     padding : '0px 10px',
   }
