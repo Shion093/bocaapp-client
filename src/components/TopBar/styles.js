@@ -9,4 +9,7 @@ export default {
     marginLeft: -12,
     marginRight: 20,
   },
+  badge : {
+    right : -20,
+  }
 };

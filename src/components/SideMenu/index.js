@@ -26,6 +26,10 @@ function mapDispatchToProps (dispatch) {
 }
 
 class SideMenu extends Component {
+  goToPage = (page) => () => {
+    this.props.actions.changePage(page);
+  }
+
   render() {
     const { classes, reducers : { drawers } } = this.props;
     return (
@@ -38,11 +42,11 @@ class SideMenu extends Component {
         >
           <div className={classes.list}>
             <List>
-              <ListItem button>
+              <ListItem button onClick={this.goToPage('/menu')}>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary="Inbox" />
+                <ListItemText primary="Menus" />
               </ListItem>
             </List>
           </div>

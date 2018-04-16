@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash'
 
-// Reducers
-import { getAllMenus, getMenuById } from '../../reducers/menus';
-import { getCart, addToCart } from '../../reducers/cart';
-import { createOrder } from '../../reducers/orders';
+// Material
 import {
-  IconButton,
   withStyles,
   Grid,
   Paper,
   Typography,
-  ButtonBase, Card, CardMedia, CardContent, CardActions, Button,
+  Card,
+  CardContent,
+  Button,
 } from 'material-ui';
 import Grow from 'material-ui/es/transitions/Grow';
 
 // Icons
 import DoneIcon from 'material-ui-icons/DoneAll';
 
-import styles from './styles';
+// Helpers
 import { formatPrice } from '../../helpers/formats';
+
+// Reducers
+import { createOrder } from '../../reducers/orders';
+
+import styles from './styles';
 
 function mapStateToProps (state) {
   return state;
@@ -31,27 +33,18 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      getAllMenus,
-      getMenuById,
-      getCart,
-      addToCart,
       createOrder,
     }, dispatch),
   };
 }
 
 class Checkout extends Component {
-  componentWillMount () {
-
-  }
-
   handleCreateOrder = () => {
     this.props.actions.createOrder();
   };
 
   render () {
     const { classes, reducers : { cart : { cart }} } = this.props;
-    console.log('hola');
     return (
       <div className={classes.root}>
         <Grid container className={classes.gridList}>
@@ -61,17 +54,17 @@ class Checkout extends Component {
               return (
                 <Grow in={!_.isEmpty(cart.products)} key={product._id} timeout={timeout}>
                   <Grid item xs={12} sm={6} md={3}>
-                    <Card className={classes.card}>
+                    <Card>
                       <CardContent>
                         <div className={classes.titleCont}>
-                          <Typography variant="headline" component="h2">
+                          <Typography variant='headline' component='h2'>
                             {product.qty} x {product.name}
                           </Typography>
-                          <Typography variant="headline" component="h2">
+                          <Typography variant='headline' component='h2'>
                             {formatPrice(product.price || 0)}
                           </Typography>
                         </div>
-                        <Typography component="p">
+                        <Typography component='p'>
                           {product.description}
                         </Typography>
                       </CardContent>
