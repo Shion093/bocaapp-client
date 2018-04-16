@@ -1,30 +1,38 @@
+import dimensions from '../../helpers/dimensions';
+
+const { height } = dimensions();
+
+const processButtonHeight = 70;
+
 const styles = (theme) => ({
-  root     : {
+  root               : {
     display         : 'flex',
     flexWrap        : 'wrap',
     justifyContent  : 'space-around',
     overflowX       : 'hidden',
     backgroundColor : theme.palette.background.paper,
-   // height: `${window.innerHeight}px - 56px`,
+    // height: `${window.innerHeight}px - 56px`,
   },
-  gridList : {
-    height: window.innerHeight - 52,
+  gridList           : {
+    height    : height - 54 - processButtonHeight,
+    overflowY : 'auto',
+    margin    : 0,
   },
-  media: {
-    height: 200,
+  media              : {
+    height : 200,
   },
-  buttonContainer : {
-    display: 'flex',
-    justifyContent: 'space-around',
-    width : '100%',
-    '& button' : {
-      width: '48%'
+  buttonContainer    : {
+    display        : 'flex',
+    justifyContent : 'space-around',
+    width          : '100%',
+    '& button'     : {
+      width : '48%'
     }
   },
-  titleCont : {
-    display : 'flex',
+  titleCont          : {
+    display        : 'flex',
     justifyContent : 'space-between'
-  }
+  },
   // icon     : {
   //   color : 'rgba(255, 255, 255, 0.54)',
   // },

@@ -49,6 +49,15 @@ class CartMenu extends Component {
     this.props.actions.removeFromCart(id);
   };
 
+  goToCheckout = () => {
+    this.props.actions.changePage('/checkout');
+    this.toggleDrawer();
+  };
+
+  toggleDrawer = () => {
+    this.props.actions.handleDrawer('cartDrawer');
+  };
+
   render () {
     const { classes, reducers : { drawers, cart : { cart } } } = this.props;
     console.log(cart);
@@ -125,7 +134,13 @@ class CartMenu extends Component {
                 </div>
               </div>
               <div className={classes.buttonCont}>
-                <Button className={classes.button} variant='raised' size='small' fullWidth={true}>
+                <Button {...{
+                  onClick   : this.goToCheckout,
+                  className : classes.button,
+                  variant   : 'raised',
+                  size      : 'small',
+                  fullWidth : true,
+                }}>
                   <DoneIcon/>
                   Ordenar
                 </Button>
@@ -135,10 +150,6 @@ class CartMenu extends Component {
         </div>
       </Drawer>
     );
-  }
-
-  toggleDrawer = () => {
-    this.props.actions.handleDrawer('cartDrawer');
   }
 }
 

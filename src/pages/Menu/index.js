@@ -53,7 +53,6 @@ class Menu extends Component {
 
   render () {
     const { classes, reducers : { menus : { menus }} } = this.props;
-    console.log('ijefijfiejfie')
     return (
       <div className={classes.root}>
         <Grid container className={classes.gridList}>
@@ -68,7 +67,7 @@ class Menu extends Component {
                         <img src={menu.picture} alt={menu.name} className={classes.image} />
                         <div className={classes.overlay}/>
                         <div className={classes.textContainer}>
-                          <Typography variant='title' className={classes.text}>
+                          <Typography variant='title' className={classes.text} align="left">
                             {menu.name}
                           </Typography>
                           <Typography variant='subheading' className={classes.text}>

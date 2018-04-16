@@ -7,6 +7,7 @@ import _ from 'lodash'
 // Reducers
 import { getAllMenus, getMenuById } from '../../reducers/menus';
 import { getCart, addToCart } from '../../reducers/cart';
+import { createOrder } from '../../reducers/orders';
 import {
   IconButton,
   withStyles,
@@ -18,7 +19,7 @@ import {
 import Grow from 'material-ui/es/transitions/Grow';
 
 // Icons
-import AddShoppingCartIcon from 'material-ui-icons/AddShoppingCart';
+import DoneIcon from 'material-ui-icons/DoneAll';
 
 import styles from './styles';
 import { formatPrice } from '../../helpers/formats';
@@ -34,62 +35,46 @@ function mapDispatchToProps (dispatch) {
       getMenuById,
       getCart,
       addToCart,
+      createOrder,
     }, dispatch),
   };
 }
 
-class Bocas extends Component {
+class Checkout extends Component {
   componentWillMount () {
-    if (_.isEmpty(this.props.reducers.menus.selectedMenu)) {
-      this.props.actions.getMenuById(this.props.match.params.id);
-    }
+
   }
 
-  handleAddToCart = (item) => () => {
-    this.props.actions.addToCart(item);
+  handleCreateOrder = () => {
+    this.props.actions.createOrder();
   };
 
   render () {
-    const { classes, reducers : { menus : { selectedMenu }} } = this.props;
+    const { classes, reducers : { cart : { cart }} } = this.props;
+    console.log('hola');
     return (
       <div className={classes.root}>
         <Grid container className={classes.gridList}>
           {
-            _.map(selectedMenu.bocas, (boca, i) => {
+            _.map(cart.products, (product, i) => {
               const timeout = i === 0 ? 1000 : 1500;
               return (
-                <Grow in={!_.isEmpty(selectedMenu.bocas)} key={boca._id} timeout={timeout}>
+                <Grow in={!_.isEmpty(cart.products)} key={product._id} timeout={timeout}>
                   <Grid item xs={12} sm={6} md={3}>
                     <Card className={classes.card}>
-                      <CardMedia
-                        className={classes.media}
-                        image={boca.picture}
-                        title="Contemplative Reptile"
-                      />
                       <CardContent>
                         <div className={classes.titleCont}>
                           <Typography variant="headline" component="h2">
-                            {boca.name}
+                            {product.qty} x {product.name}
                           </Typography>
                           <Typography variant="headline" component="h2">
-                            {formatPrice(boca.price)}
+                            {formatPrice(product.price || 0)}
                           </Typography>
                         </div>
                         <Typography component="p">
-                          {boca.description}
+                          {product.description}
                         </Typography>
                       </CardContent>
-                      <CardActions>
-                        <div className={classes.buttonContainer}>
-                          <Button variant='raised'>
-                            Detalles
-                          </Button>
-                          <Button variant='raised' color="primary" onClick={this.handleAddToCart(boca)}>
-                            <AddShoppingCartIcon />
-                            Agregar
-                          </Button>
-                        </div>
-                      </CardActions>
                     </Card>
                   </Grid>
                 </Grow>
@@ -97,9 +82,23 @@ class Bocas extends Component {
             })
           }
         </Grid>
+        <div className={classes.checkoutButtonCont}>
+          <Paper className={classes.checkoutButtonPaper} elevation={4}>
+            <Button {...{
+              onClick   : this.handleCreateOrder,
+              className : classes.button,
+              variant   : 'raised',
+              size      : 'small',
+              fullWidth : true,
+            }}>
+              <DoneIcon/>
+              Ordenar {formatPrice(cart.total || 0)}
+            </Button>
+          </Paper>
+        </div>
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Bocas))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Checkout))

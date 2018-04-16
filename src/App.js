@@ -9,6 +9,8 @@ import Reboot from 'material-ui/Reboot';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Bocas from './pages/Bocas';
+import Checkout from './pages/Checkout';
+import Done from './pages/Done';
 
 // Components
 import TopBar from './components/TopBar';
@@ -48,6 +50,8 @@ class App extends Component {
           <ConnectedRoute exact path="/" component={Home}/>
           <ConnectedRoute exact path="/menu" component={Menu}/>
           <ConnectedRoute path="/menu/:id" component={Bocas}/>
+          <ConnectedRoute path="/checkout" component={Checkout}/>
+          <ConnectedRoute path="/done" component={Done}/>
         </main>
       </div>
     );
