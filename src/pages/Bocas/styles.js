@@ -6,6 +6,7 @@ const styles = (theme) => ({
     overflowX       : 'hidden',
     backgroundColor : theme.palette.background.paper,
    // height: `${window.innerHeight}px - 56px`,
+    paddingTop : 10,
   },
   gridList : {
     height: window.innerHeight - 52,
@@ -17,9 +18,9 @@ const styles = (theme) => ({
     display: 'flex',
     justifyContent: 'space-around',
     width : '100%',
-    '& button' : {
-      width: '48%'
-    }
+    // '& button' : {
+    //   width: '48%'
+    // }
   },
   titleCont : {
     display : 'flex',

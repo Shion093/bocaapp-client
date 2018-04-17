@@ -3,8 +3,9 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
-import InboxIcon from 'material-ui-icons/MoveToInbox';
-import { AppBar, Drawer, IconButton, List, ListItem, Toolbar, Typography } from 'material-ui';
+import LocalDiningIcon from 'material-ui-icons/LocalDining';
+import ShoppingBasket from 'material-ui-icons/ShoppingBasket';
+import { AppBar, Divider, Drawer, IconButton, List, ListItem, Toolbar, Typography } from 'material-ui';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
 
 // Reducers
@@ -44,9 +45,18 @@ class SideMenu extends Component {
             <List>
               <ListItem button onClick={this.goToPage('/menu')}>
                 <ListItemIcon>
-                  <InboxIcon />
+                  <LocalDiningIcon />
                 </ListItemIcon>
                 <ListItemText primary="Menus" />
+              </ListItem>
+            </List>
+            <Divider />
+            <List>
+              <ListItem button onClick={this.goToPage('/ordenes')}>
+                <ListItemIcon>
+                  <ShoppingBasket />
+                </ListItemIcon>
+                <ListItemText primary="Ordenes" />
               </ListItem>
             </List>
           </div>

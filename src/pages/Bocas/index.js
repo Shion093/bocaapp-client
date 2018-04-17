@@ -81,10 +81,10 @@ class Bocas extends Component {
                       </CardContent>
                       <CardActions>
                         <div className={classes.buttonContainer}>
-                          <Button variant='raised'>
-                            Detalles
-                          </Button>
-                          <Button variant='raised' color="primary" onClick={this.handleAddToCart(boca)}>
+                          {/*<Button variant='raised'>*/}
+                            {/*Detalles*/}
+                          {/*</Button>*/}
+                          <Button variant='raised' color="primary" onClick={this.handleAddToCart(boca)} fullWidth={true}>
                             <AddShoppingCartIcon />
                             Agregar
                           </Button>
