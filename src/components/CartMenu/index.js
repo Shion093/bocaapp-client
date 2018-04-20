@@ -10,7 +10,8 @@ import {
   CardActions,
   CardHeader,
   Drawer,
-  IconButton, ListSubheader, Paper,
+  IconButton,
+  Paper,
   Typography
 } from 'material-ui';
 import List from 'material-ui/List';

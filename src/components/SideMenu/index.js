@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import LocalDiningIcon from 'material-ui-icons/LocalDining';
 import ShoppingBasket from 'material-ui-icons/ShoppingBasket';
-import { AppBar, Divider, Drawer, IconButton, List, ListItem, Toolbar, Typography } from 'material-ui';
+import { Divider, Drawer, List, ListItem } from 'material-ui';
 import { ListItemIcon, ListItemText } from 'material-ui/List';
 
 // Reducers
@@ -29,7 +29,7 @@ function mapDispatchToProps (dispatch) {
 class SideMenu extends Component {
   goToPage = (page) => () => {
     this.props.actions.changePage(page);
-  }
+  };
 
   render() {
     const { classes, reducers : { drawers } } = this.props;

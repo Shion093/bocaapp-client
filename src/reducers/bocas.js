@@ -4,9 +4,6 @@ import _ from 'lodash';
 
 import axios from '../helpers/axios';
 
-import { HANDLE_MODAL } from './modals';
-import { MENU_GET_ALL } from './menus';
-
 export const BOCA_CREATED = createAction('BOCA_CREATED');
 export const BOCA_GET_ALL = createAction('BOCA_GET_ALL');
 export const BOCA_ASSIGNED = createAction('BOCA_ASSIGNED');

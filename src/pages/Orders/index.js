@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
 import _ from 'lodash'
 import 'moment/locale/es.js';
+
 // Reducers
 import { getUserOrders, reOrder } from '../../reducers/orders';
 import {
-  withStyles,
-  Typography,
-  Button,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Chip,
-  Divider,
-  ExpansionPanelActions,
-  Grow,
+  Button, Divider, ExpansionPanel, ExpansionPanelActions, ExpansionPanelDetails, ExpansionPanelSummary, Grow,
+  Typography, withStyles,
 } from 'material-ui';
 
 // Icons
@@ -57,7 +49,7 @@ class Orders extends Component {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <div className={classes.column}>
+          <div className={classes.columnPanel}>
             <Typography className={classes.heading}>{orderDate}</Typography>
           </div>
           <div>
@@ -65,7 +57,7 @@ class Orders extends Component {
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
-          <div className={classNames(classes.column, classes.helper)}>
+          <div className={classNames(classes.columnPanel, classes.helper)}>
             {
               _.map(order.products, (product) => {
                 return (
@@ -76,7 +68,12 @@ class Orders extends Component {
               })
             }
           </div>
-          <div>
+          <div className={classes.columnSmall}>
+            <Typography variant="body1">
+              Estado: {order.status}
+            </Typography>
+          </div>
+          <div className={classes.columnSmall}>
             <Typography variant="body2">
               Total {formatPrice(order.total || 0)}
             </Typography>
@@ -90,7 +87,7 @@ class Orders extends Component {
         </ExpansionPanelActions>
       </ExpansionPanel>
     )
-  }
+  };
 
   render () {
     const { classes, reducers : { orders : { orders }} } = this.props;

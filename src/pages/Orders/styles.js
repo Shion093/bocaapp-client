@@ -27,8 +27,14 @@ const styles = (theme) => ({
   details: {
     alignItems: 'center',
   },
-  column: {
+  columnPanel : {
     flexBasis: '80%',
+  },
+  column: {
+    flexBasis: '50%',
+  },
+  columnSmall : {
+    flexBasis: '25%',
   },
   helper: {
     borderLeft: `2px solid ${theme.palette.divider}`,

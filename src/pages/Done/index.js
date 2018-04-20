@@ -2,27 +2,22 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash'
 
 // Reducers
 import { getAllMenus, getMenuById } from '../../reducers/menus';
 import { getCart, addToCart } from '../../reducers/cart';
 import { createOrder } from '../../reducers/orders';
 import {
-  IconButton,
   withStyles,
-  Grid,
   Paper,
   Typography,
-  ButtonBase, Card, CardMedia, CardContent, CardActions, Button,
-  Grow,
+  Button,
 } from 'material-ui';
 
 // Icons
 import DoneIcon from 'material-ui-icons/DoneAll';
 
 import styles from './styles';
-import { formatPrice } from '../../helpers/formats';
 
 function mapStateToProps (state) {
   return state;
@@ -52,7 +47,7 @@ class Done extends Component {
 
   render () {
     const { classes, reducers : { orders : { order } } } = this.props;
-    console.log('hola');
+    console.log(order);
     return (
       <div className={classes.root}>
         <Paper elevation={4}>

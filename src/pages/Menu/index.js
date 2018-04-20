@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash'
@@ -8,7 +7,6 @@ import _ from 'lodash'
 import { getAllMenus, selectMenu } from '../../reducers/menus';
 import { getCart } from '../../reducers/cart';
 import {
-  IconButton,
   withStyles,
   Grid,
   Paper,
@@ -18,7 +16,6 @@ import {
 } from 'material-ui';
 
 import styles from './styles';
-import { withRouter } from 'react-router-dom';
 
 function mapStateToProps (state) {
   return state;

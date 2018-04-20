@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash'
@@ -8,13 +7,15 @@ import _ from 'lodash'
 import { getAllMenus, getMenuById } from '../../reducers/menus';
 import { getCart, addToCart } from '../../reducers/cart';
 import {
-  IconButton,
   withStyles,
   Grid,
-  Paper,
   Typography,
   Grow,
-  ButtonBase, Card, CardMedia, CardContent, CardActions, Button,
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Button,
 } from 'material-ui';
 
 // Icons
