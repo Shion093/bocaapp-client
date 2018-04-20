@@ -14,8 +14,8 @@ import {
   Paper,
   Typography,
   ButtonBase,
+  Grow,
 } from 'material-ui';
-import Grow from 'material-ui/es/transitions/Grow';
 
 import styles from './styles';
 import { withRouter } from 'react-router-dom';

@@ -15,8 +15,8 @@ import {
   Paper,
   Typography,
   ButtonBase, Card, CardMedia, CardContent, CardActions, Button,
+  Grow,
 } from 'material-ui';
-import Grow from 'material-ui/es/transitions/Grow';
 
 // Icons
 import DoneIcon from 'material-ui-icons/DoneAll';

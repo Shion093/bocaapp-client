@@ -13,9 +13,9 @@ import {
   Grid,
   Paper,
   Typography,
+  Grow,
   ButtonBase, Card, CardMedia, CardContent, CardActions, Button,
 } from 'material-ui';
-import Grow from 'material-ui/es/transitions/Grow';
 
 // Icons
 import AddShoppingCartIcon from 'material-ui-icons/AddShoppingCart';
