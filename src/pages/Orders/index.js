@@ -44,9 +44,7 @@ function mapDispatchToProps (dispatch) {
 
 class Orders extends Component {
   componentWillMount () {
-    if (_.isEmpty(this.props.reducers.orders.orders)) {
-      this.props.actions.getUserOrders();
-    }
+    this.props.actions.getUserOrders();
   }
 
   handleReOrder = (id) => () => {
@@ -71,7 +69,7 @@ class Orders extends Component {
             {
               _.map(order.products, (product) => {
                 return (
-                  <Typography variant="caption">
+                  <Typography variant="caption" key={product._id}>
                     {product.qty} x {product.name} {formatPrice(product.price || 0)} <br />
                   </Typography>
                 )
