@@ -18,7 +18,8 @@ export const initialState = I.from({
 export function getRestaurant (domain) {
   return async (dispatch) => {
     const domainPart = domain.substr(0, domain.indexOf('.'));
-    const domainName = _.replace(domainPart, 'http://', '');
+    const replaceDomain = _.includes(domainPart, 'https://') ? 'https://' : 'http://';
+    const domainName = _.replace(domainPart, replaceDomain, '');
     try {
       const { data } = await axios.get(`restaurant/client/${domainName}`);
       dispatch(RESTAURANT_FETCH(data.restaurant));
