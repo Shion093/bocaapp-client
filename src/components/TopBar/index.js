@@ -27,24 +27,27 @@ function mapDispatchToProps (dispatch) {
 
 class TopBar extends Component {
   getTotalItems = () => {
-    const { reducers : { cart : { cart }} } = this.props;
+    const { reducers : { cart : { cart } } } = this.props;
     return _.sumBy(cart.products, (product) => product.qty);
   };
+
   render () {
-    const { classes } = this.props;
+    const { classes, reducers : { restaurant } } = this.props;
+    const restaurantName = _.startCase(restaurant.restaurant.name);
     return (
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.openDrawer('menuDrawer')}>
+          <IconButton className={ classes.menuButton } color="inherit" aria-label="Menu"
+                      onClick={ this.openDrawer('menuDrawer') }>
             <MenuIcon/>
           </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            BocaApp
+          <Typography variant="title" color="inherit" className={ classes.flex }>
+            BocaApp - { restaurantName }
           </Typography>
-          <IconButton color="inherit" aria-label="Cart" onClick={this.openDrawer('cartDrawer')}>
-            <Badge classes={{
+          <IconButton color="inherit" aria-label="Cart" onClick={ this.openDrawer('cartDrawer') }>
+            <Badge classes={ {
               badge : classes.badge,
-            }} badgeContent={this.getTotalItems()} color="secondary">
+            } } badgeContent={ this.getTotalItems() } color="secondary">
               <CartIcon/>
             </Badge>
           </IconButton>

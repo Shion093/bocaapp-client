@@ -19,6 +19,7 @@ import ConnectedRoute from './components/ConnectedRoute';
 
 // Reducers
 import { getCart } from './reducers/cart';
+import { getRestaurant } from './reducers/restaurant';
 
 
 function mapStateToProps (state) {
@@ -29,16 +30,17 @@ function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       getCart,
+      getRestaurant,
     }, dispatch),
   };
 }
 
 class App extends Component {
   componentWillMount () {
+    this.props.actions.getRestaurant(window.location.href);
     this.props.actions.getCart();
   }
   render() {
-    console.log(this.props);
     return (
       <div className="App">
         <Reboot />

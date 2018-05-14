@@ -61,7 +61,6 @@ class CartMenu extends Component {
 
   render () {
     const { classes, reducers : { drawers, cart : { cart } } } = this.props;
-    console.log(cart);
     const subTotal = formatPrice(cart.subTotal || 0);
     const tax = formatPrice(cart.tax || 0);
     const total = formatPrice(cart.total || 0);

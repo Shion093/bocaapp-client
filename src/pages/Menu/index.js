@@ -33,12 +33,10 @@ function mapDispatchToProps (dispatch) {
 
 class Menu extends Component {
   componentWillMount () {
-    this.props.actions.getAllMenus();
+    // this.props.actions.getAllMenus();
   }
 
   shouldComponentUpdate (nextPros) {
-    console.log(this.props.location);
-    console.log(nextPros);
     const routeChange = nextPros.reducers.menus.menus !== this.props.reducers.menus.menus;
     const newMenus = nextPros.reducers.routing.pathname !== this.props.reducers.routing.pathname;
     return routeChange || newMenus;
