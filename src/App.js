@@ -38,7 +38,7 @@ function mapDispatchToProps (dispatch) {
 class App extends Component {
   componentWillMount () {
     this.props.actions.getRestaurant(window.location.href);
-    this.props.actions.getCart();
+    // this.props.actions.getCart();
   }
   render() {
     return (

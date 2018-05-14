@@ -12,9 +12,10 @@ export const initialState = I.from({
 });
 
 export function getCart () {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { reducers : { restaurant : { restaurant : { _id } } } } = getState();
     try {
-      const { data } = await axios.get('cart/5a8e6d8491d11a0956875739');
+      const { data } = await axios.get(`cart/5a8e6d8491d11a0956875739/${_id}`);
       console.log(data);
       dispatch(GET_CART(data));
     } catch (e) {

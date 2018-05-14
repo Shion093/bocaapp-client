@@ -2,9 +2,13 @@ import I from 'seamless-immutable';
 import { createAction, handleActions } from 'redux-actions';
 import _ from 'lodash';
 
+// Helpers
 import axios from '../helpers/axios';
-import { MENU_GET_ALL } from './menus';
 
+// Reducers
+import { getCart } from './cart';
+
+import { MENU_GET_ALL } from './menus';
 export const RESTAURANT_FETCH = createAction('RESTAURANT_FETCH');
 
 export const initialState = I.from({
@@ -19,6 +23,7 @@ export function getRestaurant (domain) {
       const { data } = await axios.get(`restaurant/client/${domainName}`);
       dispatch(RESTAURANT_FETCH(data.restaurant));
       dispatch(MENU_GET_ALL(data.menus));
+      dispatch(getCart());
     } catch (e) {
       console.log(e);
     }
