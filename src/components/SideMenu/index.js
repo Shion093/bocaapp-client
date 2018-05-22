@@ -59,6 +59,14 @@ class SideMenu extends Component {
                 <ListItemText primary="Ordenes" />
               </ListItem>
             </List>
+            <List>
+              <ListItem button onClick={this.goToPage('/signup')}>
+                <ListItemIcon>
+                  <ShoppingBasket />
+                </ListItemIcon>
+                <ListItemText primary="Crear cuenta" />
+              </ListItem>
+            </List>
           </div>
         </div>
       </Drawer>

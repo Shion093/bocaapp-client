@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 
 // Pages
 import { handleDrawer } from '../../reducers/drawers';
-import MenuIcon from 'material-ui-icons/Menu';
-import CartIcon from 'material-ui-icons/ShoppingCart';
-import { AppBar, Badge, IconButton, Toolbar, Typography } from 'material-ui';
+import MenuIcon from '@material-ui/icons/Menu';
+import CartIcon from '@material-ui/icons/ShoppingCart';
+import { AppBar, Badge, IconButton, Toolbar, Typography } from '@material-ui/core';
 import styles from './styles';
 
 function mapStateToProps (state) {

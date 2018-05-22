@@ -3,6 +3,7 @@ import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import createHistory from 'history/createBrowserHistory';
 import rootReducer from '../reducers';
+import { reducer as formReducer } from 'redux-form';
 
 export const history = createHistory();
 
@@ -26,7 +27,7 @@ const composedEnhancers = compose(
   ...enhancers
 );
 
-const allReducers = combineReducers({ reducers : rootReducer });
+const allReducers = combineReducers({ reducers : rootReducer,   form    : formReducer });
 
 const store = createStore(
   allReducers,
