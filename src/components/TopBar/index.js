@@ -57,6 +57,7 @@ class TopBar extends Component {
   }
 
   openDrawer = (drawer) => () => {
+    console.log(drawer)
     this.props.actions.handleDrawer(drawer);
   }
 }

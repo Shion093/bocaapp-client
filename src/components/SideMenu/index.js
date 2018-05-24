@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
-import LocalDiningIcon from 'material-ui-icons/LocalDining';
-import ShoppingBasket from 'material-ui-icons/ShoppingBasket';
-import { Divider, Drawer, List, ListItem } from 'material-ui';
-import { ListItemIcon, ListItemText } from 'material-ui/List';
+import { withStyles } from '@material-ui/core/styles';
+import LocalDiningIcon from '@material-ui/icons/LocalDining';
+import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
+import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';

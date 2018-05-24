@@ -13,10 +13,10 @@ import {
   CardContent,
   Button,
   Grow,
-} from 'material-ui';
+} from '@material-ui/core';
 
 // Icons
-import DoneIcon from 'material-ui-icons/DoneAll';
+import DoneIcon from '@material-ui/icons/DoneAll';
 
 // Helpers
 import { formatPrice } from '../../helpers/formats';

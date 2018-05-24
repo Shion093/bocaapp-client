@@ -13,7 +13,7 @@ import {
   Typography,
   ButtonBase,
   Grow,
-} from 'material-ui';
+} from '@material-ui/core';
 
 import styles from './styles';
 

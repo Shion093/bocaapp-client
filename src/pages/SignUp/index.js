@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 // Reducers
 import { decrement, decrementAsync, increment, incrementAsync } from '../../reducers/counter';
-import { ButtonBase, Typography, withStyles } from 'material-ui';
+import { ButtonBase, Typography, withStyles } from '@material-ui/core';
 
 import CreateUserForm from '../../components/Forms/CreateUser';
 

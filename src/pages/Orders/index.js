@@ -11,10 +11,10 @@ import { getUserOrders, reOrder } from '../../reducers/orders';
 import {
   Button, Divider, ExpansionPanel, ExpansionPanelActions, ExpansionPanelDetails, ExpansionPanelSummary, Grow,
   Typography, withStyles,
-} from 'material-ui';
+} from '@material-ui/core';
 
 // Icons
-import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import styles from './styles';
 import { formatPrice } from '../../helpers/formats';

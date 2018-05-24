@@ -16,10 +16,10 @@ import {
   CardContent,
   CardActions,
   Button,
-} from 'material-ui';
+} from '@material-ui/core';
 
 // Icons
-import AddShoppingCartIcon from 'material-ui-icons/AddShoppingCart';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 import styles from './styles';
 import { formatPrice } from '../../helpers/formats';
