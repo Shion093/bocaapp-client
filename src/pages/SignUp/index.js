@@ -32,11 +32,12 @@ class Home extends Component {
   handleSubmit = (values) => {
     console.log(values);
   }
+
   render () {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-         <CreateUserForm {...{ handleSubmit : this.handleSubmit }} />
+         <CreateUserForm {...{ onSubmit : this.handleSubmit }} />
       </div>
     )
   }

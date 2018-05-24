@@ -62,7 +62,6 @@ class CartMenu extends Component {
     const subTotal = formatPrice(cart.subTotal || 0);
     const tax = formatPrice(cart.tax || 0);
     const total = formatPrice(cart.total || 0);
-    console.log(drawers.cartDrawer);
     return (
       <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
         <div tabIndex={0}>

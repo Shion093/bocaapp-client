@@ -1,7 +1,10 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { MenuItem, Checkbox, TextField } from '@material-ui/core';
+import { MenuItem, Checkbox, TextField, withStyles } from '@material-ui/core';
 // import asyncValidate from './asyncValidate'
+
+import styles from './styles';
+import TextBox from '../../Common/TextBox';
 
 const validate = values => {
   const errors = {}
@@ -9,82 +12,37 @@ const validate = values => {
     'firstName',
     'lastName',
     'email',
-    'favoriteColor',
-    'notes'
+    'password',
   ]
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = 'Required'
+      errors[field] = 'Requerido'
     }
   })
   if (
     values.email &&
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
   ) {
-    errors.email = 'Invalid email address'
+    errors.email = 'Email invalido'
   }
   return errors
-}
+};
 
-const renderTextField = ({
-                           input,
-                           label,
-                           meta : { touched, error },
-                           ...custom
-                         }) => (
-  <TextField
-    {...input}
-    {...custom}
-  />
-)
-
-const renderPassword = () => {
+const CreateUserForm = props => {
+  const { handleSubmit, pristine, reset, submitting, classes } = props;
   return (
-    <TextField
-      id="password-input"
-      label="Password"
-      // className={classes.textField}
-      type="password"
-      autoComplete="current-password"
-      margin="normal"
-    />
-  )
-}
-
-const renderCheckbox = ({ input, label }) => (
-  <Checkbox
-    label={label}
-    checked={input.value ? true : false}
-  />
-)
-
-const MaterialUiForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
-  return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={classes.container}>
       <div>
-        <Field
-          name="firstName"
-          component={renderTextField}
-          label="First Name"
-        />
+        <Field name="firstName" component={TextBox} label="Nombre" />
       </div>
       <div>
-        <Field name="lastName" component={renderPassword} label="Last Name"/>
+        <Field name="lastName" component={TextBox} label="Apellido"/>
       </div>
       <div>
-        <Field name="email" component={renderTextField} label="Email"/>
+        <Field name="email" component={TextBox} label="Email" />
       </div>
       <div>
-        <Field name="employed" component={renderCheckbox} label="Employed"/>
-      </div>
-      <div>
-        <Field
-          name="notes"
-          component={renderTextField}
-          label="Notes"
-          rows={2}
-        />
+        <Field name="password" component={TextBox} label="Contraseña" type='password' />
       </div>
       <div>
         <button type="submit" disabled={pristine || submitting}>
@@ -99,7 +57,7 @@ const MaterialUiForm = props => {
 }
 
 export default reduxForm({
-  form : 'MaterialUiForm', // a unique identifier for this form
+  form : 'createUserForm', // a unique identifier for this form
   validate,
   // asyncValidate
-})(MaterialUiForm)
+})(withStyles(styles)(CreateUserForm))
