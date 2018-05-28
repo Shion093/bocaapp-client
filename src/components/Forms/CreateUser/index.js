@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { MenuItem, Checkbox, TextField, withStyles } from '@material-ui/core';
+import { MenuItem, Checkbox, TextField, Button, withStyles } from '@material-ui/core';
 // import asyncValidate from './asyncValidate'
 
 import styles from './styles';
@@ -45,9 +45,9 @@ const CreateUserForm = props => {
         <Field name="password" component={TextBox} label="Contraseña" type='password' />
       </div>
       <div>
-        <button type="submit" disabled={pristine || submitting}>
+        <Button type="submit" disabled={pristine || submitting}>
           Submit
-        </button>
+        </Button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>
           Clear Values
         </button>

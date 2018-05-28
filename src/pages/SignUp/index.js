@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Reducers
-import { decrement, decrementAsync, increment, incrementAsync } from '../../reducers/counter';
+import { createUser } from '../../reducers/users';
 import { ButtonBase, Typography, withStyles } from '@material-ui/core';
 
 import CreateUserForm from '../../components/Forms/CreateUser';
@@ -18,10 +18,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      increment,
-      incrementAsync,
-      decrement,
-      decrementAsync,
+      createUser,
       changePage: () => push('/menu')
     }, dispatch),
   };
@@ -31,7 +28,8 @@ class Home extends Component {
 
   handleSubmit = (values) => {
     console.log(values);
-  }
+    this.props.actions.createUser(values);
+  };
 
   render () {
     const { classes } = this.props;

@@ -10,6 +10,7 @@ import drawers from './drawers';
 import cart from './cart';
 import orders from './orders';
 import restaurant from './restaurant';
+import users from './users';
 
 export default combineReducers({
   routing : routerReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   cart,
   orders,
   restaurant,
+  users,
 })
