@@ -7,6 +7,7 @@ import _ from 'lodash';
 import axios from '../helpers/axios';
 
 export const USER_LOGGED = createAction('USER_LOGGED');
+export const SET_LOGIN = createAction('SET_LOGIN');
 
 const localUser = localStorage.getItem('user');
 
@@ -14,6 +15,7 @@ const user = localUser ? JSON.parse(localUser) : { };
 
 export const initialState = I.from({
   currentUser : user,
+  isLogin     : false,
 });
 
 export function loginUser (values) {
@@ -37,5 +39,8 @@ export function loginUser (values) {
 export default handleActions({
   USER_LOGGED : (state, action) => {
     return I.merge(state, { user : action.payload });
+  },
+  SET_LOGIN : (state, action) => {
+    return I.merge(state, { isLogin : action.payload });
   },
 }, initialState)

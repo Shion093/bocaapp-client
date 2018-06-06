@@ -40,11 +40,15 @@ class Home extends Component {
   };
 
   render () {
-    const { classes } = this.props;
+    const { classes, reducers } = this.props;
     return (
       <div className={classes.root}>
-         <CreateUserForm {...{ onSubmit : this.handleSubmit }} />
-         <LoginForm {...{ onSubmit : this.handleLogin }} />
+        {
+          reducers.auth.isLogin
+            ? <LoginForm { ...{ onSubmit : this.handleLogin } } />
+            : <CreateUserForm { ...{ onSubmit : this.handleSubmit } } />
+
+        }
       </div>
     )
   }

@@ -13,9 +13,10 @@ export const initialState = I.from({
 
 export function getCart () {
   return async (dispatch, getState) => {
-    const { reducers : { restaurant : { restaurant : { _id } } } } = getState();
+    const { reducers : { restaurant : { restaurant : { _id } }, auth : { currentUser }} } = getState();
+    console.log(currentUser);
     try {
-      const { data } = await axios.get(`cart/5a8e6d8491d11a0956875739/${_id}`);
+      const { data } = await axios.get(`cart/${currentUser._id}/${_id}`);
       console.log(data);
       dispatch(GET_CART(data));
     } catch (e) {
@@ -27,8 +28,8 @@ export function getCart () {
 export function addToCart (item) {
   return async (dispatch, getState) => {
     try {
-      const { reducers : { cart : { cart } } } = getState();
-      const { data } = await axios.post('cart/add', { item, cartId : cart._id });
+      const { reducers : { cart : { cart }, auth : { currentUser } } } = getState();
+      const { data } = await axios.post('cart/add', { item, cartId : cart._id, userId : currentUser._id });
       dispatch(GET_CART(data));
     } catch (e) {
       console.log(e);
@@ -39,8 +40,8 @@ export function addToCart (item) {
 export function removeFromCart (id) {
   return async (dispatch, getState) => {
     try {
-      const { reducers : { cart : { cart } } } = getState();
-      const { data } = await axios.post('cart/remove', { itemId : id, cartId : cart._id });
+      const { reducers : { cart : { cart }, auth : { currentUser } } } = getState();
+      const { data } = await axios.post('cart/remove', { itemId : id, cartId : cart._id, userId : currentUser._id });
       dispatch(GET_CART(data));
     } catch (err) {
 

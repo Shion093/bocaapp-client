@@ -29,7 +29,7 @@ const validate = values => {
 };
 
 const CreateUserForm = props => {
-  const { handleSubmit, pristine, reset, submitting, classes } = props;
+  const { handleSubmit, pristine, submitting, classes } = props;
   return (
     <form onSubmit={handleSubmit} className={classes.container}>
       <div>
@@ -45,12 +45,9 @@ const CreateUserForm = props => {
         <Field name="password" component={TextBox} label="Contraseña" type='password' />
       </div>
       <div>
-        <Button type="submit" disabled={pristine || submitting}>
+        <Button type="submit" fullWidth={true} variant={'raised'} disabled={pristine || submitting}>
           Submit
         </Button>
-        <button type="button" disabled={pristine || submitting} onClick={reset}>
-          Clear Values
-        </button>
       </div>
     </form>
   )
