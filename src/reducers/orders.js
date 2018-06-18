@@ -16,9 +16,10 @@ export const initialState = I.from({
 });
 
 export function createOrder () {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const { data } = await axios.post('orders/create', { userId : '5a8e6d8491d11a0956875739' });
+      const { reducers : { auth : { currentUser }}} = getState();
+      const { data } = await axios.post('orders/create', { userId : currentUser._id });
       console.log(data);
       dispatch(ORDER_CREATED(data));
       dispatch(CLEAR_CART());
@@ -32,8 +33,8 @@ export function createOrder () {
 export function getUserOrders () {
   return async (dispatch, getState) => {
     try {
-      const userId = '5a8e6d8491d11a0956875739';
-      const { data } = await axios.get(`orders/${userId}`);
+      const { reducers : { auth : { currentUser }}} = getState();
+      const { data } = await axios.get(`orders/${currentUser._id}`);
       dispatch(GET_USER_ORDERS(data));
     } catch (err) {
       console.log(err);
@@ -44,8 +45,8 @@ export function getUserOrders () {
 export function reOrder (orderId) {
   return async (dispatch, getState) => {
     try {
-      const userId = '5a8e6d8491d11a0956875739';
-      const { data } = await axios.post(`orders/reorder`, { orderId, userId });
+      const { reducers : { auth : { currentUser }}} = getState();
+      const { data } = await axios.post(`orders/reorder`, { orderId, userId : currentUser._id });
       dispatch(GET_CART(data));
       dispatch(push('/checkout'));
     } catch (err) {
