@@ -12,10 +12,10 @@ import {
   Paper,
   Typography,
   Button,
-} from 'material-ui';
+} from '@material-ui/core';
 
 // Icons
-import DoneIcon from 'material-ui-icons/DoneAll';
+import DoneIcon from '@material-ui/icons/DoneAll';
 
 import styles from './styles';
 

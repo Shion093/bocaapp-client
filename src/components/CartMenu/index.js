@@ -2,26 +2,24 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
-import {
-  Avatar,
-  Button,
-  Card,
-  CardActions,
-  CardHeader,
-  Drawer,
-  IconButton,
-  Paper,
-  Typography
-} from 'material-ui';
-import List from 'material-ui/List';
+import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
 import _ from 'lodash';
 
 // Icons
-import DeleteIcon from 'material-ui-icons/Delete';
-import AddIcon from 'material-ui-icons/AddCircleOutline';
-import RemoveIcon from 'material-ui-icons/RemoveCircleOutline';
-import DoneIcon from 'material-ui-icons/Done';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/AddCircleOutline';
+import RemoveIcon from '@material-ui/icons/RemoveCircleOutline';
+import DoneIcon from '@material-ui/icons/Done';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
@@ -65,7 +63,7 @@ class CartMenu extends Component {
     const tax = formatPrice(cart.tax || 0);
     const total = formatPrice(cart.total || 0);
     return (
-      <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer}>
+      <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
         <div tabIndex={0}>
           <div className={classes.list}>
             <List classes={{

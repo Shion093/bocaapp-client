@@ -13,10 +13,10 @@ import {
   CardContent,
   Button,
   Grow,
-} from 'material-ui';
+} from '@material-ui/core';
 
 // Icons
-import DoneIcon from 'material-ui-icons/DoneAll';
+import DoneIcon from '@material-ui/icons/DoneAll';
 
 // Helpers
 import { formatPrice } from '../../helpers/formats';
@@ -47,7 +47,7 @@ class Checkout extends Component {
     const { classes, reducers : { cart : { cart }} } = this.props;
     return (
       <div className={classes.root}>
-        <Grid container className={classes.gridList}>
+        <Grid container className={classes.gridList} spacing={8}>
           {
             _.map(cart.products, (product, i) => {
               const timeout = i === 0 ? 1000 : 1500;

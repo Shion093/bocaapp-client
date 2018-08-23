@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Reboot from 'material-ui/Reboot';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+// import Reboot from '@material-ui/Reboot';
 
 // Pages
 import Home from './pages/Home';
@@ -10,6 +11,7 @@ import Bocas from './pages/Bocas';
 import Checkout from './pages/Checkout';
 import Done from './pages/Done';
 import Orders from './pages/Orders';
+import SignUp from './pages/SignUp';
 
 // Components
 import TopBar from './components/TopBar';
@@ -21,6 +23,7 @@ import ConnectedRoute from './components/ConnectedRoute';
 import { getCart } from './reducers/cart';
 import { getRestaurant } from './reducers/restaurant';
 
+const theme = createMuiTheme();
 
 function mapStateToProps (state) {
   return state;
@@ -43,7 +46,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Reboot />
+        <MuiThemeProvider theme={theme}>
         <TopBar />
         <SideMenu />
         <CartMenu />
@@ -54,7 +57,9 @@ class App extends Component {
           <ConnectedRoute path="/checkout" component={Checkout}/>
           <ConnectedRoute path="/done" component={Done}/>
           <ConnectedRoute path="/ordenes" component={Orders}/>
+          <ConnectedRoute path="/signup" component={SignUp}/>
         </main>
+        </MuiThemeProvider>
       </div>
     );
   }
