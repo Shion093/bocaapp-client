@@ -11,6 +11,7 @@ import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText } from '@ma
 import { handleDrawer } from '../../reducers/drawers';
 
 import styles from './styles';
+import { checkAuth } from '../../helpers/auth';
 
 function mapStateToProps (state) {
   return state;
@@ -32,6 +33,7 @@ class SideMenu extends Component {
 
   render() {
     const { classes, reducers : { drawers } } = this.props;
+    const isLogged = checkAuth();
     return (
       <Drawer open={drawers.menuDrawer} onClose={this.toggleDrawer}>
         <div
@@ -50,22 +52,28 @@ class SideMenu extends Component {
               </ListItem>
             </List>
             <Divider />
-            <List>
-              <ListItem button onClick={this.goToPage('/ordenes')}>
-                <ListItemIcon>
-                  <ShoppingBasket />
-                </ListItemIcon>
-                <ListItemText primary="Ordenes" />
-              </ListItem>
-            </List>
-            <List>
-              <ListItem button onClick={this.goToPage('/signup')}>
-                <ListItemIcon>
-                  <ShoppingBasket />
-                </ListItemIcon>
-                <ListItemText primary="Crear cuenta" />
-              </ListItem>
-            </List>
+            {
+              isLogged &&
+              <List>
+                <ListItem button onClick={this.goToPage('/ordenes')}>
+                  <ListItemIcon>
+                    <ShoppingBasket />
+                  </ListItemIcon>
+                  <ListItemText primary="Ordenes" />
+                </ListItem>
+              </List>
+            }
+            {
+              !isLogged &&
+              <List>
+                <ListItem button onClick={this.goToPage('/signup')}>
+                  <ListItemIcon>
+                    <ShoppingBasket />
+                  </ListItemIcon>
+                  <ListItemText primary="Crear cuenta" />
+                </ListItem>
+              </List>
+            }
           </div>
         </div>
       </Drawer>

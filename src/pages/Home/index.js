@@ -10,6 +10,7 @@ import { ButtonBase, Typography, withStyles } from '@material-ui/core';
 import image from './breakfast.jpg';
 
 import styles from './styles';
+import _ from 'lodash';
 
 function mapStateToProps (state) {
   return state;
@@ -22,43 +23,45 @@ function mapDispatchToProps (dispatch) {
       incrementAsync,
       decrement,
       decrementAsync,
-      changePage: () => push('/menu')
+      changePage : () => push('/menu')
     }, dispatch),
   };
 }
 
 class Home extends Component {
   render () {
-    const { classes } = this.props;
+    const { classes, reducers : { restaurant } } = this.props;
+    const restaurantName = _.startCase(restaurant.restaurant.name);
     return (
-      <div className={classes.root}>
-          <ButtonBase
-            onClick={this.props.actions.changePage}
-            focusRipple
-            className={classes.image}
-            style={{
-              width: '100%',
-            }}
-          >
+      <div className={ classes.root }>
+        <ButtonBase
+          onClick={ this.props.actions.changePage }
+          focusRipple
+          className={ classes.image }
+          focusVisibleClassName={ classes.focusVisible }
+          style={ {
+            width : '100%',
+          } }
+        >
           <span
-            className={classes.imageSrc}
-            style={{
-              backgroundImage: `url(${image})`,
-            }}
+            className={ classes.imageSrc }
+            style={ {
+              backgroundImage : `url(${image})`,
+            } }
           />
-            <span className={classes.imageBackdrop} />
-            <span className={classes.imageButton}>
+          <span className={ classes.imageBackdrop }/>
+          <span className={ classes.imageButton }>
             <Typography
               component="span"
               variant="subheading"
               color="inherit"
-              className={classes.imageTitle}
+              className={ classes.imageTitle }
             >
               Empezar Orden
-              <span className={classes.imageMarked} />
+              <span className={ classes.imageMarked }/>
             </Typography>
           </span>
-          </ButtonBase>
+        </ButtonBase>
 
       </div>
     )
