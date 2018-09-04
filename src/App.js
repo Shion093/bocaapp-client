@@ -12,6 +12,7 @@ import Checkout from './pages/Checkout';
 import Done from './pages/Done';
 import Orders from './pages/Orders';
 import SignUp from './pages/SignUp';
+import Map from './pages/Map';
 
 // Components
 import TopBar from './components/TopBar';
@@ -55,6 +56,7 @@ class App extends Component {
           <ConnectedRoute exact path="/menu" component={Menu}/>
           <ConnectedRoute path="/menu/:id" component={Bocas}/>
           <ConnectedRoute path="/checkout" component={Checkout}/>
+          <ConnectedRoute path="/direccion" component={Map}/>
           <ConnectedRoute path="/done" component={Done}/>
           <ConnectedRoute path="/ordenes" component={Orders}/>
           <ConnectedRoute path="/signup" component={SignUp}/>

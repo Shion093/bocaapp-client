@@ -49,7 +49,7 @@ class CartMenu extends Component {
   };
 
   goToCheckout = () => {
-    this.props.actions.changePage('/checkout');
+    this.props.actions.changePage('/direccion');
     this.toggleDrawer();
   };
 
