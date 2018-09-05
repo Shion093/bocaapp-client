@@ -38,25 +38,25 @@ class Map extends Component {
     this.mapContainer = React.createRef();
 
     this.state = {
-      marker: null,
-      geoLocation: null,
+      marker      : null,
+      geoLocation : null,
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.map = new mapboxgl.Map({
-      container: this.mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [-83.667257, 9.323398],
-      zoom: 8,
+      container : this.mapContainer.current,
+      style     : 'mapbox://styles/mapbox/streets-v9',
+      center    : [-83.667257, 9.323398],
+      zoom      : 8,
     });
 
     const geoLocation = new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
+      positionOptions   : {
+        enableHighAccuracy : true
       },
-      trackUserLocation: false,
-      showUserLocation: false,
+      trackUserLocation : false,
+      showUserLocation  : false,
     });
 
     geoLocation.on('geolocate', (e) => {
@@ -71,13 +71,13 @@ class Map extends Component {
       this.map.addSource('polygon', this.createGeoJSONCircle([-83.667257, 9.323398], 10));
 
       this.map.addLayer({
-        id: 'polygon',
-        type: 'fill',
-        source: 'polygon',
-        layout: {},
-        paint: {
-          'fill-color': 'blue',
-          'fill-opacity': 0.1
+        id     : 'polygon',
+        type   : 'fill',
+        source : 'polygon',
+        layout : {},
+        paint  : {
+          'fill-color'   : 'blue',
+          'fill-opacity' : 0.1
         }
       });
 
@@ -98,7 +98,7 @@ class Map extends Component {
   }
 
   outsideCircle = () => {
-   this.setState({outside : true});
+    this.setState({ outside : true });
   }
 
   getLocation = () => {
@@ -112,7 +112,7 @@ class Map extends Component {
   }
 
   createGeoJSONCircle = (center, radiusInKm, points) => {
-    if(!points) points = 64;
+    if (!points) points = 64;
 
     const coords = {
       latitude  : center[1],
@@ -126,24 +126,24 @@ class Map extends Component {
     const distanceY = km / 110.574;
 
     let theta, x, y;
-    for(let i=0; i<points; i++) {
-      theta = (i/points)*(2*Math.PI);
-      x = distanceX*Math.cos(theta);
-      y = distanceY*Math.sin(theta);
+    for (let i = 0; i < points; i++) {
+      theta = (i / points) * (2 * Math.PI);
+      x = distanceX * Math.cos(theta);
+      y = distanceY * Math.sin(theta);
 
-      ret.push([coords.longitude+x, coords.latitude+y]);
+      ret.push([coords.longitude + x, coords.latitude + y]);
     }
     ret.push(ret[0]);
 
     return {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: [{
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: [ret]
+      type : 'geojson',
+      data : {
+        type     : 'FeatureCollection',
+        features : [{
+          type     : 'Feature',
+          geometry : {
+            type        : 'Polygon',
+            coordinates : [ret]
           }
         }]
       }
@@ -154,12 +154,12 @@ class Map extends Component {
     const { lngLat } = e;
     if (this.state.marker) {
       this.state.marker.setLngLat([lngLat.lng, lngLat.lat]);
-      this.setState({ outside: false });
+      this.setState({ outside : false });
     } else {
       const marker = new mapboxgl.Marker()
         .setLngLat([lngLat.lng, lngLat.lat])
         .addTo(this.map);
-      this.setState({ marker, outside: false });
+      this.setState({ marker, outside : false });
     }
   };
 
@@ -167,9 +167,9 @@ class Map extends Component {
     const { classes, reducers } = this.props;
     return (
       <div className={ classes.root }>
-        <div ref={this.mapContainer} className={classes.map} />
-        <Button variant='raised' color='primary' onClick={this.getLocation} fullWidth={true}>
-          <LocationIcon />
+        <div ref={ this.mapContainer } className={ classes.map }/>
+        <Button variant='raised' color='primary' onClick={ this.getLocation } fullWidth={ true }>
+          <LocationIcon/>
           Compartir mi ubicacion
         </Button>
       </div>
