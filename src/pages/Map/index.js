@@ -6,9 +6,14 @@ import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
+// Material UI
+import Button from '@material-ui/core/Button';
+import LocationIcon from '@material-ui/icons/LocationSearching';
+
 // Reducers
 import { withStyles } from '@material-ui/core';
 import styles from './styles';
+import markerImg from './marker.png';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
@@ -34,6 +39,7 @@ class Map extends Component {
 
     this.state = {
       marker: null,
+      geoLocation: null,
     }
   }
 
@@ -45,7 +51,7 @@ class Map extends Component {
       zoom: 8,
     });
 
-    this.geoLocation = new mapboxgl.GeolocateControl({
+    const geoLocation = new mapboxgl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
       },
@@ -53,74 +59,119 @@ class Map extends Component {
       showUserLocation: false,
     });
 
-    this.geoCoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken
+    geoLocation.on('geolocate', (e) => {
+      console.log(e);
+      const lng = e.coords.longitude;
+      const lat = e.coords.latitude;
+      this.addMarker({ lngLat : { lng, lat } })
     });
 
-    this.map.addControl(this.geoLocation);
 
-    this.map.addControl(this.geoCoder);
+    this.map.on('load', () => {
+      this.map.addSource('polygon', this.createGeoJSONCircle([-83.667257, 9.323398], 10));
 
-    this.map.on('click', this.addMarker);
-  }
-
-  // static getDerivedStateFromProps(props, state) {
-  //   console.log(props);
-  // }
-
-  getLocation = () => {
-    this.geoLocation.trigger();
-  };
-
-  coordinateFeature = (lngLat) => {
-    return {
-      center: lngLat,
-      geometry: {
-        type: "Point",
-        coordinates: lngLat,
-      },
-      place_name: 'Lat: ' + lngLat.lat + ', Lng: ' + lngLat.lng, // eslint-disable-line camelcase
-      place_type: ['coordinate'], // eslint-disable-line camelcase
-      properties: {},
-      type: 'Feature'
-    };
-  }
-
-  addMarker = (e) => {
-    console.log(e)
-
-    console.log(this.geoCoder)
-
-    this.geoCoder.mapboxClient
-      .reverseGeocode({
-        query: [-95.4431142, 33.6875431],
-        limit: 2
-      })
-      .send()
-      .then(response => {
-        // match is a GeoJSON document with geocoding matches
-        const match = response.body;
-        console.log(response);
+      this.map.addLayer({
+        id: 'polygon',
+        type: 'fill',
+        source: 'polygon',
+        layout: {},
+        paint: {
+          'fill-color': 'blue',
+          'fill-opacity': 0.1
+        }
       });
 
-    const { lngLat } = e;
+      // this.geoCoder = new MapboxGeocoder({
+      //   accessToken: mapboxgl.accessToken
+      // });
 
+      // this.map.addControl(this.geoCoder);
+
+      this.map.on('click', 'polygon', this.addMarker);
+      this.map.on('mouseleave', 'polygon', this.outsideCircle);
+      this.map.on('click', this.handleMapClick);
+
+      this.map.addControl(geoLocation);
+
+      this.setState({ geoLocation });
+    })
+  }
+
+  outsideCircle = () => {
+   this.setState({outside : true});
+  }
+
+  getLocation = () => {
+    this.state.geoLocation.trigger();
+  };
+
+  handleMapClick = () => {
+    if (this.state.outside) {
+      console.log('outside delivery zone')
+    }
+  }
+
+  createGeoJSONCircle = (center, radiusInKm, points) => {
+    if(!points) points = 64;
+
+    const coords = {
+      latitude  : center[1],
+      longitude : center[0]
+    };
+
+    const km = radiusInKm;
+
+    const ret = [];
+    const distanceX = km / (111.320 * Math.cos(coords.latitude * Math.PI / 180));
+    const distanceY = km / 110.574;
+
+    let theta, x, y;
+    for(let i=0; i<points; i++) {
+      theta = (i/points)*(2*Math.PI);
+      x = distanceX*Math.cos(theta);
+      y = distanceY*Math.sin(theta);
+
+      ret.push([coords.longitude+x, coords.latitude+y]);
+    }
+    ret.push(ret[0]);
+
+    return {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [{
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: [ret]
+          }
+        }]
+      }
+    };
+  };
+
+  addMarker = (e) => {
+    const { lngLat } = e;
     if (this.state.marker) {
-      this.state.marker.setLngLat([lngLat.lng, lngLat.lat])
+      this.state.marker.setLngLat([lngLat.lng, lngLat.lat]);
+      this.setState({ outside: false });
     } else {
       const marker = new mapboxgl.Marker()
         .setLngLat([lngLat.lng, lngLat.lat])
         .addTo(this.map);
-      this.setState({ marker });
+      this.setState({ marker, outside: false });
     }
   };
 
   render () {
-    const { classes, reducers : { restaurant } } = this.props;
+    const { classes, reducers } = this.props;
     return (
       <div className={ classes.root }>
         <div ref={this.mapContainer} className={classes.map} />
-        <button onClick={this.getLocation}>Mi Direccion</button>
+        <Button variant='raised' color='primary' onClick={this.getLocation} fullWidth={true}>
+          <LocationIcon />
+          Compartir mi ubicacion
+        </Button>
       </div>
     )
   }
