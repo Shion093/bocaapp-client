@@ -8,11 +8,13 @@ import { CLEAR_CART, GET_CART } from './cart';
 
 export const ORDER_CREATED = createAction('ORDER_CREATED');
 export const GET_USER_ORDERS = createAction('GET_USER_ORDERS');
+export const SET_ORDER_LOCATION = createAction('SET_ORDER_LOCATION');
 
 export const initialState = I.from({
   order  : {},
   loader : false,
   orders : [],
+  location: {},
 });
 
 export function createOrder () {
@@ -55,11 +57,20 @@ export function reOrder (orderId) {
   }
 }
 
+export function setOrderLocation (location) {
+  return (dispatch) => {
+    dispatch(SET_ORDER_LOCATION(location));
+  }
+}
+
 export default handleActions({
   ORDER_CREATED : (state, action) => {
     return I.merge(state, { order : action.payload });
   },
   GET_USER_ORDERS: (state, action) => {
     return I.merge(state, { orders : action.payload });
-  }
+  },
+  SET_ORDER_LOCATION: (state, action) => {
+    return I.set(state, 'location', action.payload);
+  },
 }, initialState)

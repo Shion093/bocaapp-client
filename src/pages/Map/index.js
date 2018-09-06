@@ -24,7 +24,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      changePage : () => push('/menu')
+      changePage : () => push('/direccion')
     }, dispatch),
   };
 }
@@ -167,6 +167,9 @@ class Map extends Component {
     const { classes, reducers } = this.props;
     return (
       <div className={ classes.root }>
+        <Button disabled={!this.state.marker} variant='raised' color='primary' onClick={ this.props.actions.changePage } fullWidth={ true }>
+         Continuar
+        </Button>
         <div ref={ this.mapContainer } className={ classes.map }/>
         <Button variant='raised' color='primary' onClick={ this.getLocation } fullWidth={ true }>
           <LocationIcon/>

@@ -6,7 +6,7 @@ const styles = theme => ({
   },
   map: {
     width: '100%',
-    height: window.innerHeight - 110,
+    height: window.innerHeight - 150,
   }
 });
 
