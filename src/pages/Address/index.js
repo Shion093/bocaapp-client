@@ -43,6 +43,7 @@ class Address extends Component {
             if (!values.address) {
               errors.address = 'Direccion Requerida'
             }
+            return errors;
           },
           onSubmit : (values, { setSubmitting, setErrors}) => {
             console.log(values);
@@ -70,9 +71,31 @@ class Address extends Component {
                 multiline
                 rows="4"
               />
-              <Button type="submit" variant='raised' color='primary' fullWidth={ true }>
-                Continuar
-              </Button>
+              <TextField
+                id="references"
+                label="Puntos de referencias"
+                name="references"
+                value={values.references}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                margin="normal"
+                fullWidth
+              />
+              <TextField
+                id="color"
+                label="casa color"
+                name="color"
+                value={values.color}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                margin="normal"
+                fullWidth
+              />
+              <div className={classes.buttonCont}>
+                <Button type="submit" variant='raised' color='primary' fullWidth={ true }>
+                  Continuar
+                </Button>
+              </div>
             </form>
           )
         }}>

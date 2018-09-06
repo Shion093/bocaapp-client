@@ -167,14 +167,16 @@ class Map extends Component {
     const { classes, reducers } = this.props;
     return (
       <div className={ classes.root }>
-        <Button disabled={!this.state.marker} variant='raised' color='primary' onClick={ this.props.actions.changePage } fullWidth={ true }>
-         Continuar
-        </Button>
         <div ref={ this.mapContainer } className={ classes.map }/>
-        <Button variant='raised' color='primary' onClick={ this.getLocation } fullWidth={ true }>
-          <LocationIcon/>
-          Compartir mi ubicacion
-        </Button>
+        <div className={classes.buttonContainer}>
+          <Button className={classes.button} variant='raised' color='default' onClick={ this.getLocation } fullWidth={ true }>
+            <LocationIcon/>
+            Compartir mi ubicacion
+          </Button>
+          <Button className={classes.button} disabled={!this.state.marker} variant='raised' color='primary' onClick={ this.props.actions.changePage } fullWidth={ true }>
+            Continuar
+          </Button>
+        </div>
       </div>
     )
   }

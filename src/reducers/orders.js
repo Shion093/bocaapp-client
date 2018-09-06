@@ -15,6 +15,7 @@ export const initialState = I.from({
   loader : false,
   orders : [],
   location: {},
+  address: {},
 });
 
 export function createOrder () {
