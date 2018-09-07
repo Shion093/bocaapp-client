@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
 // Material UI
 import Button from '@material-ui/core/Button';
 import LocationIcon from '@material-ui/icons/LocationSearching';
+import { withStyles } from '@material-ui/core';
 
 // Reducers
-import { withStyles } from '@material-ui/core';
+import { setOrderLocation } from '../../reducers/orders';
+
 import styles from './styles';
-import markerImg from './marker.png';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
@@ -24,6 +23,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
+      setOrderLocation,
       changePage : () => push('/direccion')
     }, dispatch),
   };
@@ -66,7 +66,6 @@ class Map extends Component {
       this.addMarker({ lngLat : { lng, lat } })
     });
 
-
     this.map.on('load', () => {
       this.map.addSource('polygon', this.createGeoJSONCircle([-83.667257, 9.323398], 10));
 
@@ -80,12 +79,6 @@ class Map extends Component {
           'fill-opacity' : 0.1
         }
       });
-
-      // this.geoCoder = new MapboxGeocoder({
-      //   accessToken: mapboxgl.accessToken
-      // });
-
-      // this.map.addControl(this.geoCoder);
 
       this.map.on('click', 'polygon', this.addMarker);
       this.map.on('mouseleave', 'polygon', this.outsideCircle);
@@ -163,17 +156,29 @@ class Map extends Component {
     }
   };
 
+  setMarker = () => {
+    this.props.actions.changePage();
+    this.props.actions.setOrderLocation(this.state.marker._lngLat);
+  };
+
   render () {
-    const { classes, reducers } = this.props;
+    const { classes } = this.props;
     return (
       <div className={ classes.root }>
         <div ref={ this.mapContainer } className={ classes.map }/>
         <div className={classes.buttonContainer}>
-          <Button className={classes.button} variant='raised' color='default' onClick={ this.getLocation } fullWidth={ true }>
+          <Button variant='raised' color='default' onClick={ this.getLocation } fullWidth={ true }>
             <LocationIcon/>
             Compartir mi ubicacion
           </Button>
-          <Button className={classes.button} disabled={!this.state.marker} variant='raised' color='primary' onClick={ this.props.actions.changePage } fullWidth={ true }>
+          <Button { ...{
+            className : classes.button,
+            disabled  : !this.state.marker,
+            variant   : 'raised',
+            color     : 'primary',
+            onClick   : this.setMarker,
+            fullWidth : true,
+          } }>
             Continuar
           </Button>
         </div>

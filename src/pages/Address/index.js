@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-// Reducers
-import { createUser } from '../../reducers/users';
-import { loginUser } from '../../reducers/auth';
-import { ButtonBase, Typography, withStyles, TextField, Button } from '@material-ui/core';
 import { Formik } from 'formik';
 
+// Material UI
+import { withStyles, TextField, Button } from '@material-ui/core';
+
+// Reducers
+import { setOrderAddress } from '../../reducers/orders';
 
 import styles from './styles';
 
@@ -19,9 +19,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      createUser,
-      loginUser,
-      changePage: () => push('/menu')
+      setOrderAddress,
+      changePage: () => push('/checkout')
     }, dispatch),
   };
 }
@@ -29,7 +28,7 @@ function mapDispatchToProps (dispatch) {
 class Address extends Component {
 
   render () {
-    const { classes, reducers } = this.props;
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Formik {...{
@@ -45,8 +44,10 @@ class Address extends Component {
             }
             return errors;
           },
-          onSubmit : (values, { setSubmitting, setErrors}) => {
+          onSubmit : (values, { setSubmitting, setErrors }) => {
             console.log(values);
+            this.props.actions.setOrderAddress(values);
+            this.props.actions.changePage();
           },
           render : (
             {
@@ -60,6 +61,8 @@ class Address extends Component {
             }) => (
             <form onSubmit={handleSubmit} className={classes.form}>
               <TextField
+                error={!!errors.address}
+                helperText={!!errors.address && errors.address}
                 id="address"
                 label="Direccion exacta"
                 name="address"
@@ -83,7 +86,7 @@ class Address extends Component {
               />
               <TextField
                 id="color"
-                label="casa color"
+                label="Casa color"
                 name="color"
                 value={values.color}
                 onChange={handleChange}
@@ -99,7 +102,6 @@ class Address extends Component {
             </form>
           )
         }}>
-
         </Formik>
       </div>
     )
