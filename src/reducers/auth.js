@@ -38,7 +38,7 @@ export function loginUser (values) {
 
 export default handleActions({
   USER_LOGGED : (state, action) => {
-    return I.merge(state, { user : action.payload });
+    return I.merge(state, { currentUser : action.payload });
   },
   SET_LOGIN : (state, action) => {
     return I.merge(state, { isLogin : action.payload });
