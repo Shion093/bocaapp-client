@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Reducers
-import { createUser } from '../../reducers/users';
+import { createUser, validateEmail } from '../../reducers/users';
 import { loginUser } from '../../reducers/auth';
 import { ButtonBase, Typography, withStyles } from '@material-ui/core';
 
@@ -22,6 +22,7 @@ function mapDispatchToProps (dispatch) {
     actions : bindActionCreators({
       createUser,
       loginUser,
+      validateEmail,
       changePage: () => push('/menu')
     }, dispatch),
   };
@@ -39,6 +40,11 @@ class Home extends Component {
     this.props.actions.loginUser(values);
   };
 
+  validateUserEmail = (email) => {
+    console.log(email, 'test');
+    this.props.actions.validateEmail(email)
+  }
+
   render () {
     const { classes, reducers } = this.props;
     return (
@@ -46,7 +52,11 @@ class Home extends Component {
         {
           reducers.auth.isLogin
             ? <LoginForm { ...{ onSubmit : this.handleLogin } } />
-            : <CreateUserForm { ...{ onSubmit : this.handleSubmit } } />
+            : <CreateUserForm { ...{
+              onSubmit : this.handleSubmit,
+              validateEmail: this.validateUserEmail,
+              userExist: reducers.users.userExist,
+            } } />
 
         }
       </div>
