@@ -9,8 +9,15 @@ import 'moment/locale/es.js';
 // Reducers
 import { getUserOrders, reOrder } from '../../reducers/orders';
 import {
-  Button, Divider, ExpansionPanel, ExpansionPanelActions, ExpansionPanelDetails, ExpansionPanelSummary, Grow,
-  Typography, withStyles,
+  Button,
+  Divider,
+  ExpansionPanel,
+  ExpansionPanelActions,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+  Grow,
+  Typography,
+  withStyles,
 } from '@material-ui/core';
 
 // Icons
@@ -57,7 +64,7 @@ class Orders extends Component {
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
-          <div className={classNames(classes.columnPanel, classes.helper)}>
+          <div className={classNames(classes.products, classes.helper)}>
             {
               _.map(order.products, (product) => {
                 return (
@@ -68,12 +75,10 @@ class Orders extends Component {
               })
             }
           </div>
-          <div className={classes.columnSmall}>
+          <div className={classes.total}>
             <Typography variant="body1">
               Estado: {order.status}
             </Typography>
-          </div>
-          <div className={classes.columnSmall}>
             <Typography variant="body2">
               Total {formatPrice(order.total || 0)}
             </Typography>
