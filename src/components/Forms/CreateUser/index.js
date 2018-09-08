@@ -13,6 +13,7 @@ const validate = values => {
     'lastName',
     'email',
     'password',
+    'phoneNumber'
   ]
   requiredFields.forEach(field => {
     if (!values[field]) {
@@ -40,6 +41,9 @@ const CreateUserForm = props => {
       </div>
       <div>
         <Field name="email" component={TextBox} label="Email" />
+      </div>
+      <div>
+        <Field name="phoneNumber" component={TextBox} label="Número de telefono" />
       </div>
       <div>
         <Field name="password" component={TextBox} label="Contraseña" type='password' />
