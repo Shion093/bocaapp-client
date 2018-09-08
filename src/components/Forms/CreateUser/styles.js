@@ -9,6 +9,9 @@ const styles = theme => ({
     marginRight : theme.spacing.unit,
     width       : 200,
   },
+  form: {
+    width : '93%',
+  },
   menu      : {
     width : 200,
   },

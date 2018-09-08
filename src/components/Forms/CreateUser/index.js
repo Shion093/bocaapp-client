@@ -1,60 +1,143 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { MenuItem, Checkbox, TextField, Button, withStyles } from '@material-ui/core';
+import { reduxForm } from 'redux-form'
+import { Formik } from 'formik';
+import { TextField, Button, withStyles } from '@material-ui/core';
 // import asyncValidate from './asyncValidate'
 
 import styles from './styles';
 import TextBox from '../../Common/TextBox';
 
-const validate = values => {
-  const errors = {}
-  const requiredFields = [
-    'firstName',
-    'lastName',
-    'email',
-    'password',
-  ]
-  requiredFields.forEach(field => {
-    if (!values[field]) {
-      errors[field] = 'Requerido'
-    }
-  })
-  if (
-    values.email &&
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-  ) {
-    errors.email = 'Email invalido'
-  }
-  return errors
-};
-
 const CreateUserForm = props => {
-  const { handleSubmit, pristine, submitting, classes } = props;
+  const { onSubmit, pristine, submitting, classes, validateEmail, userExist } = props;
   return (
-    <form onSubmit={handleSubmit} className={classes.container}>
-      <div>
-        <Field name="firstName" component={TextBox} label="Nombre" />
-      </div>
-      <div>
-        <Field name="lastName" component={TextBox} label="Apellido"/>
-      </div>
-      <div>
-        <Field name="email" component={TextBox} label="Email" />
-      </div>
-      <div>
-        <Field name="password" component={TextBox} label="Contraseña" type='password' />
-      </div>
-      <div>
-        <Button type="submit" fullWidth={true} variant={'raised'} disabled={pristine || submitting}>
-          Submit
-        </Button>
-      </div>
-    </form>
+    <Formik {...{
+      initialValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        phoneNumber: '',
+      },
+      validate: (values) => {
+        let errors = {};
+        const requiredFields = [
+          'firstName',
+          'lastName',
+          'email',
+          'password',
+          'phoneNumber'
+        ]
+        requiredFields.forEach(field => {
+          if (!values[field]) {
+            errors[field] = 'Requerido'
+          }
+        })
+        if (
+          values.email &&
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+        ) {
+          errors.email = 'Email invalido'
+        }
+        if (
+          values.email &&
+          /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+        ) {
+          validateEmail(values.email);
+        }
+        if (userExist) {
+          errors.email = 'Email en uso';
+        }
+        console.log(userExist);
+        return errors;
+      },
+      onSubmit : (values, { setSubmitting, setErrors }) => {
+        console.log(values, 'es este');
+        onSubmit(values);
+      },
+      render : (
+        {
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+        <form onSubmit={handleSubmit} className={classes.form}>
+          <TextField
+            error={!!errors.firstName}
+            helperText={!!errors.firstName && errors.firstName}
+            id="firstName"
+            label="Nombre"
+            name="firstName"
+            value={values.firstName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            error={!!errors.lastName}
+            helperText={!!errors.lastName && errors.lastName}
+            id="lastName"
+            label="Apellido"
+            name="lastName"
+            value={values.lastName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            error={!!errors.email}
+            helperText={!!errors.email && errors.email}
+            id="email"
+            label="Email"
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            error={!!errors.phoneNumber}
+            helperText={!!errors.phoneNumber && errors.phoneNumber}
+            id="phoneNumber"
+            label="Número de teléfono"
+            name="phoneNumber"
+            value={values.phoneNumber}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            error={!!errors.password}
+            helperText={!!errors.password && errors.password}
+            id="password"
+            label="Contraseña"
+            name="password"
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            margin="normal"
+            fullWidth
+            type="password"
+          />
+          <div className={classes.buttonCont}>
+          <Button type="submit" fullWidth={true} variant={'raised'} disabled={isSubmitting}>
+            Crear usuario
+          </Button>
+          </div>
+        </form>
+      )
+    }}>
+    </Formik>
   )
 }
 
 export default reduxForm({
   form : 'createUserForm', // a unique identifier for this form
-  validate,
-  // asyncValidate
 })(withStyles(styles)(CreateUserForm))
