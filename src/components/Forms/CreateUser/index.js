@@ -1,11 +1,8 @@
 import React from 'react'
-import { reduxForm } from 'redux-form'
 import { Formik } from 'formik';
 import { TextField, Button, withStyles } from '@material-ui/core';
-// import asyncValidate from './asyncValidate'
 
 import styles from './styles';
-import TextBox from '../../Common/TextBox';
 
 const CreateUserForm = props => {
   const { onSubmit, pristine, submitting, classes, validateEmail, userExist } = props;
@@ -90,24 +87,24 @@ const CreateUserForm = props => {
             fullWidth
           />
           <TextField
-            error={!!errors.email}
-            helperText={!!errors.email && errors.email}
-            id="email"
-            label="Email"
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
             error={!!errors.phoneNumber}
             helperText={!!errors.phoneNumber && errors.phoneNumber}
             id="phoneNumber"
             label="Número de teléfono"
             name="phoneNumber"
             value={values.phoneNumber}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            margin="normal"
+            fullWidth
+          />
+          <TextField
+            error={!!errors.email}
+            helperText={!!errors.email && errors.email}
+            id="email"
+            label="Email"
+            name="email"
+            value={values.email}
             onChange={handleChange}
             onBlur={handleBlur}
             margin="normal"
@@ -138,6 +135,4 @@ const CreateUserForm = props => {
   )
 }
 
-export default reduxForm({
-  form : 'createUserForm', // a unique identifier for this form
-})(withStyles(styles)(CreateUserForm))
+export default withStyles(styles)(CreateUserForm)

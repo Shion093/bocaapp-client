@@ -9,6 +9,7 @@ import axios from '../helpers/axios';
 import { getCart } from './cart';
 
 import { MENU_GET_ALL } from './menus';
+import { checkAuth } from '../helpers/auth';
 export const RESTAURANT_FETCH = createAction('RESTAURANT_FETCH');
 
 export const initialState = I.from({
@@ -17,6 +18,7 @@ export const initialState = I.from({
 
 export function getRestaurant (domain) {
   return async (dispatch) => {
+    const isLogged = checkAuth();
     const domainPart = domain.substr(0, domain.indexOf('.'));
     const replaceDomain = _.includes(domainPart, 'https://') ? 'https://' : 'http://';
     const domainName = _.replace(domainPart, replaceDomain, '');
@@ -24,7 +26,9 @@ export function getRestaurant (domain) {
       const { data } = await axios.get(`restaurant/client/${domainName}`);
       dispatch(RESTAURANT_FETCH(data.restaurant));
       dispatch(MENU_GET_ALL(data.menus));
-      dispatch(getCart());
+      if (isLogged) {
+        dispatch(getCart());
+      }
     } catch (e) {
       console.log(e);
     }
