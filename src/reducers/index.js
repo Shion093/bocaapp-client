@@ -12,6 +12,8 @@ import orders from './orders';
 import restaurant from './restaurant';
 import users from './users';
 import auth from './auth';
+import dialogs from './dialogs';
+import alerts from './alerts';
 
 export default combineReducers({
   routing : routerReducer,
@@ -25,4 +27,6 @@ export default combineReducers({
   restaurant,
   users,
   auth,
+  dialogs,
+  alerts,
 })
