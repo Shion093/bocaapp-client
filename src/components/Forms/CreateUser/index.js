@@ -124,7 +124,7 @@ const CreateUserForm = props => {
             type="password"
           />
           <div className={classes.buttonCont}>
-          <Button type="submit" fullWidth={true} variant={'raised'} disabled={isSubmitting}>
+          <Button type="submit" fullWidth={true} variant={'raised'}>
             Crear usuario
           </Button>
           </div>
