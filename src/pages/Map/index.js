@@ -3,11 +3,13 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import { polygon, point } from '@turf/helpers';
 
 // Material UI
 import Button from '@material-ui/core/Button';
 import LocationIcon from '@material-ui/icons/LocationSearching';
-import { withStyles } from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Reducers
 import { setOrderLocation } from '../../reducers/orders';
@@ -38,8 +40,10 @@ class Map extends Component {
     this.mapContainer = React.createRef();
 
     this.state = {
-      marker      : null,
-      geoLocation : null,
+      marker       : null,
+      geoLocation  : null,
+      outside      : false,
+      deliveryArea : {},
     }
   }
 
@@ -59,13 +63,6 @@ class Map extends Component {
       showUserLocation  : false,
     });
 
-    geoLocation.on('geolocate', (e) => {
-      console.log(e);
-      const lng = e.coords.longitude;
-      const lat = e.coords.latitude;
-      this.addMarker({ lngLat : { lng, lat } })
-    });
-
     this.map.on('load', () => {
       this.map.addSource('polygon', this.createGeoJSONCircle([-83.667257, 9.323398], 10));
 
@@ -80,9 +77,19 @@ class Map extends Component {
         }
       });
 
-      this.map.on('click', 'polygon', this.addMarker);
-      this.map.on('mouseleave', 'polygon', this.outsideCircle);
-      this.map.on('click', this.handleMapClick);
+      const center = this.map.getCenter();
+
+      this.addMarker({ lngLat : { lng : center.lng, lat : center.lat } });
+
+      this.map.on('drag', () => {
+        const { lng, lat } = this.map.getCenter();
+        this.addMarker({ lngLat : { lng, lat } });
+      });
+
+      this.map.on('zoom', () => {
+        const { lng, lat } = this.map.getCenter();
+        this.addMarker({ lngLat : { lng, lat } });
+      });
 
       this.map.addControl(geoLocation);
 
@@ -90,19 +97,9 @@ class Map extends Component {
     })
   }
 
-  outsideCircle = () => {
-    this.setState({ outside : true });
-  }
-
   getLocation = () => {
     this.state.geoLocation.trigger();
   };
-
-  handleMapClick = () => {
-    if (this.state.outside) {
-      console.log('outside delivery zone')
-    }
-  }
 
   createGeoJSONCircle = (center, radiusInKm, points) => {
     if (!points) points = 64;
@@ -128,6 +125,10 @@ class Map extends Component {
     }
     ret.push(ret[0]);
 
+    this.setState({
+      deliveryArea : polygon([ret]),
+    });
+
     return {
       type : 'geojson',
       data : {
@@ -150,9 +151,16 @@ class Map extends Component {
       this.setState({ outside : false });
     } else {
       const marker = new mapboxgl.Marker()
-        .setLngLat([lngLat.lng, lngLat.lat])
+        .setLngLat([-83.667257, 9.323398])
         .addTo(this.map);
       this.setState({ marker, outside : false });
+    }
+
+    const currentPoint = point([lngLat.lng, lngLat.lat]);
+    if (booleanPointInPolygon(currentPoint, this.state.deliveryArea)) {
+      this.setState({ outside : false });
+    } else {
+      this.setState({ outside : true });
     }
   };
 
@@ -166,14 +174,14 @@ class Map extends Component {
     return (
       <div className={ classes.root }>
         <div ref={ this.mapContainer } className={ classes.map }/>
-        <div className={classes.buttonContainer}>
+        <div className={ classes.buttonContainer }>
           <Button variant='raised' color='default' onClick={ this.getLocation } fullWidth={ true }>
             <LocationIcon/>
             Compartir mi ubicacion
           </Button>
           <Button { ...{
             className : classes.button,
-            disabled  : !this.state.marker,
+            disabled  : this.state.outside,
             variant   : 'raised',
             color     : 'primary',
             onClick   : this.setMarker,
