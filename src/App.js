@@ -24,6 +24,7 @@ import ConfirmDialog from './components/Common/ConfirmDialog';
 import FullScreenDialog from './components/Common/FullScreenDialog';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import Alert from './components/Alert';
 
 // Reducers
 import { getCart } from './reducers/cart';
@@ -65,6 +66,7 @@ class App extends Component {
           <TopBar/>
           <SideMenu/>
           <CartMenu/>
+          <Alert />
           <ConfirmDialog {...{
             openDialog: this.props.reducers.dialogs.logOut,
             confirm : this.props.actions.logOut,

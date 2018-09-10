@@ -35,12 +35,20 @@ export function loginUser (values) {
         dispatch(push('/'));
       }
     } catch (e) {
-      console.log(e);
-      console.log(e.message);
-      console.log(e.code);
       console.log(e.response);
       if (e.response.status === 401) {
-        dispatch(handleAlert('loginError'))
+        dispatch(handleAlert({
+          open    : true,
+          message : 'Usuario no existe',
+          variant : 'error',
+        }))
+      }
+      if (e.response.status === 403) {
+        dispatch(handleAlert({
+          open    : true,
+          message : 'Contraseña incorrecta',
+          variant : 'warning',
+        }))
       }
     }
   }

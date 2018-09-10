@@ -2,9 +2,12 @@ import I from 'seamless-immutable';
 import { createAction, handleActions } from 'redux-actions';
 
 export const HANDLE_ALERT = createAction('HANDLE_ALERT');
+export const CLOSE_ALERT = createAction('CLOSE_ALERT');
 
 export const initialState = I.from({
-  loginError: false
+  open    : false,
+  message : '',
+  variant : 'error',
 });
 
 export function handleAlert (dialog) {
@@ -13,8 +16,17 @@ export function handleAlert (dialog) {
   }
 }
 
+export function closeAlert () {
+  return (dispatch) => {
+    dispatch(CLOSE_ALERT())
+  }
+}
+
 export default handleActions({
   HANDLE_ALERT : (state, action) => {
-    return I.set(state, action.payload, !state[action.payload]);
+    return I.merge(state, { ...action.payload });
+  },
+  CLOSE_ALERT  : (state) => {
+    return I.set(state, 'open', false);
   },
 }, initialState)
