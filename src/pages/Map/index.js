@@ -3,12 +3,13 @@ import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
-import * as turf from '@turf/turf';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import { polygon, point } from '@turf/helpers';
 
 // Material UI
 import Button from '@material-ui/core/Button';
 import LocationIcon from '@material-ui/icons/LocationSearching';
-import { withStyles } from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Reducers
 import { setOrderLocation } from '../../reducers/orders';
@@ -125,7 +126,7 @@ class Map extends Component {
     ret.push(ret[0]);
 
     this.setState({
-      deliveryArea : turf.polygon([ret]),
+      deliveryArea : polygon([ret]),
     });
 
     return {
@@ -155,8 +156,8 @@ class Map extends Component {
       this.setState({ marker, outside : false });
     }
 
-    const point = turf.point([lngLat.lng, lngLat.lat]);
-    if (turf.booleanPointInPolygon(point, this.state.deliveryArea)) {
+    const currentPoint = point([lngLat.lng, lngLat.lat]);
+    if (booleanPointInPolygon(currentPoint, this.state.deliveryArea)) {
       this.setState({ outside : false });
     } else {
       this.setState({ outside : true });
