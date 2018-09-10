@@ -23,6 +23,7 @@ export function createOrder () {
   return async (dispatch, getState) => {
     try {
       const { reducers : { auth : { currentUser }, orders: { location, address } }} = getState();
+      console.log(address);
       const { data } = await axios.post('orders/create', { userId : currentUser._id, location, address });
       console.log(data);
       dispatch(ORDER_CREATED(data));
