@@ -21,7 +21,7 @@ export const initialState = I.from({
   isLogin     : false,
 });
 
-export function loginUser (values) {
+export function loginUser (values, modal = true) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post('auth/login/user', { ...values });
@@ -30,7 +30,9 @@ export function loginUser (values) {
         localStorage.setItem('refreshToken', data.refreshToken);
         localStorage.setItem('user', JSON.stringify(data.user));
         dispatch(USER_LOGGED(data.user));
-        dispatch(handleDialog('login'));
+        if (modal) {
+          dispatch(handleDialog('login'));
+        }
         dispatch(getCart());
         dispatch(push('/'));
       }

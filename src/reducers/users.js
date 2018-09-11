@@ -1,11 +1,11 @@
 import I from 'seamless-immutable';
 import { createAction, handleActions } from 'redux-actions';
-import { reset } from 'redux-form';
 import _ from 'lodash';
 
 import axios from '../helpers/axios';
 
-import { SET_LOGIN } from './auth';
+import { loginUser, SET_LOGIN } from './auth';
+import { handleDialog } from './dialogs';
 export const USER_CREATED = createAction('USER_CREATED');
 const USER_VALID_EMAIL = createAction('USER_VALID_EMAIL');
 
@@ -27,8 +27,10 @@ export function createUser (values) {
     try {
       const { data } = await axios.post('users/create', { ...values });
       dispatch(USER_CREATED(data));
-      dispatch(reset('createUserForm'));
       dispatch(SET_LOGIN(true));
+      dispatch(handleDialog('signUp'));
+      dispatch(handleDialog('verification'));
+      dispatch(loginUser(values, false));
     } catch (e) {
       console.log(e);
     }
@@ -39,6 +41,17 @@ export function validateEmail (email) {
   return async (dispatch) => {
     try {
       const { data: { exist } } = await axios.get(`users/validateEmail/${email}`);
+      dispatch(USER_VALID_EMAIL(exist));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
+export function verifyPhone (phone) {
+  return async (dispatch) => {
+    try {
+      const { data: { exist } } = await axios.get(`users/validateEmail/${phone}`);
       dispatch(USER_VALID_EMAIL(exist));
     } catch (e) {
       console.log(e);
