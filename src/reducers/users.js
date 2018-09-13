@@ -4,8 +4,9 @@ import _ from 'lodash';
 
 import axios from '../helpers/axios';
 
-import { loginUser, SET_LOGIN } from './auth';
+import { loginUser, SET_LOGIN, userActivated } from './auth';
 import { handleDialog } from './dialogs';
+import { handleAlert } from './alerts';
 export const USER_CREATED = createAction('USER_CREATED');
 const USER_VALID_EMAIL = createAction('USER_VALID_EMAIL');
 
@@ -48,11 +49,26 @@ export function validateEmail (email) {
   }
 }
 
-export function verifyPhone (phone) {
+export function verifyPhone (code) {
   return async (dispatch) => {
     try {
-      const { data: { exist } } = await axios.get(`users/validateEmail/${phone}`);
-      dispatch(USER_VALID_EMAIL(exist));
+      const { data: { confirmed } } = await axios.post('users/verify', code);
+      console.log(confirmed);
+      if (confirmed) {
+        dispatch(handleAlert({
+          open    : true,
+          variant : 'success',
+          message : 'Numero verificado correctamente',
+        }));
+        dispatch(userActivated());
+        dispatch(handleDialog('verification'));
+      } else {
+        dispatch(handleAlert({
+          open    : true,
+          variant : 'error',
+          message : 'Codigo invalido',
+        }));
+      }
     } catch (e) {
       console.log(e);
     }

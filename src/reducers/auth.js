@@ -11,6 +11,7 @@ import { handleAlert } from './alerts';
 
 export const USER_LOGGED = createAction('USER_LOGGED');
 export const SET_LOGIN = createAction('SET_LOGIN');
+export const USER_ACTIVATED = createAction('USER_ACTIVATED');
 
 const localUser = localStorage.getItem('user');
 
@@ -72,8 +73,20 @@ export function logOut () {
   }
 }
 
+export function userActivated () {
+  return (dispatch, getState) => {
+    const { reducers : { auth : { currentUser } } } = getState();
+    const user = I.set(currentUser, 'isActive', true);
+    localStorage.setItem('user', JSON.stringify(user));
+    dispatch(USER_ACTIVATED(user));
+  }
+}
+
 export default handleActions({
   USER_LOGGED : (state, action) => {
+    return I.merge(state, { currentUser : action.payload });
+  },
+  USER_ACTIVATED : (state, action) => {
     return I.merge(state, { currentUser : action.payload });
   },
   SET_LOGIN   : (state, action) => {

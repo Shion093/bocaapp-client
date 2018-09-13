@@ -11,7 +11,7 @@ const styles = theme => ({
   },
   form      : {
     width : '100%',
-    padding: 40,
+    padding: 20,
   },
   buttonCont: {
     width: 'calc(100% - 40px)',

@@ -52,14 +52,11 @@ class Alert extends Component {
   };
 
   render () {
-    const { reducers : { alerts : { open, variant, message } }, classes } = this.props;
+    const { reducers : { alerts : { open, variant, message, position } }, classes } = this.props;
     const Icon = variantIcon[variant];
     return (
       <Snackbar
-        anchorOrigin={ {
-          vertical   : 'bottom',
-          horizontal : 'left',
-        } }
+        anchorOrigin={ position }
         open={ open }
         autoHideDuration={ 6000 }
         onClose={ this.handleClose }

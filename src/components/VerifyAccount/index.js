@@ -25,7 +25,6 @@ function mapDispatchToProps (dispatch) {
 class VerifyAccount extends Component {
 
   handleVerify = (values) => {
-    console.log(values);
     this.props.actions.verifyPhone(values);
   };
 

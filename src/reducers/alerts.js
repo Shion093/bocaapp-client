@@ -8,6 +8,10 @@ export const initialState = I.from({
   open    : false,
   message : '',
   variant : 'error',
+  position : {
+    vertical: 'bottom',
+    horizontal: 'center',
+  },
 });
 
 export function handleAlert (dialog) {
