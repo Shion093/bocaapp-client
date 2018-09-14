@@ -1,11 +1,26 @@
 import React from 'react'
 import { Formik } from 'formik';
-import { TextField, Button, withStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import withStyles from '@material-ui/core/styles/withStyles';
+import TextField from '@material-ui/core/TextField';
+import * as Yup from 'yup';
 
 import styles from './styles';
 
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Email invalido')
+    .required('Requerido'),
+  password: Yup.string()
+    .min(6, 'Contraseña debe ser mayor a 6 caracteres')
+    .required('Requerido'),
+  firstName: Yup.string().required('Requerido'),
+  lastName: Yup.string().required('Requerido'),
+  phoneNumber: Yup.number().required('Requerido')
+});
+
 const CreateUserForm = props => {
-  const { onSubmit, pristine, submitting, classes, validateEmail, userExist } = props;
+  const { onSubmit, classes, validateEmail, userExist } = props;
   return (
     <Formik {...{
       initialValues: {
@@ -15,36 +30,15 @@ const CreateUserForm = props => {
         password: '',
         phoneNumber: '',
       },
+      validationSchema,
       validate: (values) => {
-        let errors = {};
-        const requiredFields = [
-          'firstName',
-          'lastName',
-          'email',
-          'password',
-          'phoneNumber'
-        ]
-        requiredFields.forEach(field => {
-          if (!values[field]) {
-            errors[field] = 'Requerido'
-          }
-        })
-        if (
-          values.email &&
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-        ) {
-          errors.email = 'Email invalido'
-        }
-        if (
-          values.email &&
-          /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-        ) {
+        const errors = {};
+        if (values.email && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
           validateEmail(values.email);
         }
         if (userExist) {
           errors.email = 'Email en uso';
         }
-        console.log(userExist);
         return errors;
       },
       onSubmit : (values, { setSubmitting, setErrors }) => {
@@ -63,8 +57,13 @@ const CreateUserForm = props => {
         }) => (
         <form onSubmit={handleSubmit} className={classes.form}>
           <TextField
-            error={!!errors.firstName}
-            helperText={!!errors.firstName && errors.firstName}
+            FormHelperTextProps={{
+              classes: {
+                error: classes.error,
+              }
+            }}
+            error={ touched.firstName && !!errors.firstName}
+            helperText={(touched.firstName && !!errors.firstName) && errors.firstName}
             id="firstName"
             label="Nombre"
             name="firstName"
@@ -75,8 +74,13 @@ const CreateUserForm = props => {
             fullWidth
           />
           <TextField
-            error={!!errors.lastName}
-            helperText={!!errors.lastName && errors.lastName}
+            FormHelperTextProps={{
+              classes: {
+                error: classes.error,
+              }
+            }}
+            error={touched.lastName && !!errors.lastName}
+            helperText={(touched.lastName && !!errors.lastName) && errors.lastName}
             id="lastName"
             label="Apellido"
             name="lastName"
@@ -87,8 +91,13 @@ const CreateUserForm = props => {
             fullWidth
           />
           <TextField
-            error={!!errors.phoneNumber}
-            helperText={!!errors.phoneNumber && errors.phoneNumber}
+            FormHelperTextProps={{
+              classes: {
+                error: classes.error,
+              }
+            }}
+            error={touched.phoneNumber && !!errors.phoneNumber}
+            helperText={(touched.phoneNumber && !!errors.phoneNumber) && errors.phoneNumber}
             id="phoneNumber"
             label="Número de teléfono"
             name="phoneNumber"
@@ -99,8 +108,14 @@ const CreateUserForm = props => {
             fullWidth
           />
           <TextField
-            error={!!errors.email}
-            helperText={!!errors.email && errors.email}
+            FormHelperTextProps={{
+              classes: {
+                error: classes.error,
+              }
+            }}
+            className={classes.textField}
+            error={touched.email && !!errors.email}
+            helperText={(touched.email && !!errors.email) && errors.email}
             id="email"
             label="Email"
             name="email"
@@ -111,8 +126,13 @@ const CreateUserForm = props => {
             fullWidth
           />
           <TextField
-            error={!!errors.password}
-            helperText={!!errors.password && errors.password}
+            FormHelperTextProps={{
+              classes: {
+                error: classes.error,
+              }
+            }}
+            error={touched.password && !!errors.password}
+            helperText={(touched.password && !!errors.password) && errors.password}
             id="password"
             label="Contraseña"
             name="password"
@@ -123,10 +143,10 @@ const CreateUserForm = props => {
             fullWidth
             type="password"
           />
-          <div className={classes.buttonCont}>
-          <Button type="submit" fullWidth={true} variant={'raised'}>
-            Crear usuario
-          </Button>
+          <div className={ classes.buttonCont }>
+            <Button type="submit" fullWidth={ true } variant={ 'raised' }>
+              Crear usuario
+            </Button>
           </div>
         </form>
       )

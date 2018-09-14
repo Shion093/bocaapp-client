@@ -1,20 +1,25 @@
 const styles = theme => ({
-  container : {
+  container  : {
     display       : 'flex',
     flexWrap      : 'wrap',
     flexDirection : 'column',
   },
-  textField : {
-    marginLeft  : theme.spacing.unit,
-    marginRight : theme.spacing.unit,
-    width       : 200,
+  textField: {
+    marginBottom: 12,
   },
-  form: {
-    width : '93%',
+  form       : {
+    padding : 20,
+    width   : '100%'
   },
-  menu      : {
-    width : 200,
+  buttonCont : {
+    width    : 'calc(100% - 40px)',
+    position : 'absolute',
+    bottom   : 20,
   },
+  error: {
+    position: 'absolute',
+    bottom: -15,
+  }
 });
 
 export default styles;

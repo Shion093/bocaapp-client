@@ -4,11 +4,6 @@ const styles = theme => ({
     flexWrap      : 'wrap',
     flexDirection : 'column',
   },
-  textField : {
-    marginLeft  : theme.spacing.unit,
-    marginRight : theme.spacing.unit,
-    width       : 200,
-  },
   form      : {
     width : '100%',
     padding: 20,
