@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 
 // Icons
 import LocalDiningIcon from '@material-ui/icons/LocalDining';
@@ -10,23 +9,23 @@ import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import LogOutIcon from '@material-ui/icons/ArrowBack';
 import LoginIcon from '@material-ui/icons/ArrowForward';
 import SignUpIcon from '@material-ui/icons/PermIdentity';
+import ConfirmPhoneIcon from '@material-ui/icons/ScreenLockPortrait';
 
 // Material UI
-import {
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
 import { handleDialog } from '../../reducers/dialogs';
+import { checkAuth } from '../../helpers/auth';
 
 import styles from './styles';
-import { checkAuth } from '../../helpers/auth';
 
 function mapStateToProps (state) {
   return state;
@@ -51,7 +50,6 @@ class SideMenu extends Component {
     }
   }
 
-
   goToPage = (page) => () => {
     this.props.actions.changePage(page);
   };
@@ -60,8 +58,12 @@ class SideMenu extends Component {
    this.props.actions.handleDialog(dialog)
   };
 
+  toggleDrawer = () => {
+    this.props.actions.handleDrawer('menuDrawer');
+  };
+
   render() {
-    const { classes, reducers : { drawers } } = this.props;
+    const { classes, reducers : { drawers, auth: { currentUser } } } = this.props;
     const isLogged = checkAuth();
     return (
       <Drawer open={drawers.menuDrawer} onClose={this.toggleDrawer}>
@@ -90,6 +92,15 @@ class SideMenu extends Component {
                   </ListItemIcon>
                   <ListItemText primary="Ordenes" />
                 </ListItem>
+                {
+                  !currentUser.isActive &&
+                  <ListItem button onClick={this.handleDialog('verification')}>
+                    <ListItemIcon>
+                      <ConfirmPhoneIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Confirmar numero" />
+                  </ListItem>
+                }
                 <ListItem button onClick={this.handleDialog('logOut')}>
                   <ListItemIcon>
                     <LogOutIcon />
@@ -119,12 +130,6 @@ class SideMenu extends Component {
         </div>
       </Drawer>
     );
-  }
-
-  toggleDrawer = () => {
-    if (!this.state.openDialog) {
-      this.props.actions.handleDrawer('menuDrawer');
-    }
   }
 }
 

@@ -25,6 +25,7 @@ import FullScreenDialog from './components/Common/FullScreenDialog';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Alert from './components/Alert';
+import VerifyAccount from './components/VerifyAccount';
 
 // Reducers
 import { getCart } from './reducers/cart';
@@ -75,17 +76,21 @@ class App extends Component {
           }}/>
           <FullScreenDialog {...{
             openDialog: this.props.reducers.dialogs.signUp,
-            confirm : this.props.actions.logOut,
             handleClose: this.handleClose('signUp'),
             title: 'Crear Cuenta',
             children: <SignUp />
           }}/>
           <FullScreenDialog {...{
             openDialog: this.props.reducers.dialogs.login,
-            confirm : this.props.actions.logOut,
             handleClose: this.handleClose('login'),
             title: 'Iniciar Sesion',
             children: <Login />
+          }}/>
+          <FullScreenDialog {...{
+            openDialog: this.props.reducers.dialogs.verification,
+            handleClose: this.handleClose('verification'),
+            title: 'Verificar cuenta',
+            children: <VerifyAccount />
           }}/>
           <main className="Main">
             <ConnectedRoute exact path="/" component={ Home }/>
