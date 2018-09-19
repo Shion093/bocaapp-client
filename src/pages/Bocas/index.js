@@ -1,28 +1,21 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash'
+import _ from 'lodash';
+
+// Material UI
+import withStyles from '@material-ui/core/styles/withStyles';
+import Grid from '@material-ui/core/Grid';
+import Grow from '@material-ui/core/Grow';
 
 // Reducers
 import { getAllMenus, getMenuById } from '../../reducers/menus';
 import { getCart, addToCart } from '../../reducers/cart';
-import {
-  withStyles,
-  Grid,
-  Typography,
-  Grow,
-  Card,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Button,
-} from '@material-ui/core';
 
-// Icons
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+// Children
+import ProductItem from './ProductItem';
 
 import styles from './styles';
-import { formatPrice } from '../../helpers/formats';
 
 function mapStateToProps (state) {
   return state;
@@ -46,10 +39,6 @@ class Bocas extends Component {
     }
   }
 
-  handleAddToCart = (item) => () => {
-    this.props.actions.addToCart(item);
-  };
-
   render () {
     const { classes, reducers : { menus : { selectedMenu }} } = this.props;
     return (
@@ -61,37 +50,7 @@ class Bocas extends Component {
               return (
                 <Grow in={!_.isEmpty(selectedMenu.bocas)} key={boca._id} timeout={timeout}>
                   <Grid item xs={12} sm={6} md={3}>
-                    <Card className={classes.card}>
-                      <CardMedia
-                        className={classes.media}
-                        image={boca.picture}
-                        title="Contemplative Reptile"
-                      />
-                      <CardContent>
-                        <div className={classes.titleCont}>
-                          <Typography variant="headline" component="h2">
-                            {boca.name}
-                          </Typography>
-                          <Typography variant="headline" component="h2">
-                            {formatPrice(boca.price)}
-                          </Typography>
-                        </div>
-                        <Typography component="p">
-                          {boca.description}
-                        </Typography>
-                      </CardContent>
-                      <CardActions>
-                        <div className={classes.buttonContainer}>
-                          {/*<Button variant='raised'>*/}
-                            {/*Detalles*/}
-                          {/*</Button>*/}
-                          <Button variant='raised' color="primary" onClick={this.handleAddToCart(boca)} fullWidth={true}>
-                            <AddShoppingCartIcon />
-                            Agregar
-                          </Button>
-                        </div>
-                      </CardActions>
-                    </Card>
+                    <ProductItem item={boca} addToCart={this.props.actions.addToCart}/>
                   </Grid>
                 </Grow>
               )

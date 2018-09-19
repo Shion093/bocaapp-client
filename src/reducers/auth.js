@@ -11,6 +11,7 @@ import { handleAlert } from './alerts';
 
 export const USER_LOGGED = createAction('USER_LOGGED');
 export const SET_LOGIN = createAction('SET_LOGIN');
+export const USER_ACTIVATED = createAction('USER_ACTIVATED');
 
 const localUser = localStorage.getItem('user');
 
@@ -21,7 +22,7 @@ export const initialState = I.from({
   isLogin     : false,
 });
 
-export function loginUser (values) {
+export function loginUser (values, modal = true) {
   return async (dispatch) => {
     try {
       const { data } = await axios.post('auth/login/user', { ...values });
@@ -30,7 +31,9 @@ export function loginUser (values) {
         localStorage.setItem('refreshToken', data.refreshToken);
         localStorage.setItem('user', JSON.stringify(data.user));
         dispatch(USER_LOGGED(data.user));
-        dispatch(handleDialog('login'));
+        if (modal) {
+          dispatch(handleDialog('login'));
+        }
         dispatch(getCart());
         dispatch(push('/'));
       }
@@ -70,8 +73,20 @@ export function logOut () {
   }
 }
 
+export function userActivated () {
+  return (dispatch, getState) => {
+    const { reducers : { auth : { currentUser } } } = getState();
+    const user = I.set(currentUser, 'isActive', true);
+    localStorage.setItem('user', JSON.stringify(user));
+    dispatch(USER_ACTIVATED(user));
+  }
+}
+
 export default handleActions({
   USER_LOGGED : (state, action) => {
+    return I.merge(state, { currentUser : action.payload });
+  },
+  USER_ACTIVATED : (state, action) => {
     return I.merge(state, { currentUser : action.payload });
   },
   SET_LOGIN   : (state, action) => {

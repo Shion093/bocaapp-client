@@ -4,9 +4,10 @@ import { createAction, handleActions } from 'redux-actions';
 export const HANDLE_DIALOG = createAction('HANDLE_DIALOG');
 
 export const initialState = I.from({
-  logOut : false,
-  signUp : false,
-  login  : false,
+  logOut       : false,
+  signUp       : false,
+  login        : false,
+  verification : false,
 });
 
 export function handleDialog (dialog) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import Drawer from '@material-ui/core/Drawer';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -63,7 +63,7 @@ class CartMenu extends Component {
     const tax = formatPrice(cart.tax || 0);
     const total = formatPrice(cart.total || 0);
     return (
-      <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
+      <Drawer classes={{ paper: classes.paper }} anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
         <div tabIndex={0}>
           <div className={classes.list}>
             <List classes={{

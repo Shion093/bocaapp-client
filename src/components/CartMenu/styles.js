@@ -5,6 +5,9 @@ const { height } = dimensions();
 const totalsHeight = 170;
 
 export default {
+  paper: {
+    height: '100%',
+  },
   list      : {
     width : 310,
   },
