@@ -42,7 +42,7 @@ class Map extends Component {
     this.state = {
       marker       : null,
       geoLocation  : null,
-      outside      : false,
+      outside      : true,
       deliveryArea : {},
     }
   }
