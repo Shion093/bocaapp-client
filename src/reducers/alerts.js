@@ -5,13 +5,15 @@ export const HANDLE_ALERT = createAction('HANDLE_ALERT');
 export const CLOSE_ALERT = createAction('CLOSE_ALERT');
 
 export const initialState = I.from({
-  open    : false,
-  message : '',
-  variant : 'error',
-  position : {
-    vertical: 'bottom',
-    horizontal: 'center',
+  open         : false,
+  message      : '',
+  variant      : 'error',
+  position     : {
+    vertical   : 'bottom',
+    horizontal : 'center',
   },
+  login        : false,
+  verification : false,
 });
 
 export function handleAlert (dialog) {
@@ -31,6 +33,6 @@ export default handleActions({
     return I.merge(state, { ...action.payload });
   },
   CLOSE_ALERT  : (state) => {
-    return I.set(state, 'open', false);
+    return I.merge(state, { ...initialState, variant : state.variant });
   },
 }, initialState)

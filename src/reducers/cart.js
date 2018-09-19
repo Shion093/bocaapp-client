@@ -1,8 +1,11 @@
 import I from 'seamless-immutable';
 import { createAction, handleActions } from 'redux-actions';
+import _ from 'lodash';
 
 import axios from '../helpers/axios';
 
+// Reducers
+import { handleAlert } from './alerts';
 export const GET_CART = createAction('GET_CART');
 export const CLEAR_CART = createAction('CLEAR_CART');
 
@@ -29,8 +32,27 @@ export function addToCart (item) {
   return async (dispatch, getState) => {
     try {
       const { reducers : { cart : { cart }, auth : { currentUser } } } = getState();
-      const { data } = await axios.post('cart/add', { item, cartId : cart._id, userId : currentUser._id });
-      dispatch(GET_CART(data));
+      if (currentUser.isActive) {
+        const { data } = await axios.post('cart/add', { item, cartId : cart._id, userId : currentUser._id });
+        dispatch(GET_CART(data));
+      }
+      if (_.isEmpty(currentUser)) {
+        dispatch(handleAlert({
+          open    : true,
+          variant : 'warning',
+          message : 'Debes iniciar sesion para agregar productos al carrito',
+          login   : true,
+        }));
+      }
+      if (!currentUser.isActive && !_.isEmpty(currentUser)) {
+        dispatch(handleAlert({
+          open         : true,
+          variant      : 'warning',
+          message      : 'Debes confirmar tu numero para agregar productos al carrito',
+          verification : true,
+        }));
+      }
+      console.log(currentUser);
     } catch (e) {
       console.log(e);
     }

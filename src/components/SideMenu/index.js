@@ -66,7 +66,7 @@ class SideMenu extends Component {
     const { classes, reducers : { drawers, auth: { currentUser } } } = this.props;
     const isLogged = checkAuth();
     return (
-      <Drawer open={drawers.menuDrawer} onClose={this.toggleDrawer}>
+      <Drawer classes={{ paper: classes.paper }} open={drawers.menuDrawer} onClose={this.toggleDrawer}>
         <div
           tabIndex={0}
           role="button"

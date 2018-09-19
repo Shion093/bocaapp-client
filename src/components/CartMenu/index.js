@@ -63,7 +63,7 @@ class CartMenu extends Component {
     const tax = formatPrice(cart.tax || 0);
     const total = formatPrice(cart.total || 0);
     return (
-      <Drawer anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
+      <Drawer classes={{ paper: classes.paper }} anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
         <div tabIndex={0}>
           <div className={classes.list}>
             <List classes={{

@@ -3,6 +3,15 @@ import { Formik } from 'formik';
 import { TextField, Button, withStyles } from '@material-ui/core';
 
 import styles from './styles';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Email invalido')
+    .required('Requerido'),
+  password: Yup.string()
+    .required('Requerido'),
+});
 
 const Login = props => {
   const { onSubmit, classes } = props;
@@ -12,30 +21,7 @@ const Login = props => {
         email    : '',
         password : '',
       },
-      validate      : (values) => {
-        let errors = {};
-        const requiredFields = [
-          'email',
-          'password',
-        ];
-        requiredFields.forEach(field => {
-          if (!values[field]) {
-            errors[field] = 'Requerido'
-          }
-        });
-        if (
-          values.email &&
-          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-        ) {
-          errors.email = 'Email invalido'
-        }
-        if (
-          values.email &&
-          /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-        ) {
-        }
-        return errors;
-      },
+      validationSchema,
       onSubmit      : (values, { setSubmitting, setErrors }) => {
         console.log(values, 'es este');
         onSubmit(values);
@@ -52,8 +38,8 @@ const Login = props => {
         }) => (
         <form onSubmit={ handleSubmit } className={ classes.form }>
           <TextField
-            error={ !!errors.email }
-            helperText={ !!errors.email && errors.email }
+            error={ touched.email && !!errors.email }
+            helperText={ (touched.email && !!errors.email) && errors.email }
             id="email"
             label="Email"
             name="email"
@@ -64,8 +50,8 @@ const Login = props => {
             fullWidth
           />
           <TextField
-            error={ !!errors.password }
-            helperText={ !!errors.password && errors.password }
+            error={ touched.password && !!errors.password }
+            helperText={ (touched.password && !!errors.password) && errors.password }
             id="password"
             label="Contraseña"
             name="password"

@@ -8,6 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 
 // Icons
 import CloseIcon from '@material-ui/icons/Close';
@@ -18,6 +19,7 @@ import InfoIcon from '@material-ui/icons/Info';
 
 // Reducers
 import { closeAlert } from '../../reducers/alerts';
+import { handleDialog } from '../../reducers/dialogs';
 
 import styles from './styles';
 
@@ -33,6 +35,7 @@ function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       closeAlert,
+      handleDialog,
     }, dispatch),
   };
 }
@@ -51,9 +54,26 @@ class Alert extends Component {
     this.props.actions.closeAlert();
   };
 
+  handleModal = (modal) => () => {
+    this.props.actions.handleDialog(modal);
+  };
+
+  renderAlertButton = (title, dialog) => {
+    return <Button { ...{
+      key     : dialog,
+      color   : 'default',
+      size    : 'small',
+      onClick : this.handleModal(dialog),
+    } } >
+      { title }
+    </Button>;
+  };
+
   render () {
-    const { reducers : { alerts : { open, variant, message, position } }, classes } = this.props;
+    const { reducers : { alerts : { open, variant, message, position, login, verification } }, classes } = this.props;
     const Icon = variantIcon[variant];
+    const loginButton = login && this.renderAlertButton('Iniciar Session', 'login');
+    const verificationButton = verification && this.renderAlertButton('Verificar', 'verification');
     return (
       <Snackbar
         anchorOrigin={ position }
@@ -71,6 +91,8 @@ class Alert extends Component {
             </span>
           }
           action={ [
+            loginButton,
+            verificationButton,
             <IconButton
               key="close"
               aria-label="Close"
