@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { push } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -36,6 +37,7 @@ class Map extends Component {
     super(props);
 
     this.map = null;
+    this.marker = null;
     this.geoLocation = null;
     this.mapContainer = React.createRef();
 
@@ -48,6 +50,16 @@ class Map extends Component {
   }
 
   componentDidMount () {
+
+    this.marker = document.createElement('div');
+
+    ReactDOM.render(
+      React.createElement(
+        this.createMarker,
+      ),
+      this.marker,
+    );
+
     this.map = new mapboxgl.Map({
       container : this.mapContainer.current,
       style     : 'mapbox://styles/mapbox/streets-v9',
@@ -144,14 +156,24 @@ class Map extends Component {
     };
   };
 
+  createMarker = () => {
+    const { classes } = this.props;
+    return (
+      <div className={classes.marker} >
+        <img src="https://s3.amazonaws.com/lo-que-sea/assets/logo.png" alt="marker"/>
+      </div>
+    )
+  }
+
   addMarker = (e) => {
     const { lngLat } = e;
     if (this.state.marker) {
       this.state.marker.setLngLat([lngLat.lng, lngLat.lat]);
       this.setState({ outside : false });
     } else {
-      const marker = new mapboxgl.Marker()
-        .setLngLat([-83.667257, 9.323398])
+      const marker = new mapboxgl.Marker(this.marker, {
+        anchor: 'bottom',
+      }).setLngLat([-83.667257, 9.323398])
         .addTo(this.map);
       this.setState({ marker, outside : false });
     }
