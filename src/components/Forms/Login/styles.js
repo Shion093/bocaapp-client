@@ -1,16 +1,14 @@
 const styles = theme => ({
-  container : {
-    display       : 'flex',
-    flexWrap      : 'wrap',
-    flexDirection : 'column',
+  form       : {
+    padding : 20,
+    width   : '100%'
   },
-  textField : {
-    marginLeft  : theme.spacing.unit,
-    marginRight : theme.spacing.unit,
-    width       : 200,
+  buttonCont: {
+    paddingTop: 20,
   },
-  menu      : {
-    width : 200,
+  error: {
+    position: 'absolute',
+    bottom: -15,
   },
 });
 

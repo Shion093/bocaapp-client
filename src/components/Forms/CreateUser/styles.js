@@ -1,12 +1,4 @@
 const styles = theme => ({
-  container  : {
-    display       : 'flex',
-    flexWrap      : 'wrap',
-    flexDirection : 'column',
-  },
-  textField: {
-    marginBottom: 12,
-  },
   form       : {
     padding : 20,
     width   : '100%'
