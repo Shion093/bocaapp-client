@@ -38,6 +38,11 @@ const Login = props => {
         }) => (
         <form onSubmit={ handleSubmit } className={ classes.form }>
           <TextField
+            FormHelperTextProps={{
+              classes: {
+                error: classes.error,
+              }
+            }}
             error={ touched.email && !!errors.email }
             helperText={ (touched.email && !!errors.email) && errors.email }
             id="email"
@@ -50,6 +55,11 @@ const Login = props => {
             fullWidth
           />
           <TextField
+            FormHelperTextProps={{
+              classes: {
+                error: classes.error,
+              }
+            }}
             error={ touched.password && !!errors.password }
             helperText={ (touched.password && !!errors.password) && errors.password }
             id="password"
@@ -63,7 +73,7 @@ const Login = props => {
             type="password"
           />
           <div className={ classes.buttonCont }>
-            <Button type="submit" fullWidth={ true } variant={ 'raised' }>
+            <Button type="submit" fullWidth={ true } variant={ 'raised' } color={'primary'}>
               Iniciar sesion
             </Button>
           </div>

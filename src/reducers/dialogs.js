@@ -18,6 +18,6 @@ export function handleDialog (dialog) {
 
 export default handleActions({
   HANDLE_DIALOG : (state, action) => {
-    return I.set(state, action.payload, !state[action.payload]);
+    return I.merge(state, { ...initialState, [action.payload] : !state[action.payload] });
   },
 }, initialState)
