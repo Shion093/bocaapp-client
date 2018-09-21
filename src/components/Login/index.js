@@ -42,7 +42,7 @@ class Login extends Component {
   };
 
   openForgotPass = () => {
-    // TODO password handler
+    this.props.actions.handleDialog('forgotPassword');
   };
 
   render () {

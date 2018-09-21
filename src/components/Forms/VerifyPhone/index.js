@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import styles from './styles';
 
 const VerifyPhone = props => {
-  const { onSubmit, classes } = props;
+  const { onSubmit, classes, isPass } = props;
   return (
     <Formik { ...{
       initialValues : {
@@ -26,7 +26,7 @@ const VerifyPhone = props => {
         return errors;
       },
       onSubmit      : (values, { setSubmitting, setErrors }) => {
-        onSubmit(values);
+        onSubmit(values, isPass);
       },
       render        : (
         {
@@ -38,7 +38,7 @@ const VerifyPhone = props => {
           handleSubmit,
           isSubmitting,
         }) => (
-        <form onSubmit={ handleSubmit } className={ classes.form }>
+        <form onSubmit={ handleSubmit } className={ isPass ? classes.formPass : classes.form }>
           <TextField
             error={ !!errors.code }
             helperText={ !!errors.code && errors.code }
@@ -52,7 +52,7 @@ const VerifyPhone = props => {
             fullWidth
           />
           <div className={ classes.buttonCont }>
-            <Button type="submit" fullWidth={ true } variant={ 'raised' }>
+            <Button type="submit" fullWidth={ true } variant={ 'raised' } color={'primary'}>
               Verificar
             </Button>
           </div>

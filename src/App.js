@@ -26,12 +26,14 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Alert from './components/Alert';
 import VerifyAccount from './components/VerifyAccount';
+import ForgotPassword from './components/Forms/ForgotPassword';
 
 // Reducers
 import { getCart } from './reducers/cart';
 import { getRestaurant } from './reducers/restaurant';
 import { logOut } from './reducers/auth';
 import { handleDialog } from './reducers/dialogs';
+import { clearForgotData } from './reducers/users';
 
 const theme = createMuiTheme();
 
@@ -46,6 +48,7 @@ function mapDispatchToProps (dispatch) {
       getRestaurant,
       logOut,
       handleDialog,
+      clearForgotData,
     }, dispatch),
   };
 }
@@ -57,8 +60,11 @@ class App extends Component {
   }
 
   handleClose = (dialog) => () => {
-    this.props.actions.handleDialog(dialog)
-  }
+    this.props.actions.handleDialog(dialog);
+    if (dialog === 'forgotPassword') {
+      this.props.actions.clearForgotData();
+    }
+  };
 
   render () {
     return (
@@ -91,6 +97,12 @@ class App extends Component {
             handleClose: this.handleClose('verification'),
             title: 'Verificar cuenta',
             children: <VerifyAccount />
+          }}/>
+          <FullScreenDialog {...{
+            openDialog: this.props.reducers.dialogs.forgotPassword,
+            handleClose: this.handleClose('forgotPassword'),
+            title: 'Olvido contraseña',
+            children: <ForgotPassword />
           }}/>
           <main className="Main">
             <ConnectedRoute exact path="/" component={ Home }/>
