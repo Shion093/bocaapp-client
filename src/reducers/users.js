@@ -3,6 +3,7 @@ import { createAction, handleActions } from 'redux-actions';
 import _ from 'lodash';
 
 import axios from '../helpers/axios';
+import axiosNoConfig from '../helpers/axiosNoConfig';
 
 import { loginUser, SET_LOGIN, userActivated } from './auth';
 import { handleDialog } from './dialogs';
@@ -11,6 +12,7 @@ import { handleAlert } from './alerts';
 export const USER_CREATED = createAction('USER_CREATED');
 const USER_VALID_EMAIL = createAction('USER_VALID_EMAIL');
 const UPDATE_FORGOT_DATA = createAction('UPDATE_FORGOT_DATA');
+const CLEAR_FORGOT_DATA = createAction('CLEAR_FORGOT_DATA');
 
 export const initialState = I.from({
   create         : {
@@ -119,9 +121,41 @@ export function verifyPhonePass (code) {
   }
 }
 
+export function changePassword ({ password }) {
+  return async (dispatch, getState) => {
+    try {
+      const { reducers : { users : { forgotPassword : { token } } } } = getState();
+      const { data : { changed } } = await axiosNoConfig.post('users/changePass', { password }, { headers : { Authorization : `bearer ${token}`}});
+      if (changed) {
+        dispatch(handleDialog('forgotPassword'));
+        dispatch(CLEAR_FORGOT_DATA());
+        dispatch(handleAlert({
+          open    : true,
+          variant : 'success',
+          message : 'Contraseña cambiada con exito',
+        }));
+      } else {
+        dispatch(handleAlert({
+          open    : true,
+          variant : 'error',
+          message : 'Contraseña no puede ser igual a una usada anteriormente',
+        }));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
 export function handleStepForgot (index) {
   return (dispatch) => {
     dispatch(UPDATE_FORGOT_DATA({ type : 'step', data : index }));
+  }
+}
+
+export function clearForgotData () {
+  return (dispatch) => {
+    dispatch(CLEAR_FORGOT_DATA());
   }
 }
 
@@ -136,4 +170,7 @@ export default handleActions({
     const { type, data } = action.payload;
     return I.setIn(state, ['forgotPassword', type], data);
   },
+  CLEAR_FORGOT_DATA: (state) => {
+    return I.set(state, 'forgotPassword', initialState.forgotPassword);
+  }
 }, initialState)

@@ -52,7 +52,7 @@ const VerifyPhone = props => {
             fullWidth
           />
           <div className={ classes.buttonCont }>
-            <Button type="submit" fullWidth={ true } variant={ 'raised' }>
+            <Button type="submit" fullWidth={ true } variant={ 'raised' } color={'primary'}>
               Verificar
             </Button>
           </div>

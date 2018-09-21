@@ -33,6 +33,7 @@ import { getCart } from './reducers/cart';
 import { getRestaurant } from './reducers/restaurant';
 import { logOut } from './reducers/auth';
 import { handleDialog } from './reducers/dialogs';
+import { clearForgotData } from './reducers/users';
 
 const theme = createMuiTheme();
 
@@ -47,6 +48,7 @@ function mapDispatchToProps (dispatch) {
       getRestaurant,
       logOut,
       handleDialog,
+      clearForgotData,
     }, dispatch),
   };
 }
@@ -58,8 +60,11 @@ class App extends Component {
   }
 
   handleClose = (dialog) => () => {
-    this.props.actions.handleDialog(dialog)
-  }
+    this.props.actions.handleDialog(dialog);
+    if (dialog === 'forgotPassword') {
+      this.props.actions.clearForgotData();
+    }
+  };
 
   render () {
     return (

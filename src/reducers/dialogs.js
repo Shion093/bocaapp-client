@@ -8,7 +8,7 @@ export const initialState = I.from({
   signUp         : false,
   login          : false,
   verification   : false,
-  forgotPassword : true,
+  forgotPassword : false,
 });
 
 export function handleDialog (dialog) {

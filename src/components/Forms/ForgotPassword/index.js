@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 // Reducers
-import { forgotPassword, handleStepForgot, verifyPhonePass } from '../../../reducers/users';
+import { forgotPassword, handleStepForgot, verifyPhonePass, changePassword } from '../../../reducers/users';
 
 import VerifyCodeForm from '../VerifyPhone';
 
@@ -37,6 +37,7 @@ function mapDispatchToProps (dispatch) {
       handleStepForgot,
       verifyPhonePass,
       forgotPassword,
+      changePassword,
       changePage : () => push('/menu')
     }, dispatch),
   };
@@ -48,6 +49,14 @@ const validationSchema = Yup.object().shape({
   email : Yup.string()
     .email('Email invalido')
     .required('Requerido'),
+});
+
+const validationSchemaPass = Yup.object().shape({
+  password : Yup.string()
+    .required('Requerido'),
+  password2: Yup.string()
+    .required('Requerido')
+    .oneOf([Yup.ref('password'), null], 'Contraseñas no coinciden'),
 });
 
 class ForgotPassword extends Component {
@@ -62,6 +71,10 @@ class ForgotPassword extends Component {
 
   handleVerify = (values) => {
     this.props.actions.verifyPhonePass(values);
+  };
+
+  handlePassword = (values) => {
+    this.props.actions.changePassword(values);
   };
 
   emailForm = () => {
@@ -116,6 +129,76 @@ class ForgotPassword extends Component {
       </Formik>
     )
   };
+  passwordForm = () => {
+    const { classes } = this.props;
+    return (
+      <Formik { ...{
+        initialValues : {
+          password : '',
+          password2 : '',
+        },
+        validationSchema: validationSchemaPass,
+        onSubmit      : (values, { setSubmitting, setErrors }) => {
+          console.log(values, 'es este');
+          // onSubmit(values);
+          this.handlePassword(values);
+        },
+        render        : (
+          {
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+          <form onSubmit={ handleSubmit } className={ classes.form }>
+            <TextField
+              FormHelperTextProps={ {
+                classes : {
+                  error : classes.error,
+                }
+              } }
+              error={ touched.password && !!errors.password }
+              helperText={ (touched.password && !!errors.password) && errors.password }
+              id="password"
+              label="Nueva contraseña"
+              name="password"
+              value={ values.password }
+              onChange={ handleChange }
+              onBlur={ handleBlur }
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              FormHelperTextProps={ {
+                classes : {
+                  error : classes.error,
+                }
+              } }
+              error={ touched.password2 && !!errors.password2 }
+              helperText={ (touched.password2 && !!errors.password2) && errors.password2 }
+              id="password2"
+              label="Repita su nueva contraseña"
+              name="password2"
+              value={ values.password2 }
+              onChange={ handleChange }
+              onBlur={ handleBlur }
+              margin="normal"
+              fullWidth
+            />
+            <div className={ classes.buttonCont }>
+              <Button type="submit" fullWidth={ true } variant={ 'raised' } color={ 'primary' }>
+                Continuar
+              </Button>
+            </div>
+          </form>
+        )
+      } }>
+      </Formik>
+    )
+  };
   codeForm = () => {
     return (
       <VerifyCodeForm { ...{ onSubmit : this.handleVerify, isPass : true } } />
@@ -126,6 +209,7 @@ class ForgotPassword extends Component {
     return {
       0 : this.emailForm(),
       1 : this.codeForm(),
+      2 : this.passwordForm(),
     }[step]
   };
 
