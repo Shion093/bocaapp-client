@@ -26,6 +26,7 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Alert from './components/Alert';
 import VerifyAccount from './components/VerifyAccount';
+import ForgotPassword from './components/Forms/ForgotPassword';
 
 // Reducers
 import { getCart } from './reducers/cart';
@@ -91,6 +92,12 @@ class App extends Component {
             handleClose: this.handleClose('verification'),
             title: 'Verificar cuenta',
             children: <VerifyAccount />
+          }}/>
+          <FullScreenDialog {...{
+            openDialog: this.props.reducers.dialogs.forgotPassword,
+            handleClose: this.handleClose('forgotPassword'),
+            title: 'Olvido contraseña',
+            children: <ForgotPassword />
           }}/>
           <main className="Main">
             <ConnectedRoute exact path="/" component={ Home }/>
