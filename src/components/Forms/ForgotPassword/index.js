@@ -169,6 +169,7 @@ class ForgotPassword extends Component {
               onChange={ handleChange }
               onBlur={ handleBlur }
               margin="normal"
+              type="password"
               fullWidth
             />
             <TextField
@@ -186,6 +187,7 @@ class ForgotPassword extends Component {
               onChange={ handleChange }
               onBlur={ handleBlur }
               margin="normal"
+              type="password"
               fullWidth
             />
             <div className={ classes.buttonCont }>
