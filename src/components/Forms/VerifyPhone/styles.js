@@ -8,6 +8,9 @@ const styles = theme => ({
     width : '100%',
     padding: 20,
   },
+  formPass: {
+    width : '100%',
+  },
   buttonCont: {
     width: 'calc(100% - 40px)',
     position: 'absolute',
