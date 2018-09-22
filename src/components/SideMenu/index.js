@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -19,6 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import withStyles from '@material-ui/core/styles/withStyles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
@@ -66,7 +67,7 @@ class SideMenu extends Component {
     const { classes, reducers : { drawers, auth: { currentUser } } } = this.props;
     const isLogged = checkAuth();
     return (
-      <Drawer classes={{ paper: classes.paper }} open={drawers.menuDrawer} onClose={this.toggleDrawer}>
+      <SwipeableDrawer classes={{ paper: classes.paper }} open={drawers.menuDrawer} onOpen={this.toggleDrawer} onClose={this.toggleDrawer}>
         <div
           tabIndex={0}
           role="button"
@@ -128,7 +129,7 @@ class SideMenu extends Component {
             }
           </div>
         </div>
-      </Drawer>
+      </SwipeableDrawer>
     );
   }
 }

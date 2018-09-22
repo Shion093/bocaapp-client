@@ -21,7 +21,12 @@ const styles = (theme) => ({
   titleCont : {
     display : 'flex',
     justifyContent : 'space-between'
-  }
+  },
+  backButton: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    left: theme.spacing.unit * 2,
+  },
 });
 
 export default styles
