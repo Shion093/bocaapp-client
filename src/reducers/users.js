@@ -66,6 +66,12 @@ export function forgotPassword (email) {
       const { data : { sent } } = await axios.post('users/forgot', email);
       if (sent) {
         dispatch(handleStepForgot(step + 1));
+      } else {
+        dispatch(handleAlert({
+          open    : true,
+          variant : 'error',
+          message : 'usuario no existe',
+        }));
       }
       dispatch(UPDATE_FORGOT_DATA({ type : 'email', data : email.email }));
     } catch (e) {

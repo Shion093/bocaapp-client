@@ -16,6 +16,7 @@
     "@turf/helpers": "^6.1.4",
     "axios": "^0.17.1",
     "classnames": "^2.2.5",
+    "connected-react-router": "^4.4.1",
     "formik": "^1.2.0",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
