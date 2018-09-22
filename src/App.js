@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // import Reboot from '@material-ui/Reboot';
 
@@ -105,15 +106,15 @@ class App extends Component {
             children: <ForgotPassword />
           }}/>
           <main className="Main">
-            <ConnectedRoute exact path="/" component={ Home }/>
-            <ConnectedRoute exact path="/menu" component={ Menu }/>
-            <ConnectedRoute path="/menu/:id" component={ Bocas }/>
-            <ConnectedRoute path="/checkout" component={ Checkout }/>
-            <ConnectedRoute path="/mapa" component={ Map }/>
-            <ConnectedRoute path="/direccion" component={ Address }/>
-            <ConnectedRoute path="/done" component={ Done }/>
-            <ConnectedRoute path="/ordenes" component={ Orders }/>
-            <ConnectedRoute path="/signup" component={ SignUp }/>
+            <Route exact path="/" component={ Home }/>
+            <Route exact path="/menu" component={ Menu }/>
+            <Route path="/menu/:id" component={ Bocas }/>
+            <Route path="/checkout" component={ Checkout }/>
+            <Route path="/mapa" component={ Map }/>
+            <Route path="/direccion" component={ Address }/>
+            <Route path="/done" component={ Done }/>
+            <Route path="/ordenes" component={ Orders }/>
+            <Route path="/signup" component={ SignUp }/>
           </main>
         </MuiThemeProvider>
       </div>

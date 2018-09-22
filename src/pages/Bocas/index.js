@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { goBack } from 'connected-react-router';
+
 
 // Material UI
 import withStyles from '@material-ui/core/styles/withStyles';
 import Grid from '@material-ui/core/Grid';
 import Grow from '@material-ui/core/Grow';
+import Button from '@material-ui/core/Button';
+import Zoom from '@material-ui/core/Zoom';
+
+// Icons
+import BackIcon from '@material-ui/icons/KeyboardBackspace';
+
 
 // Reducers
 import { getAllMenus, getMenuById } from '../../reducers/menus';
@@ -28,6 +36,7 @@ function mapDispatchToProps (dispatch) {
       getMenuById,
       getCart,
       addToCart,
+      goBack : () => dispatch(goBack),
     }, dispatch),
   };
 }
@@ -39,8 +48,16 @@ class Bocas extends Component {
     }
   }
 
+  backButtonHandle = () => {
+    this.props.actions.goBack();
+  };
+
   render () {
-    const { classes, reducers : { menus : { selectedMenu }} } = this.props;
+    const { classes, theme, reducers : { menus : { selectedMenu }} } = this.props;
+    const transitionDuration = {
+      enter: theme.transitions.duration.enteringScreen,
+      exit: theme.transitions.duration.leavingScreen,
+    };
     return (
       <div className={classes.root}>
         <Grid container className={classes.gridList}>
@@ -57,9 +74,21 @@ class Bocas extends Component {
             })
           }
         </Grid>
+        <Zoom
+          style={ {
+            transitionDelay : `${transitionDuration.exit}ms`,
+          } }
+          in={ true }
+          timeout={ transitionDuration }
+          unmountOnExit>
+          <Button variant="fab" className={ classes.backButton } onClick={ this.backButtonHandle }>
+            <BackIcon/>
+          </Button>
+        </Zoom>
+
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Bocas))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(Bocas))
