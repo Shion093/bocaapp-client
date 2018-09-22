@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -57,11 +57,63 @@ class CartMenu extends Component {
     this.props.actions.handleDrawer('cartDrawer');
   };
 
+  renderItems = () => {
+    const { classes, reducers : { cart : { cart } } } = this.props;
+    return  _.map(cart.products, (item) => {
+      const { _id, name, price, picture, qty } = item;
+      const priceFormatted = formatPrice(price);
+      return (
+        <Card className={classes.card} key={_id}>
+          <CardHeader {...{
+            classes   : { title : classes.title },
+            avatar    : <Avatar alt={name} src={picture}/>,
+            title     : name,
+            subheader : priceFormatted,
+          }} />
+          <CardActions className={classes.actions}>
+
+            <IconButton>
+              <RemoveIcon/>
+            </IconButton>
+
+            <Typography component='p' variant='headline'>
+              {qty}
+            </Typography>
+
+            <IconButton>
+              <AddIcon/>
+            </IconButton>
+
+            <IconButton className={classes.remove} onClick={this.handleRemoveItem(_id)}>
+              <DeleteIcon/>
+            </IconButton>
+          </CardActions>
+        </Card>
+      )
+    });
+  };
+
+  renderNoItems = () => {
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.noItems}>
+        <div className={classes.imgCont}>
+          <img src="https://s3.amazonaws.com/lo-que-sea/assets/logo.png" alt="logo-lo-que-sea"/>
+        </div>
+        <Typography variant='title' component='p'>
+          Tu carrito esta vacio
+        </Typography>
+      </div>
+    )
+  };
+
   render () {
     const { classes, reducers : { drawers, cart : { cart } } } = this.props;
     const subTotal = formatPrice(cart.subTotal || 0);
     const tax = formatPrice(cart.tax || 0);
     const total = formatPrice(cart.total || 0);
+    const noItems = _.isEmpty(cart.products);
     return (
       <Drawer classes={{ paper: classes.paper }} anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
         <div tabIndex={0}>
@@ -69,40 +121,7 @@ class CartMenu extends Component {
             <List classes={{
               root : classes.cartList,
             }}>
-              {
-                _.map(cart.products, (item) => {
-                  const { _id, name, price, picture, qty } = item;
-                  const priceFormatted = formatPrice(price);
-                  return (
-                    <Card className={classes.card} key={_id}>
-                      <CardHeader {...{
-                        classes   : { title : classes.title },
-                        avatar    : <Avatar alt={name} src={picture}/>,
-                        title     : name,
-                        subheader : priceFormatted,
-                      }} />
-                      <CardActions className={classes.actions}>
-
-                        <IconButton>
-                          <RemoveIcon/>
-                        </IconButton>
-
-                        <Typography component='p' variant='headline'>
-                          {qty}
-                        </Typography>
-
-                        <IconButton>
-                          <AddIcon/>
-                        </IconButton>
-
-                        <IconButton className={classes.remove} onClick={this.handleRemoveItem(_id)}>
-                          <DeleteIcon/>
-                        </IconButton>
-                      </CardActions>
-                    </Card>
-                  )
-                })
-              }
+              { noItems ? this.renderNoItems() : this.renderItems() }
             </List>
           </div>
           <div className={classes.totals}>
@@ -138,6 +157,7 @@ class CartMenu extends Component {
                   variant   : 'raised',
                   size      : 'small',
                   fullWidth : true,
+                  disabled  : noItems,
                 }}>
                   <DoneIcon/>
                   Ordenar

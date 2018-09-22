@@ -5,49 +5,63 @@ const { height } = dimensions();
 const totalsHeight = 170;
 
 export default {
-  paper: {
-    height: '100%',
+  paper        : {
+    height : '100%',
   },
-  list      : {
+  list         : {
     width : 310,
   },
-  card      : {
+  card         : {
     marginTop    : 5,
     marginBottom : 5,
   },
-  actions   : {
+  actions      : {
     display : 'flex',
   },
-  remove    : {
+  remove       : {
     marginLeft : 'auto',
   },
-  title     : {
+  title        : {
     fontSize : '20px',
   },
-  cartList  : {
-    overflowY  : 'auto',
-    height     : height - totalsHeight,
+  cartList     : {
+    overflowY : 'auto',
+    height    : height - totalsHeight,
   },
-  totals    : {
+  totals       : {
     position : 'absolute',
-    height : totalsHeight,
-    bottom: 0,
-    right:0,
+    height   : totalsHeight,
+    bottom   : 0,
+    right    : 0,
   },
   totalDetails : {
     height : totalsHeight,
     width  : 310,
   },
-  pricesCont : {
-    display: 'flex',
+  pricesCont   : {
+    display        : 'flex',
     justifyContent : 'space-between',
-    padding : '10px 20px',
-    '& p' : {
-      marginBottom:5,
-      marginTop: 5,
+    padding        : '10px 20px',
+    '& p'          : {
+      marginBottom : 5,
+      marginTop    : 5,
     },
   },
-  buttonCont : {
+  buttonCont   : {
     padding : '0px 10px',
+  },
+  noItems      : {
+    display        : 'flex',
+    alignItems     : 'center',
+    justifyContent : 'center',
+    flexDirection  : 'column',
+    height         : '100%',
+    padding        : 20,
+  },
+  imgCont      : {
+    marginBottom : 20,
+    '& img'      : {
+      width : 100,
+    }
   }
 };

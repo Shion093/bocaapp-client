@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';

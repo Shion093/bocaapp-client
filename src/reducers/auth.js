@@ -1,6 +1,6 @@
 import I from 'seamless-immutable';
 import { createAction, handleActions } from 'redux-actions';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 import axios from '../helpers/axios';
 
