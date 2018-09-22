@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -115,7 +116,13 @@ class CartMenu extends Component {
     const total = formatPrice(cart.total || 0);
     const noItems = _.isEmpty(cart.products);
     return (
-      <Drawer classes={{ paper: classes.paper }} anchor='right' open={drawers.cartDrawer} onClose={this.toggleDrawer} variant={'temporary'}>
+      <SwipeableDrawer
+        classes={{ paper: classes.paper }}
+        anchor='right'
+        open={drawers.cartDrawer}
+        onClose={this.toggleDrawer}
+        onOpen={this.toggleDrawer}
+        variant={'temporary'}>
         <div tabIndex={0}>
           <div className={classes.list}>
             <List classes={{
@@ -166,7 +173,7 @@ class CartMenu extends Component {
             </Paper>
           </div>
         </div>
-      </Drawer>
+      </SwipeableDrawer>
     );
   }
 }
