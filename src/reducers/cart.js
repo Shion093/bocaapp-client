@@ -28,12 +28,12 @@ export function getCart () {
   }
 }
 
-export function addToCart (item) {
+export function addToCart (item, add = true) {
   return async (dispatch, getState) => {
     try {
       const { reducers : { cart : { cart }, auth : { currentUser } } } = getState();
       if (currentUser.isActive) {
-        const { data } = await axios.post('cart/add', { item, cartId : cart._id, userId : currentUser._id });
+        const { data } = await axios.post('cart/add', { item, cartId : cart._id, userId : currentUser._id, add });
         dispatch(GET_CART(data));
       }
       if (_.isEmpty(currentUser)) {

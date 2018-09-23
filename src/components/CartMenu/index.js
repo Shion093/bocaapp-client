@@ -24,7 +24,7 @@ import DoneIcon from '@material-ui/icons/Done';
 
 // Reducers
 import { handleDrawer } from '../../reducers/drawers';
-import { removeFromCart } from '../../reducers/cart';
+import { removeFromCart, addToCart } from '../../reducers/cart';
 
 import styles from './styles';
 import { formatPrice } from '../../helpers/formats';
@@ -38,6 +38,7 @@ function mapDispatchToProps (dispatch) {
     actions : bindActionCreators({
       handleDrawer,
       removeFromCart,
+      addToCart,
       changePage : (page) => push(page)
     }, dispatch),
   };
@@ -58,6 +59,10 @@ class CartMenu extends Component {
     this.props.actions.handleDrawer('cartDrawer');
   };
 
+  handleUpdate = (item, add) => () => {
+    this.props.actions.addToCart(item, add);
+  };
+
   renderItems = () => {
     const { classes, reducers : { cart : { cart } } } = this.props;
     return  _.map(cart.products, (item) => {
@@ -73,7 +78,7 @@ class CartMenu extends Component {
           }} />
           <CardActions className={classes.actions}>
 
-            <IconButton>
+            <IconButton onClick={this.handleUpdate(item, false)}>
               <RemoveIcon/>
             </IconButton>
 
@@ -81,7 +86,7 @@ class CartMenu extends Component {
               {qty}
             </Typography>
 
-            <IconButton>
+            <IconButton onClick={this.handleUpdate(item, true)}>
               <AddIcon/>
             </IconButton>
 
@@ -122,6 +127,7 @@ class CartMenu extends Component {
         open={drawers.cartDrawer}
         onClose={this.toggleDrawer}
         onOpen={this.toggleDrawer}
+        swipeAreaWidth={0}
         variant={'temporary'}>
         <div tabIndex={0}>
           <div className={classes.list}>
