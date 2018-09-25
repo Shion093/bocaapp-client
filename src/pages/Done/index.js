@@ -49,21 +49,22 @@ class Done extends Component {
     const { classes, reducers : { orders : { order } } } = this.props;
     console.log(order);
     return (
-      <div className={classes.root}>
-        <Paper elevation={4}>
-          <Typography variant="headline" component="title">
-           Su Orden esta siendo procesada por el restuarante
+      <div className={ classes.root }>
+        <Paper className={ classes.paper } elevation={ 4 }>
+          <Typography variant="headline" component="h3" align="center">
+            Su orden esta siendo procesada
           </Typography>
-          <Typography variant="headline" component="h2">
+          <Typography component="p">
             Muchas gracias por ordenar con nosotros
           </Typography>
-          <Button {...{
+          <div className={ classes.imgCont }>
+            <img src="https://s3.amazonaws.com/lo-que-sea/assets/logo.png" alt="logo-lo-que-sea"/>
+          </div>
+          <Button { ...{
             onClick   : this.goToMenu,
             className : classes.button,
             variant   : 'raised',
-            size      : 'small',
-            fullWidth : true,
-          }}>
+          } }>
             <DoneIcon/>
             Continuar
           </Button>
