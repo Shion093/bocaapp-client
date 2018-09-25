@@ -2,59 +2,35 @@ import dimensions from '../../helpers/dimensions';
 
 const { height } = dimensions();
 
-const processButtonHeight = 70;
-
 const styles = (theme) => ({
-  root               : {
+  root   : {
     display         : 'flex',
     flexWrap        : 'wrap',
-    justifyContent  : 'space-around',
-    overflowX       : 'hidden',
+    justifyContent  : 'center',
+    alignItems      : 'center',
+    flexDirection   : 'column',
     backgroundColor : theme.palette.background.paper,
-    // height: `${window.innerHeight}px - 56px`,
+    height          : `${height - 96}px`,
+    padding         : 20,
   },
-  gridList           : {
-    height    : height - 54 - processButtonHeight,
-    overflowY : 'auto',
-    margin    : 0,
-  },
-  media              : {
-    height : 200,
-  },
-  buttonContainer    : {
+  paper  : {
+    ...theme.mixins.gutters(),
+    paddingTop     : theme.spacing.unit * 2,
+    paddingBottom  : theme.spacing.unit * 2,
     display        : 'flex',
-    justifyContent : 'space-around',
-    width          : '100%',
-    '& button'     : {
-      width : '48%'
-    }
+    position       : 'relative',
+    alignItems     : 'center',
+    flexDirection  : 'column',
+    height         : '100%',
   },
-  titleCont          : {
-    display        : 'flex',
-    justifyContent : 'space-between'
+  imgCont: {
+    paddingTop: 20,
   },
-  // icon     : {
-  //   color : 'rgba(255, 255, 255, 0.54)',
-  // },
-  // image : {
-  //   width : '100%',
-  // },
-  // overlay : {
-  //   width: '100%',
-  //   height: '60%',
-  //   backgroundColor: 'rgba(0, 0, 0, 0.54)',
-  //   position : 'absolute',
-  //   bottom : 0,
-  //   left : 0,
-  // },
-  // textContainer : {
-  //   position : 'absolute',
-  //   bottom : 10,
-  //   left : 10,
-  // },
-  // text : {
-  //   color : 'white',
-  // }
+  button : {
+    position : 'absolute',
+    bottom   : 20,
+    width    : `calc(100% - ${theme.spacing.unit * 2 * 2}px)`
+  },
 });
 
 export default styles
