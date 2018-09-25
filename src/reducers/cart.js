@@ -17,13 +17,15 @@ export const initialState = I.from({
 export function getCart () {
   return async (dispatch, getState) => {
     const { reducers : { restaurant : { restaurant : { _id } }, auth : { currentUser }} } = getState();
-    console.log(currentUser);
     try {
       const { data } = await axios.get(`cart/${currentUser._id}/${_id}`);
-      console.log(data);
       dispatch(GET_CART(data));
     } catch (e) {
-      console.log(e);
+      dispatch(handleAlert({
+        open         : true,
+        variant      : 'error',
+        message      : 'Hubo un error desconocido',
+      }));
     }
   }
 }
@@ -52,9 +54,12 @@ export function addToCart (item, add = true) {
           verification : true,
         }));
       }
-      console.log(currentUser);
     } catch (e) {
-      console.log(e);
+      dispatch(handleAlert({
+        open         : true,
+        variant      : 'error',
+        message      : 'Hubo un error desconocido',
+      }));
     }
   }
 }
@@ -66,10 +71,13 @@ export function removeFromCart (id) {
       const { data } = await axios.post('cart/remove', { itemId : id, cartId : cart._id, userId : currentUser._id });
       dispatch(GET_CART(data));
     } catch (err) {
-
+      dispatch(handleAlert({
+        open         : true,
+        variant      : 'error',
+        message      : 'Hubo un error desconocido',
+      }));
     }
   }
-
 }
 
 export default handleActions({
