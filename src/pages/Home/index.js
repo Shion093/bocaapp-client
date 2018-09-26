@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Reducers
-import { decrement, decrementAsync, increment, incrementAsync } from '../../reducers/counter';
+import { setTopBarTitle } from '../../reducers/drawers';
 import { ButtonBase, Typography, withStyles } from '@material-ui/core';
 
 import image from './breakfast.jpg';
@@ -13,25 +13,34 @@ import styles from './styles';
 import _ from 'lodash';
 
 function mapStateToProps (state) {
-  return state;
+  return {
+    reducers : {
+      restaurant : state.reducers.restaurant,
+    }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      increment,
-      incrementAsync,
-      decrement,
-      decrementAsync,
+      setTopBarTitle,
       changePage : () => push('/menu')
     }, dispatch),
   };
 }
 
 class Home extends Component {
+  componentDidUpdate (prevProps) {
+    const { reducers : { restaurant } } = this.props;
+    if (prevProps.reducers.restaurant.restaurant.name !== restaurant.restaurant.name) {
+      const restaurantName = _.startCase(restaurant.restaurant.name);
+      this.props.actions.setTopBarTitle(restaurantName);
+    }
+  }
+
   render () {
-    const { classes, reducers : { restaurant } } = this.props;
-    const restaurantName = _.startCase(restaurant.restaurant.name);
+    const { classes } = this.props;
+
     return (
       <div className={ classes.root }>
         <ButtonBase

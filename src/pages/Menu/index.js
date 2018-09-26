@@ -3,22 +3,29 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash'
 
+// Material UI
+import Grow from '@material-ui/core/Grow';
+import ButtonBase from '@material-ui/core/ButtonBase';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import withStyles from '@material-ui/core/styles/withStyles';
+
 // Reducers
 import { getAllMenus, selectMenu } from '../../reducers/menus';
 import { getCart } from '../../reducers/cart';
-import {
-  withStyles,
-  Grid,
-  Paper,
-  Typography,
-  ButtonBase,
-  Grow,
-} from '@material-ui/core';
+import { setTopBarTitle } from '../../reducers/drawers';
 
 import styles from './styles';
 
 function mapStateToProps (state) {
-  return state;
+  return {
+    reducers : {
+      menus      : state.reducers.menus,
+      routing    : state.reducers.routing,
+      restaurant : state.reducers.restaurant,
+    }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
@@ -27,13 +34,21 @@ function mapDispatchToProps (dispatch) {
       selectMenu,
       getAllMenus,
       getCart,
+      setTopBarTitle,
     }, dispatch),
   };
 }
 
 class Menu extends Component {
   componentWillMount () {
-    // this.props.actions.getAllMenus();
+    this.props.actions.setTopBarTitle('Categorias');
+  }
+
+  componentDidMount () {
+    const { reducers : { restaurant : { restaurant } } } = this.props;
+    if (restaurant._id) {
+      this.props.actions.getAllMenus(restaurant._id);
+    }
   }
 
   shouldComponentUpdate (nextPros) {
@@ -47,26 +62,26 @@ class Menu extends Component {
   };
 
   render () {
-    const { classes, reducers : { menus : { menus }} } = this.props;
+    const { classes, reducers : { menus : { menus } } } = this.props;
     return (
-      <div className={classes.root}>
-        <Grid container className={classes.gridList}>
+      <div className={ classes.root }>
+        <Grid container direction="column" justify="flex-start" alignItems="center">
           {
             _.map(menus, (menu, i) => {
               const timeout = i === 0 ? 1000 : 1500;
               return (
-                <Grow in={!_.isEmpty(menus)} key={menu._id} timeout={timeout}>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <ButtonBase onClick={this.goToMenuDetail(menu._id)}>
-                      <Paper style={{ position : 'relative'}}>
-                        <img src={menu.picture} alt={menu.name} className={classes.image} />
-                        <div className={classes.overlay}/>
-                        <div className={classes.textContainer}>
-                          <Typography variant='title' className={classes.text} align="left">
-                            {menu.name}
+                <Grow in={ !_.isEmpty(menus) } key={ menu._id } timeout={ timeout }>
+                  <Grid item xs={ 12 } sm={ 6 } md={ 3 }>
+                    <ButtonBase onClick={ this.goToMenuDetail(menu._id) }>
+                      <Paper style={ { position : 'relative' } }>
+                        <img src={ menu.picture } alt={ menu.name } className={ classes.image }/>
+                        <div className={ classes.overlay }/>
+                        <div className={ classes.textContainer }>
+                          <Typography variant='title' className={ classes.text } align="left">
+                            { menu.name }
                           </Typography>
-                          <Typography variant='subheading' className={classes.text}>
-                            {menu.description}
+                          <Typography variant='subheading' className={ classes.text }>
+                            { menu.description }
                           </Typography>
                         </div>
                       </Paper>

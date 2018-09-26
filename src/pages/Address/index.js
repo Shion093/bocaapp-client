@@ -9,6 +9,7 @@ import { withStyles, TextField, Button } from '@material-ui/core';
 
 // Reducers
 import { setOrderAddress } from '../../reducers/orders';
+import { setTopBarTitle } from '../../reducers/drawers';
 
 import styles from './styles';
 
@@ -20,12 +21,17 @@ function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       setOrderAddress,
+      setTopBarTitle,
       changePage: () => push('/checkout')
     }, dispatch),
   };
 }
 
 class Address extends Component {
+
+  componentWillMount () {
+    this.props.actions.setTopBarTitle('Dirección');
+  }
 
   render () {
     const { classes } = this.props;
@@ -34,8 +40,7 @@ class Address extends Component {
         <Formik {...{
           initialValues: {
             address: '',
-            color: '',
-            references: '',
+            detail: '',
           },
           validate: (values) => {
             let errors = {};
@@ -64,7 +69,7 @@ class Address extends Component {
                 error={!!errors.address}
                 helperText={!!errors.address && errors.address}
                 id="address"
-                label="Direccion exacta"
+                label="Dirección exacta"
                 name="address"
                 value={values.address}
                 onChange={handleChange}
@@ -75,24 +80,18 @@ class Address extends Component {
                 rows="4"
               />
               <TextField
-                id="references"
-                label="Puntos de referencias"
-                name="references"
-                value={values.references}
+                error={!!errors.detail}
+                helperText={!!errors.detail && errors.detail}
+                id="detail"
+                label="Detalles sobre la orden"
+                name="detail"
+                value={values.detail}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 margin="normal"
                 fullWidth
-              />
-              <TextField
-                id="color"
-                label="Casa color"
-                name="color"
-                value={values.color}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                margin="normal"
-                fullWidth
+                multiline
+                rows="4"
               />
               <div className={classes.buttonCont}>
                 <Button type="submit" variant='raised' color='primary' fullWidth={ true }>

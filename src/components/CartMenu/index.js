@@ -30,7 +30,12 @@ import styles from './styles';
 import { formatPrice } from '../../helpers/formats';
 
 function mapStateToProps (state) {
-  return state;
+  return {
+    reducers : {
+      cart    : state.reducers.cart,
+      drawers : state.reducers.drawers,
+    }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
@@ -171,6 +176,7 @@ class CartMenu extends Component {
                   size      : 'small',
                   fullWidth : true,
                   disabled  : noItems,
+                  color     : 'primary',
                 }}>
                   <DoneIcon/>
                   Ordenar

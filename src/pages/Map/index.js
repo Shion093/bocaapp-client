@@ -14,6 +14,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 
 // Reducers
 import { setOrderLocation } from '../../reducers/orders';
+import { setTopBarTitle } from '../../reducers/drawers';
 
 import styles from './styles';
 
@@ -27,6 +28,7 @@ function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       setOrderLocation,
+      setTopBarTitle,
       changePage : () => push('/direccion')
     }, dispatch),
   };
@@ -47,6 +49,10 @@ class Map extends Component {
       outside      : true,
       deliveryArea : {},
     }
+  }
+
+  componentWillMount () {
+    this.props.actions.setTopBarTitle('Dirección');
   }
 
   componentDidMount () {

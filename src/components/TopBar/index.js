@@ -13,7 +13,12 @@ import { AppBar, Badge, IconButton, Toolbar, Typography } from '@material-ui/cor
 import styles from './styles';
 
 function mapStateToProps (state) {
-  return state;
+  return {
+    reducers : {
+      cart    : state.reducers.cart,
+      drawers : state.reducers.drawers,
+    }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
@@ -32,8 +37,7 @@ class TopBar extends Component {
   };
 
   render () {
-    const { classes, reducers : { restaurant } } = this.props;
-    const restaurantName = _.startCase(restaurant.restaurant.name);
+    const { classes, reducers : { drawers : { topBarTitle } } } = this.props;
     return (
       <AppBar position="static">
         <Toolbar>
@@ -41,8 +45,11 @@ class TopBar extends Component {
                       onClick={ this.openDrawer('menuDrawer') }>
             <MenuIcon/>
           </IconButton>
-          <Typography variant="title" color="inherit" className={ classes.flex }>
-            BocaApp - { restaurantName }
+          <div className={ classes.logoCont }>
+            <img src="https://s3.amazonaws.com/lo-que-sea/assets/logo.png" alt="logo-lo-que-sea"/>
+          </div>
+          <Typography align="center" variant="title" color="inherit" className={ classes.flex }>
+            { topBarTitle }
           </Typography>
           <IconButton color="inherit" aria-label="Cart" onClick={ this.openDrawer('cartDrawer') }>
             <Badge classes={ {
@@ -57,7 +64,6 @@ class TopBar extends Component {
   }
 
   openDrawer = (drawer) => () => {
-    console.log(drawer)
     this.props.actions.handleDrawer(drawer);
   }
 }

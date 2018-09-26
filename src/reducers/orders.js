@@ -12,17 +12,17 @@ export const SET_ORDER_LOCATION = createAction('SET_ORDER_LOCATION');
 export const SET_ORDER_ADDRESS = createAction('SET_ORDER_ADDRESS');
 
 export const initialState = I.from({
-  order  : {},
-  loader : false,
-  orders : [],
-  location: {},
-  address: {},
+  order    : {},
+  loader   : false,
+  orders   : [],
+  location : {},
+  address  : {},
 });
 
 export function createOrder () {
   return async (dispatch, getState) => {
     try {
-      const { reducers : { auth : { currentUser }, orders: { location, address } }} = getState();
+      const { reducers : { auth : { currentUser }, orders : { location, address } } } = getState();
       const { data } = await axios.post('orders/create', { userId : currentUser._id, location, address });
       console.log(data);
       dispatch(ORDER_CREATED(data));
@@ -37,7 +37,7 @@ export function createOrder () {
 export function getUserOrders () {
   return async (dispatch, getState) => {
     try {
-      const { reducers : { auth : { currentUser }}} = getState();
+      const { reducers : { auth : { currentUser } } } = getState();
       const { data } = await axios.get(`orders/${currentUser._id}`);
       dispatch(GET_USER_ORDERS(data));
     } catch (err) {
@@ -49,7 +49,7 @@ export function getUserOrders () {
 export function reOrder (orderId) {
   return async (dispatch, getState) => {
     try {
-      const { reducers : { auth : { currentUser }}} = getState();
+      const { reducers : { auth : { currentUser } } } = getState();
       const { data } = await axios.post(`orders/reorder`, { orderId, userId : currentUser._id });
       dispatch(GET_CART(data));
       dispatch(push('/mapa'));
@@ -72,16 +72,16 @@ export function setOrderAddress (address) {
 }
 
 export default handleActions({
-  ORDER_CREATED : (state, action) => {
+  ORDER_CREATED      : (state, action) => {
     return I.merge(state, { order : action.payload });
   },
-  GET_USER_ORDERS: (state, action) => {
+  GET_USER_ORDERS    : (state, action) => {
     return I.merge(state, { orders : action.payload });
   },
-  SET_ORDER_LOCATION: (state, action) => {
+  SET_ORDER_LOCATION : (state, action) => {
     return I.set(state, 'location', action.payload);
   },
-  SET_ORDER_ADDRESS: (state, action) => {
+  SET_ORDER_ADDRESS  : (state, action) => {
     return I.set(state, 'address', action.payload);
   },
 }, initialState)

@@ -88,7 +88,8 @@ class ForgotPassword extends Component {
         onSubmit      : (values, { setSubmitting, setErrors }) => {
           console.log(values, 'es este');
           // onSubmit(values);
-          this.handleEmail(values);
+          const email = values.email.toLowerCase();
+          this.handleEmail({ email });
         },
         render        : (
           {
@@ -116,6 +117,7 @@ class ForgotPassword extends Component {
               onChange={ handleChange }
               onBlur={ handleBlur }
               margin="normal"
+              autoCapitalize="none"
               fullWidth
             />
             <div className={ classes.buttonCont }>

@@ -11,5 +11,14 @@ export default {
   },
   badge : {
     right : -20,
+  },
+  logoCont: {
+    position: 'absolute',
+    left: 50,
+    height : 40,
+    paddingRight: 10,
+    '& img' : {
+      height: '100%',
+    }
   }
 };
