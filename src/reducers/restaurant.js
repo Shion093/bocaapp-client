@@ -10,10 +10,43 @@ import { getCart } from './cart';
 
 import { MENU_GET_ALL } from './menus';
 import { checkAuth } from '../helpers/auth';
+
 export const RESTAURANT_FETCH = createAction('RESTAURANT_FETCH');
 
+const theme = {
+  "palette" : {
+    "common"     : { "black" : "#000", "white" : "rgba(255, 255, 255, 1)" },
+    "background" : { "paper" : "rgba(255, 255, 255, 1)", "default" : "#fafafa" },
+    "primary"    : {
+      "light"        : "rgba(184, 233, 134, 1)",
+      "main"         : "rgba(126, 211, 33, 1)",
+      "dark"         : "rgba(65, 117, 5, 1)",
+      "contrastText" : "#fff"
+    },
+    "secondary"  : {
+      "light"        : "rgba(126, 211, 33, 1)",
+      "main"         : "rgba(65, 117, 5, 1)",
+      "dark"         : "rgba(184, 233, 134, 1)",
+      "contrastText" : "#fff"
+    },
+    "error"      : {
+      "light"        : "#e57373",
+      "main"         : "#f44336",
+      "dark"         : "#d32f2f",
+      "contrastText" : "#fff"
+    },
+    "text"       : {
+      "primary"   : "rgba(0, 0, 0, 0.87)",
+      "secondary" : "rgba(0, 0, 0, 0.54)",
+      "disabled"  : "rgba(0, 0, 0, 0.38)",
+      "hint"      : "rgba(0, 0, 0, 0.38)"
+    }
+  }
+};
+
 export const initialState = I.from({
-  restaurant : {},
+  restaurant     : {},
+  theme,
 });
 
 export function getRestaurant (domain) {

@@ -23,6 +23,7 @@ import { formatPrice } from '../../helpers/formats';
 
 // Reducers
 import { createOrder } from '../../reducers/orders';
+import { setTopBarTitle } from '../../reducers/drawers';
 
 import styles from './styles';
 
@@ -34,11 +35,16 @@ function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       createOrder,
+      setTopBarTitle,
     }, dispatch),
   };
 }
 
 class Checkout extends Component {
+  componentWillMount () {
+    this.props.actions.setTopBarTitle('Orden');
+  }
+
   handleCreateOrder = () => {
     this.props.actions.createOrder();
   };

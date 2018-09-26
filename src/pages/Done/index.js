@@ -4,15 +4,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 // Reducers
-import { getAllMenus, getMenuById } from '../../reducers/menus';
-import { getCart, addToCart } from '../../reducers/cart';
-import { createOrder } from '../../reducers/orders';
-import {
-  withStyles,
-  Paper,
-  Typography,
-  Button,
-} from '@material-ui/core';
+import { setTopBarTitle } from '../../reducers/drawers';
+
+import withStyles from '@material-ui/core/styles/withStyles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 // Icons
 import DoneIcon from '@material-ui/icons/DoneAll';
@@ -26,11 +23,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
-      getAllMenus,
-      getMenuById,
-      getCart,
-      addToCart,
-      createOrder,
+      setTopBarTitle,
       changePage : (page) => push(page)
     }, dispatch),
   };
@@ -38,7 +31,7 @@ function mapDispatchToProps (dispatch) {
 
 class Done extends Component {
   componentWillMount () {
-
+    this.props.actions.setTopBarTitle('Listo');
   }
 
   goToMenu = () => {

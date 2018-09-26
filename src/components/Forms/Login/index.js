@@ -1,6 +1,11 @@
 import React from 'react'
 import { Formik } from 'formik';
-import { TextField, Button, withStyles } from '@material-ui/core';
+import _ from 'lodash';
+
+// Material UI
+import withStyles from '@material-ui/core/styles/withStyles';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import styles from './styles';
 import * as Yup from 'yup';
@@ -23,8 +28,8 @@ const Login = props => {
       },
       validationSchema,
       onSubmit      : (values, { setSubmitting, setErrors }) => {
-        console.log(values, 'es este');
-        onSubmit(values);
+        const email = values.email.toLowerCase();
+        onSubmit({ ...values, email });
       },
       render        : (
         {
@@ -52,6 +57,7 @@ const Login = props => {
             onChange={ handleChange }
             onBlur={ handleBlur }
             margin="normal"
+            autoCapitalize="none"
             fullWidth
           />
           <TextField

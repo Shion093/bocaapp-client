@@ -19,6 +19,7 @@ import BackIcon from '@material-ui/icons/KeyboardBackspace';
 // Reducers
 import { getAllMenus, getMenuById } from '../../reducers/menus';
 import { getCart, addToCart } from '../../reducers/cart';
+import { setTopBarTitle } from '../../reducers/drawers';
 
 // Children
 import ProductItem from './ProductItem';
@@ -26,7 +27,11 @@ import ProductItem from './ProductItem';
 import styles from './styles';
 
 function mapStateToProps (state) {
-  return state;
+  return {
+    reducers: {
+      menus: state.reducers.menus,
+    }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
@@ -36,6 +41,7 @@ function mapDispatchToProps (dispatch) {
       getMenuById,
       getCart,
       addToCart,
+      setTopBarTitle,
       goBack : () => dispatch(goBack),
     }, dispatch),
   };
@@ -46,6 +52,7 @@ class Bocas extends Component {
     if (_.isEmpty(this.props.reducers.menus.selectedMenu)) {
       this.props.actions.getMenuById(this.props.match.params.id);
     }
+    this.props.actions.setTopBarTitle('Productos');
   }
 
   backButtonHandle = () => {
@@ -81,7 +88,7 @@ class Bocas extends Component {
           in={ true }
           timeout={ transitionDuration }
           unmountOnExit>
-          <Button variant="fab" className={ classes.backButton } onClick={ this.backButtonHandle }>
+          <Button variant="fab" color="secondary" className={ classes.backButton } onClick={ this.backButtonHandle }>
             <BackIcon/>
           </Button>
         </Zoom>
