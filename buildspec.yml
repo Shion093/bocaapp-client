@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+      - sudo apt-get install -y nodejs
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR; npm install
+      - cd $CODEBUILD_SRC_DIR; npm run build
+artifacts:
+  files:
+    - build/**/*
+    - scripts/*
+    - appspec.yml
+
