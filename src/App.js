@@ -36,10 +36,13 @@ import { logOut } from './reducers/auth';
 import { handleDialog } from './reducers/dialogs';
 import { clearForgotData } from './reducers/users';
 
-const theme = createMuiTheme();
-
 function mapStateToProps (state) {
-  return state;
+  return {
+    reducers: {
+      dialogs: state.reducers.dialogs,
+      restaurant: state.reducers.restaurant,
+    }
+  };
 }
 
 function mapDispatchToProps (dispatch) {
@@ -58,6 +61,9 @@ class App extends Component {
   componentWillMount () {
     this.props.actions.getRestaurant(window.location.href);
     // this.props.actions.getCart();
+    const { reducers : { restaurant }} = this.props;
+    const theme = createMuiTheme(restaurant.theme);
+    this.setState({ theme });
   }
 
   handleClose = (dialog) => () => {
@@ -70,7 +76,7 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <MuiThemeProvider theme={ theme }>
+        <MuiThemeProvider theme={ this.state.theme }>
           <TopBar/>
           <SideMenu/>
           <CartMenu/>

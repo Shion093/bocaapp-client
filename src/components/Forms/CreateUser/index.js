@@ -43,7 +43,8 @@ const CreateUserForm = props => {
       },
       onSubmit : (values, { setSubmitting, setErrors }) => {
         console.log(values, 'es este');
-        onSubmit(values);
+        const email = values.email.toLowerCase();
+        onSubmit({ ...values, email });
       },
       render : (
         {
@@ -123,6 +124,7 @@ const CreateUserForm = props => {
             onChange={handleChange}
             onBlur={handleBlur}
             margin="normal"
+            autoCapitalize="none"
             fullWidth
           />
           <TextField

@@ -37,7 +37,7 @@ function mapDispatchToProps (dispatch) {
     actions : bindActionCreators({
       handleDrawer,
       handleDialog,
-      changePage: (page) => push(page)
+      changePage : (page) => push(page)
     }, dispatch),
   };
 }
@@ -47,7 +47,7 @@ class SideMenu extends Component {
     super(props);
 
     this.state = {
-      openDialog: false,
+      openDialog : false,
     }
   }
 
@@ -56,77 +56,79 @@ class SideMenu extends Component {
   };
 
   handleDialog = (dialog) => () => {
-   this.props.actions.handleDialog(dialog)
+    this.props.actions.handleDialog(dialog)
   };
 
   toggleDrawer = () => {
     this.props.actions.handleDrawer('menuDrawer');
   };
 
-  render() {
-    const { classes, reducers : { drawers, auth: { currentUser } } } = this.props;
+  render () {
+    const { classes, reducers : { drawers, auth : { currentUser } } } = this.props;
     const isLogged = checkAuth();
     return (
-      <SwipeableDrawer swipeAreaWidth={0} classes={{ paper: classes.paper }} open={drawers.menuDrawer} onOpen={this.toggleDrawer} onClose={this.toggleDrawer}>
+      <SwipeableDrawer swipeAreaWidth={ 0 } classes={ { paper : classes.paper } } open={ drawers.menuDrawer }
+                       onOpen={ this.toggleDrawer } onClose={ this.toggleDrawer }>
         <div
-          tabIndex={0}
+          tabIndex={ 0 }
           role="button"
-          onClick={this.toggleDrawer}
-          onKeyDown={this.toggleDrawer}
+          onClick={ this.toggleDrawer }
+          onKeyDown={ this.toggleDrawer }
         >
-          <div className={classes.list}>
+          <div className={ classes.list }>
             <List>
-              <ListItem button onClick={this.goToPage('/menu')}>
+              <ListItem button onClick={ this.goToPage('/menu') }>
                 <ListItemIcon>
-                  <LocalDiningIcon />
+                  <LocalDiningIcon/>
                 </ListItemIcon>
-                <ListItemText primary="Menus" />
+                <ListItemText primary="Categorias"/>
               </ListItem>
-            </List>
-            <Divider />
-            {
-              isLogged &&
-              <List>
-                <ListItem button onClick={this.goToPage('/ordenes')}>
-                  <ListItemIcon>
-                    <ShoppingBasket />
-                  </ListItemIcon>
-                  <ListItemText primary="Ordenes" />
-                </ListItem>
-                {
-                  !currentUser.isActive &&
-                  <ListItem button onClick={this.handleDialog('verification')}>
+              {
+                isLogged &&
+                <React.Fragment>
+                  <ListItem button onClick={ this.goToPage('/ordenes') }>
                     <ListItemIcon>
-                      <ConfirmPhoneIcon />
+                      <ShoppingBasket/>
                     </ListItemIcon>
-                    <ListItemText primary="Confirmar numero" />
+                    <ListItemText primary="Ordenes"/>
                   </ListItem>
-                }
-                <ListItem button onClick={this.handleDialog('logOut')}>
-                  <ListItemIcon>
-                    <LogOutIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Cerrar Sesion" />
-                </ListItem>
-              </List>
-            }
-            {
-              !isLogged &&
-              <List>
-                <ListItem button onClick={this.handleDialog('signUp')}>
-                  <ListItemIcon>
-                    <SignUpIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Crear cuenta" />
-                </ListItem>
-                <ListItem button onClick={this.handleDialog('login')}>
-                  <ListItemIcon>
-                    <LoginIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Iniciar sesion" />
-                </ListItem>
-              </List>
-            }
+                  {
+                    !currentUser.isActive &&
+                    <ListItem button onClick={ this.handleDialog('verification') }>
+                      <ListItemIcon>
+                        <ConfirmPhoneIcon/>
+                      </ListItemIcon>
+                      <ListItemText primary="Confirmar numero"/>
+                    </ListItem>
+                  }
+                  <Divider/>
+                  <ListItem button onClick={ this.handleDialog('logOut') }>
+                    <ListItemIcon>
+                      <LogOutIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Cerrar Sesion"/>
+                  </ListItem>
+                </React.Fragment>
+              }
+              {
+                !isLogged &&
+                <React.Fragment>
+                  <Divider/>
+                  <ListItem button onClick={ this.handleDialog('signUp') }>
+                    <ListItemIcon>
+                      <SignUpIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Crear cuenta"/>
+                  </ListItem>
+                  <ListItem button onClick={ this.handleDialog('login') }>
+                    <ListItemIcon>
+                      <LoginIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Iniciar sesion"/>
+                  </ListItem>
+                </React.Fragment>
+              }
+            </List>
           </div>
         </div>
       </SwipeableDrawer>

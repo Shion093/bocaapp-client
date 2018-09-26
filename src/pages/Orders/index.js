@@ -25,6 +25,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import styles from './styles';
 import { formatPrice } from '../../helpers/formats';
+import { setTopBarTitle } from '../../reducers/drawers';
 
 moment.locale('es');
 
@@ -37,6 +38,7 @@ function mapDispatchToProps (dispatch) {
     actions : bindActionCreators({
       getUserOrders,
       reOrder,
+      setTopBarTitle,
     }, dispatch),
   };
 }
@@ -44,6 +46,7 @@ function mapDispatchToProps (dispatch) {
 class Orders extends Component {
   componentWillMount () {
     this.props.actions.getUserOrders();
+    this.props.actions.setTopBarTitle('Ordenes');
   }
 
   handleReOrder = (id) => () => {
@@ -85,11 +88,11 @@ class Orders extends Component {
           </div>
         </ExpansionPanelDetails>
         <Divider />
-        <ExpansionPanelActions>
-          <Button size="small" color="primary" onClick={this.handleReOrder(order._id)}>
-            Ordenar
-          </Button>
-        </ExpansionPanelActions>
+        {/*<ExpansionPanelActions>*/}
+          {/*<Button size="small" color="primary" onClick={this.handleReOrder(order._id)}>*/}
+            {/*Ordenar*/}
+          {/*</Button>*/}
+        {/*</ExpansionPanelActions>*/}
       </ExpansionPanel>
     )
   };
