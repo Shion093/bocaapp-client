@@ -19,11 +19,9 @@ export const initialState = I.from({
 export function getAllMenus () {
   return async (dispatch, getState) => {
     try {
-      const { reducers : { restaurant : { restaurant : { _id }}}} = getState();
-      console.log(getState());
+      const { reducers : { store : { storeSelected : { _id } } } } = getState();
       const { data } = await axios.get(`menus/client/${_id}`);
       dispatch(MENU_GET_ALL(data));
-      // dispatch(MENU_SELECTED(data[0]));
     } catch (e) {
       console.log(e);
     }

@@ -38,7 +38,6 @@ export function loginUser (values, modal = true) {
         dispatch(push('/'));
       }
     } catch (e) {
-      console.log(e.response);
       if (e.response.status === 401) {
         dispatch(handleAlert({
           open    : true,

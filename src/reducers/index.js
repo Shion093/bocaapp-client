@@ -4,12 +4,12 @@ import { routerReducer } from 'react-router-redux';
 // Reducers
 import counter from './counter';
 import menus from './menus';
-import bocas from './bocas';
+import products from './products';
 import modals from './modals';
 import drawers from './drawers';
 import cart from './cart';
 import orders from './orders';
-import restaurant from './restaurant';
+import store from './store';
 import users from './users';
 import auth from './auth';
 import dialogs from './dialogs';
@@ -19,12 +19,12 @@ export default combineReducers({
   routing : routerReducer,
   counter,
   menus,
-  bocas,
+  products,
   modals,
   drawers,
   cart,
   orders,
-  restaurant,
+  store,
   users,
   auth,
   dialogs,

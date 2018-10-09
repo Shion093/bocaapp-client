@@ -47,7 +47,7 @@ function mapDispatchToProps (dispatch) {
   };
 }
 
-class Bocas extends Component {
+class Products extends Component {
   componentWillMount () {
     if (_.isEmpty(this.props.reducers.menus.selectedMenu)) {
       this.props.actions.getMenuById(this.props.match.params.id);
@@ -69,12 +69,12 @@ class Bocas extends Component {
       <div className={classes.root}>
         <Grid container className={classes.gridList}>
           {
-            _.map(selectedMenu.bocas, (boca, i) => {
+            _.map(selectedMenu.products, (product, i) => {
               const timeout = i === 0 ? 1000 : 1500;
               return (
-                <Grow in={!_.isEmpty(selectedMenu.bocas)} key={boca._id} timeout={timeout}>
+                <Grow in={!_.isEmpty(selectedMenu.products)} key={product._id} timeout={timeout}>
                   <Grid item xs={12} sm={6} md={3}>
-                    <ProductItem item={boca} addToCart={this.props.actions.addToCart}/>
+                    <ProductItem item={product} addToCart={this.props.actions.addToCart}/>
                   </Grid>
                 </Grow>
               )
@@ -98,4 +98,4 @@ class Bocas extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(Bocas))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(Products))

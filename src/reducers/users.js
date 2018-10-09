@@ -21,7 +21,7 @@ export const initialState = I.from({
     picture     : '',
     price       : '',
   },
-  bocas          : [],
+  products          : [],
   loader         : false,
   selectedMenu   : {},
   userExist      : false,
@@ -167,7 +167,7 @@ export function clearForgotData () {
 
 export default handleActions({
   USER_CREATED       : (state, action) => {
-    return I.merge(state, { bocas : action.payload });
+    return I.merge(state, { products : action.payload });
   },
   USER_VALID_EMAIL   : (state, action) => {
     return I.merge(state, { userExist : action.payload });

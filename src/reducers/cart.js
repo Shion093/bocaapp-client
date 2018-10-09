@@ -16,7 +16,7 @@ export const initialState = I.from({
 
 export function getCart () {
   return async (dispatch, getState) => {
-    const { reducers : { restaurant : { restaurant : { _id } }, auth : { currentUser }} } = getState();
+    const { reducers : { store : { seletedStore : { _id } }, auth : { currentUser }} } = getState();
     try {
       const { data } = await axios.get(`cart/${currentUser._id}/${_id}`);
       dispatch(GET_CART(data));

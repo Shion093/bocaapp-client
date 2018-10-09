@@ -8,7 +8,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 // Pages
 import Home from './pages/Home';
 import Menu from './pages/Menu';
-import Bocas from './pages/Bocas';
+import Closed from './pages/Closed';
+import Products from './pages/Products';
 import Checkout from './pages/Checkout';
 import Done from './pages/Done';
 import Orders from './pages/Orders';
@@ -31,8 +32,8 @@ import ForgotPassword from './components/Forms/ForgotPassword';
 
 // Reducers
 import { getCart } from './reducers/cart';
-import { getRestaurant } from './reducers/restaurant';
-import { logOut } from './reducers/auth';
+import { getStores } from './reducers/store';
+import { logOut, gotToClosePage } from './reducers/auth';
 import { handleDialog } from './reducers/dialogs';
 import { clearForgotData } from './reducers/users';
 
@@ -40,7 +41,7 @@ function mapStateToProps (state) {
   return {
     reducers: {
       dialogs: state.reducers.dialogs,
-      restaurant: state.reducers.restaurant,
+      store: state.reducers.store,
     }
   };
 }
@@ -49,7 +50,7 @@ function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       getCart,
-      getRestaurant,
+      getStores,
       logOut,
       handleDialog,
       clearForgotData,
@@ -58,12 +59,17 @@ function mapDispatchToProps (dispatch) {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    // este podria ser como un defaut theme
+    this.state = {
+      theme: createMuiTheme(this.props.reducers.store.theme),
+    };
+  }
   componentWillMount () {
-    this.props.actions.getRestaurant(window.location.href);
+    this.props.actions.getStores();
     // this.props.actions.getCart();
-    const { reducers : { restaurant }} = this.props;
-    const theme = createMuiTheme(restaurant.theme);
-    this.setState({ theme });
   }
 
   handleClose = (dialog) => () => {
@@ -114,13 +120,14 @@ class App extends Component {
           <main className="Main">
             <Route exact path="/" component={ Home }/>
             <Route exact path="/menu" component={ Menu }/>
-            <Route path="/menu/:id" component={ Bocas }/>
+            <Route path="/menu/:id" component={ Products }/>
             <Route path="/checkout" component={ Checkout }/>
             <Route path="/mapa" component={ Map }/>
             <Route path="/direccion" component={ Address }/>
             <Route path="/done" component={ Done }/>
             <Route path="/ordenes" component={ Orders }/>
             <Route path="/signup" component={ SignUp }/>
+            <Route exact path="/closed" component={ Closed }/>
           </main>
         </MuiThemeProvider>
       </div>

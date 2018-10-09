@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash'
+import _ from 'lodash';
 
 // Material UI
 import Grow from '@material-ui/core/Grow';
@@ -23,7 +23,7 @@ function mapStateToProps (state) {
     reducers : {
       menus      : state.reducers.menus,
       routing    : state.reducers.routing,
-      restaurant : state.reducers.restaurant,
+      store      : state.reducers.store,
     }
   };
 }
@@ -45,9 +45,11 @@ class Menu extends Component {
   }
 
   componentDidMount () {
-    const { reducers : { restaurant : { restaurant } } } = this.props;
-    if (restaurant._id) {
-      this.props.actions.getAllMenus(restaurant._id);
+    // me falta hacer el refresh
+    // puedo pasar el store por parametro
+    const { reducers : { store : { storeSelected : { _id } } } } = this.props;
+    if (_id) {
+      this.props.actions.getAllMenus(_id);
     }
   }
 

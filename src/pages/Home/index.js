@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 // Reducers
 import { setTopBarTitle } from '../../reducers/drawers';
+import { selectStore } from '../../reducers/store';
 import { ButtonBase, Typography, withStyles } from '@material-ui/core';
 
 import image from './breakfast.jpg';
@@ -15,7 +16,7 @@ import _ from 'lodash';
 function mapStateToProps (state) {
   return {
     reducers : {
-      restaurant : state.reducers.restaurant,
+      store : state.reducers.store,
     }
   };
 }
@@ -24,53 +25,59 @@ function mapDispatchToProps (dispatch) {
   return {
     actions : bindActionCreators({
       setTopBarTitle,
-      changePage : () => push('/menu')
+      selectStore,
     }, dispatch),
   };
 }
 
 class Home extends Component {
-  componentDidUpdate (prevProps) {
-    const { reducers : { restaurant } } = this.props;
-    if (prevProps.reducers.restaurant.restaurant.name !== restaurant.restaurant.name) {
-      const restaurantName = _.startCase(restaurant.restaurant.name);
-      this.props.actions.setTopBarTitle(restaurantName);
-    }
+  componentWillMount (prevProps) {
+    // const { reducers : { store : { name } } } = this.props;
+    // if (prevProps.reducers.store.name !== name) {
+    this.props.actions.setTopBarTitle(_.startCase('bopulos'));
+    // }
   }
 
   render () {
     const { classes } = this.props;
-
+    const { stores } = this.props.reducers.store;
+    // tengo que hacer esta super tuanis
     return (
       <div className={ classes.root }>
-        <ButtonBase
-          onClick={ this.props.actions.changePage }
-          focusRipple
-          className={ classes.image }
-          focusVisibleClassName={ classes.focusVisible }
-          style={ {
-            width : '100%',
-          } }
-        >
-          <span
-            className={ classes.imageSrc }
-            style={ {
-              backgroundImage : `url(${image})`,
-            } }
-          />
-          <span className={ classes.imageBackdrop }/>
-          <span className={ classes.imageButton }>
-            <Typography
-              component="span"
-              variant="subheading"
-              color="inherit"
-              className={ classes.imageTitle }
-            >
-              Empezar Orden
-              <span className={ classes.imageMarked }/>
-            </Typography>
-          </span>
-        </ButtonBase>
+        {
+          stores.length > 0 && _.map(stores, (store) => {
+            return (
+              <ButtonBase
+                onClick={ () => this.props.actions.selectStore(store) }
+                focusRipple
+                className={ classes.image }
+                focusVisibleClassName={ classes.focusVisible }
+                style={ {
+                  width : '100%',
+                } }
+              >
+                <span
+                  className={ classes.imageSrc }
+                  style={ {
+                    backgroundImage : `url(${image})`,
+                  } }
+                />
+                <span className={ classes.imageBackdrop }/>
+                <span className={ classes.imageButton }>
+                  <Typography
+                    component="span"
+                    variant="subheading"
+                    color="inherit"
+                    className={ classes.imageTitle }
+                  >
+                    Empezar Orden {store.name}
+                    <span className={ classes.imageMarked }/>
+                  </Typography>
+                </span>
+              </ButtonBase>
+            );
+          })
+        }
 
       </div>
     )

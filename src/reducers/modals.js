@@ -5,7 +5,7 @@ export const HANDLE_MODAL = createAction('HANDLE_MODAL');
 
 export const initialState = I.from({
   createMenuModal : false,
-  createBocaModal : false,
+  createProductModal : false,
 });
 
 export function handleModal (modal) {
