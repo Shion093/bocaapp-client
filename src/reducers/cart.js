@@ -6,6 +6,7 @@ import axios from '../helpers/axios';
 
 // Reducers
 import { handleAlert } from './alerts';
+
 export const GET_CART = createAction('GET_CART');
 export const CLEAR_CART = createAction('CLEAR_CART');
 
@@ -14,23 +15,23 @@ export const initialState = I.from({
   loader : false,
 });
 
-export function getCart () {
+export function getCart() {
   return async (dispatch, getState) => {
-    const { reducers : { restaurant : { restaurant : { _id } }, auth : { currentUser }} } = getState();
+    const { reducers : { restaurant : { restaurant : { _id } }, auth : { currentUser } } } = getState();
     try {
       const { data } = await axios.get(`cart/${currentUser._id}/${_id}`);
       dispatch(GET_CART(data));
     } catch (e) {
       dispatch(handleAlert({
-        open         : true,
-        variant      : 'error',
-        message      : 'Hubo un error desconocido',
+        open    : true,
+        variant : 'error',
+        message : 'Hubo un error desconocido',
       }));
     }
   }
 }
 
-export function addToCart (item, add = true) {
+export function addToCart(item, add = true) {
   return async (dispatch, getState) => {
     try {
       const { reducers : { cart : { cart }, auth : { currentUser } } } = getState();
@@ -55,16 +56,20 @@ export function addToCart (item, add = true) {
         }));
       }
     } catch (e) {
+      console.log(e.response);
+      const message = e.response.status === 401
+        ? 'Necesitas iniciar session'
+        : 'Hubo un error desconocido';
       dispatch(handleAlert({
-        open         : true,
-        variant      : 'error',
-        message      : 'Hubo un error desconocido',
+        open    : true,
+        variant : 'error',
+        message,
       }));
     }
   }
 }
 
-export function removeFromCart (id) {
+export function removeFromCart(id) {
   return async (dispatch, getState) => {
     try {
       const { reducers : { cart : { cart }, auth : { currentUser } } } = getState();
@@ -72,9 +77,9 @@ export function removeFromCart (id) {
       dispatch(GET_CART(data));
     } catch (err) {
       dispatch(handleAlert({
-        open         : true,
-        variant      : 'error',
-        message      : 'Hubo un error desconocido',
+        open    : true,
+        variant : 'error',
+        message : 'Hubo un error desconocido',
       }));
     }
   }
