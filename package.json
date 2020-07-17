@@ -20,7 +20,7 @@
     "formik": "^1.2.0",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "mapbox-gl": "^0.48.0",
     "moment": "^2.22.1",
     "react": "^16.4.0",
