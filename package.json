@@ -22,7 +22,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.4",
     "mapbox-gl": "^0.48.0",
-    "moment": "^2.22.1",
+    "moment": "^2.29.4",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.6",
